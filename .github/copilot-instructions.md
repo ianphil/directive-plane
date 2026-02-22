@@ -1,0 +1,69 @@
+# Copilot Instructions
+
+## Project Overview
+
+Directive Plane is a draft POC for a control system that keeps humans in control of agent-driven software work. It defines a three-plane architecture (Directive → Execution → Reconstruction) and a protocol (Control Fidelity Protocol / CFP) with gates, artifacts, and gauges that enforce two invariants: outbound intent fidelity and inbound theory preservation.
+
+The repo contains framework documentation and a sample cockpit-style web UI that demonstrates the concepts with seeded data.
+
+## Running the UI
+
+```bash
+cd src/ui
+python3 -m http.server 8000
+# open http://127.0.0.1:8000/index.html
+```
+
+There is no build step, bundler, test suite, or linter. The UI is vanilla HTML/CSS/JS.
+
+## Architecture
+
+### Documents
+
+- `docs/directive-plane.md` / `docs/directive-plane-compact.md` — The framework: stocks, runaway loops, five leverage points, three-plane architecture, risk gradient, multi-agent extensions.
+- `docs/control-fidelity-protocol.md` / `docs/control-fidelity-protocol-compact.md` — The protocol: state machines (single-agent and orchestrated), gate predicates (G1–G6), artifact schemas (IC, OE, EE, CN, CP, RP), error states, risk tiers, complexity ceiling.
+- `docs/ui-sample-walkthrough.md` — Narrative walkthrough of the UI with screenshots.
+
+Compact versions (`*-compact.md`) are token-optimized for LLM context. Prefer them when you need framework/protocol reference.
+
+### UI (`src/ui/`)
+
+Single-page app with three files, no dependencies:
+
+- `index.html` — Shell layout (topbar, control panel, timeline, overlay drawer)
+- `styles.css` — All styling via CSS custom properties in `:root`
+- `app.js` — All logic: data store, UI state, render functions, event wiring
+
+**UI patterns:**
+
+- **Data store** (`store`): Hardcoded seed data at the top of `app.js`. Sessions, work status, prove status, merge checks, health metrics.
+- **UI state** (`state`): Tracks `expandedId` and per-card active tab (`cardTabs`).
+- **Render cycle**: `renderControlPanel()` and `renderTimeline()` build HTML via template literals and inject with `innerHTML`. After injecting, `attachTimelineListeners()` wires up event handlers.
+- **Card expansion**: Cards use CSS `grid-template-rows: 0fr → 1fr` animation. Only one card expands at a time.
+- **Tab content routing**: `renderCardContent(id, tab)` dispatches to `renderPlanContent`, `renderDoContent`, `renderProveContent`, `renderMergeContent` — one per protocol phase.
+
+## Domain Terminology
+
+When working with docs or UI code, these terms have specific meanings in this framework:
+
+| Term | Meaning |
+|------|---------|
+| IC (Intent Contract) | Structured intent artifact: goal, scope, constraints, acceptance criteria |
+| OE (Orchestration Envelope) | Multi-agent decomposition plan with scope partitions |
+| EE (Execution Envelope) | PRE (plan) + POST (results mapped back to IC) |
+| CN (Composition Narrative) | How multiple agents' outputs combine |
+| CP (Composition Proof) | Independent verification of composition correctness |
+| RP (Reconstruction Proof) | Narrative + theory challenges the operator must pass |
+| Theory Challenge | Prediction-based questions testing genuine understanding (not acknowledgment) |
+| Invariant | Falsifiable system property tracked in a register (e.g., `INV-012`) |
+| Navigability | Human Theory ÷ System Complexity — the derived ratio the framework protects |
+| LP1–LP5 | The five leverage points (all required, removing any one causes cascading failure) |
+| Gate (G1–G6) | Boolean predicates between protocol states; FALSE → error state |
+| Operator Currency | CURRENT ↔ LAPSED → RESTRICTED → SUSPENDED |
+
+## Conventions
+
+- CSS uses a design-token system via `:root` custom properties. Use existing `--badge-*`, `--dot-*`, and `--text-*` variables rather than raw colors.
+- Badge variants follow a semantic pattern: `.ok`, `.warn`, `.danger`, `.info`, `.neutral`, plus phase-specific classes (`.phase-planning`, `.phase-doing`, `.phase-proving`, `.phase-merge`).
+- The UI has no framework dependency. DOM manipulation uses `querySelector`/`innerHTML` with template literals. Do not introduce a framework.
+- Never use MCP. For UI testing or taking screenshots, use the Playwright CLI directly.
