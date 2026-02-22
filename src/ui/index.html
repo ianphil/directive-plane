@@ -4,29 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Steerability Cockpit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header class="topbar">
-      <h1>Steerability Cockpit</h1>
-      <div class="topbar-actions">
-        <button id="new-change-btn" class="primary">Start New Change</button>
+      <div class="topbar-brand">
+        <div class="topbar-icon">⬡</div>
+        <h1>Steerability Cockpit</h1>
       </div>
+      <div id="topbar-risk" class="topbar-risk"></div>
+      <button id="new-change-btn" class="btn-primary">+ Start New Change</button>
     </header>
 
-    <div class="layout">
-      <aside class="sidebar">
-        <nav>
-          <button class="nav-btn active" data-view="dashboard">All Changes</button>
-          <button class="nav-btn" data-view="plan">Plan it</button>
-          <button class="nav-btn" data-view="do">Do it</button>
-          <button class="nav-btn" data-view="prove">Prove it</button>
-          <button class="nav-btn" data-view="merge">Merge it</button>
-          <button class="nav-btn" data-view="health">Health</button>
-        </nav>
-      </aside>
+    <div class="app-layout">
+      <aside class="control-panel" id="control-panel"></aside>
+      <main class="timeline-area">
+        <div class="timeline" id="timeline"></div>
+      </main>
+    </div>
 
-      <main id="app" class="content"></main>
+    <div id="overlay" class="overlay hidden">
+      <div class="overlay-backdrop" id="overlay-backdrop"></div>
+      <div class="overlay-drawer">
+        <div class="overlay-header">
+          <h2>Start New Change — Planning Brief</h2>
+          <button class="overlay-close" id="overlay-close">✕</button>
+        </div>
+        <div id="overlay-content" class="overlay-content"></div>
+      </div>
     </div>
 
     <script src="./app.js"></script>
