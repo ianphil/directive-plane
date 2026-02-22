@@ -1,12 +1,14 @@
-# Steerability Cockpit — A Guided Flight
+# Agentic Software Supervisor — A Guided Flight
 
-This walkthrough is a story about one change moving through the cockpit UI in `src/ui`.
+This walkthrough is a story about one change moving through the supervisor UI in `src/ui`.
 
 The problem it solves is not “did the code compile?” It’s the slower failure mode described in *The Directive Plane* paper: **systems that keep working while becoming progressively unknowable**. Agents can increase implementation velocity overnight; human comprehension does not scale the same way. That gap creates a predictable instability: you can ship correct diffs while quietly losing the ability to steer.
 
-The cockpit is designed to prevent that. It protects two invariants:
+The supervisor is designed to prevent that. It protects two invariants:
 - **Outbound intent fidelity**: what you meant reaches the machine without scope/meaning loss.
 - **Inbound theory preservation**: what the machine did comes back as human understanding, not just output.
+
+Today, **Jordan** is the Agentic Engineer on duty. That means she is the human accountable for every change that moves through the system on her watch. She reviews plans before agents execute, monitors execution for scope violations, and—critically—must pass the theory challenges that prove she actually understands what the agents built. If Jordan can't explain what happened and predict what would break, the change doesn't merge. The role exists because agent velocity without human comprehension is a controlled flight into terrain.
 
 The UI is structured as three phases (Plan / Do / Prove), plus Merge and Health.
 
@@ -37,7 +39,7 @@ The paper’s central asymmetry is that the human doesn’t automatically “hol
 
 ## 2) Plan it (Directive Plane): “Clear intent before power.”
 
-You click **Start New Change** and the cockpit moves you into **Plan it**.
+You click **Start New Change** and the supervisor moves you into **Plan it**.
 
 This is where the system forces intent to become *falsifiable*. You’re asked five simple questions, but they’re doing heavy work:
 - What should be true when we’re done?
@@ -49,13 +51,13 @@ This is where the system forces intent to become *falsifiable*. You’re asked f
 If you write “make it better,” the UI blocks you.
 That’s not pedantry—it’s a defense against the paper’s R3 loop: **intent drift** (humans describing what they believe the system is, not what it actually is).
 
-Two cockpit features reinforce that defense:
+Two supervisor features reinforce that defense:
 
 1) **Context binding**
-You’re shown the system state relevant to the change (affected components, recent related changes, invariants in scope). This is how the cockpit prevents you from writing a plan against a stale mental model.
+You’re shown the system state relevant to the change (affected components, recent related changes, invariants in scope). This is how the supervisor prevents you from writing a plan against a stale mental model.
 
 2) **Scope gate + complexity warning**
-If the change forecast is too large—or if multi-agent decomposition is too tangled for a human to supervise—the cockpit stops you and pushes you to simplify. This is envelope protection: a bounded change keeps reconstruction tractable.
+If the change forecast is too large—or if multi-agent decomposition is too tangled for a human to supervise—the supervisor stops you and pushes you to simplify. This is envelope protection: a bounded change keeps reconstruction tractable.
 
 ![Plan it screen](./screenshots/plan.png)
 
@@ -70,7 +72,7 @@ If the change forecast is too large—or if multi-agent decomposition is too tan
 
 Now the system has permission to execute—but not permission to improvise.
 
-On **Do it**, the cockpit behaves like mode annunciation in aviation: it continuously shows what the automation *thinks it’s doing* and what it’s *actually doing*.
+On **Do it**, the supervisor behaves like mode annunciation in aviation: it continuously shows what the automation *thinks it’s doing* and what it’s *actually doing*.
 
 The UI compares:
 - **Execution Plan** (what was approved)
@@ -93,11 +95,11 @@ If the agent touches out-of-scope files or produces unexplained modifications, t
 
 ## 4) Prove it (Reconstruction Plane): “Do you hold the theory?”
 
-This is the heart of the cockpit.
+This is the heart of the supervisor.
 
 The paper’s warning is that you can accumulate months of technically-correct output while theory drains underneath. The failure mode isn’t a crash—it’s the slow loss of steerability.
 
-So the cockpit makes reconstruction explicit and uncomfortable by design:
+So the supervisor makes reconstruction explicit and uncomfortable by design:
 1) **Change Narrative**: architectural why, not a diff summary
 2) **Dependency mapping**: what else is affected (to surface invisible coupling)
 3) **Theory challenges**: prediction questions (challenge-and-response, not acknowledgement)
@@ -119,14 +121,14 @@ You go back, read, and rebuild theory.
 
 Merge is treated like a controlled handoff, not a reward.
 
-Before the cockpit lets the change land, it checks that control artifacts and safety assumptions are actually in place:
+Before the supervisor lets the change land, it checks that control artifacts and safety assumptions are actually in place:
 - rules and assumptions are updated
 - monitoring metrics are recorded
 - artifacts are committed (so intent and theory don’t evaporate)
 - no unresolved error state remains
 - complexity is still within safe limits
 
-If complexity is too high, the cockpit doesn’t negotiate—it pauses and pushes you to split the work into sequential, reviewable changes.
+If complexity is too high, the supervisor doesn’t negotiate—it pauses and pushes you to split the work into sequential, reviewable changes.
 
 ![Merge it screen](./screenshots/merge.png)
 
@@ -138,12 +140,12 @@ If complexity is too high, the cockpit doesn’t negotiate—it pauses and pushe
 
 ## 6) Health: “Are we losing the plot?”
 
-Finally, the cockpit zooms out.
+Finally, the supervisor zooms out.
 
 The paper is clear: without instrumentation, you don’t know you’ve become unsteerable until production teaches you.
 
 So **Health** shows the gauges that correspond to steerability:
-- **Prediction Accuracy**: when the cockpit asks “what happens next if X fails?”, how often do humans answer correctly? If this drops, the team is *shipping changes they can’t reliably reason about*.
+- **Prediction Accuracy**: when the supervisor asks “what happens next if X fails?”, how often do humans answer correctly? If this drops, the team is *shipping changes they can’t reliably reason about*.
 - **Scope Breach Rate**: how often does work escape the declared boundaries (extra files touched, surprise side-effects). A rising rate means the system is learning that “the rules are optional.”
 - **Time-to-Explain**: how long it takes a human operator/engineer to give a clear, causal explanation of the change (not a diff tour). If this climbs, the system is becoming harder to navigate—even if it still “works.”
 - **Invariant Staleness**: how many “must-always-be-true” assumptions haven’t been re-checked recently. Stale invariants are dangerous because people keep relying on them after they’ve quietly become false.
@@ -161,7 +163,7 @@ It translates trends into action thresholds:
 
 ---
 
-## The point of the cockpit
+## The point of the supervisor
 
 This UI is not a feature dashboard. It is a control system.
 
