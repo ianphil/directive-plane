@@ -8,14 +8,13 @@ The supervisor is designed to prevent that. It protects two invariants:
 - **Outbound intent fidelity**: what you meant reaches the machine without scope/meaning loss.
 - **Inbound theory preservation**: what the machine did comes back as human understanding, not just output.
 
-Today, **Jordan** is the Agentic Engineer on duty. Her job is not writing code — it's owning the control loop. That means she:
+Today, **Jordan** is the Agentic Engineer on duty. She still works on features like everyone else, but she also carries the control-loop responsibilities:
 
 - **Reads the gauges.** She monitors the four health metrics (Prediction Accuracy, Scope Breach Rate, Time-to-Explain, Invariant Staleness) and is accountable for knowing whether the system is still steerable.
 - **Has halt authority.** She can slow or stop agent-driven work when the control loops are degrading. This authority is real, not advisory — it's backed by organizational structure.
 - **Maintains signal integrity.** She ensures that Theory Challenges test for genuine understanding and that controls don't degrade into ritual.
-- **Must pass reconstruction.** If Jordan can't explain what happened and predict what would break, the change doesn't merge.
 
-The role exists because agent velocity without human comprehension is a controlled flight into terrain.
+The engineer who owns a change — like **Alex** on chg-1042 — is the one who must pass reconstruction. Alex answers the Theory Challenge questions and proves he understands what the agents built before the change can merge. Jordan's job isn't to hold the theory of every change; it's to make sure the system that *requires* Alex to hold it is actually working.
 
 The UI is structured as three phases (Plan / Do / Prove), plus Merge and Health.
 
