@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steerability Cockpit</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Steerability Cockpit</h1>
+      <div class="topbar-actions">
+        <button id="new-change-btn" class="primary">Start New Change</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <nav>
+          <button class="nav-btn active" data-view="dashboard">All Changes</button>
+          <button class="nav-btn" data-view="plan">Plan it</button>
+          <button class="nav-btn" data-view="do">Do it</button>
+          <button class="nav-btn" data-view="prove">Prove it</button>
+          <button class="nav-btn" data-view="merge">Merge it</button>
+          <button class="nav-btn" data-view="health">Health</button>
+        </nav>
+      </aside>
+
+      <main id="app" class="content"></main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
