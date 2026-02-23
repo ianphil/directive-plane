@@ -29,10 +29,10 @@ Remaining question: does the Socratic mode need any adaptation for operators who
 ~~Does Socratic mode sit alongside the risk tier matrix as an independent axis?~~ **Partially resolved.** The Execution Mode × Risk Tier Matrix defines the interaction: EXPLORATORY exempts APPRENTICE_2+, RESTRICTED, and ONBOARDING from mode restrictions. APPRENTICE_1 is bound everywhere. Remaining question: do the gate predicates (G1–G6) need per-cell overrides for the matrix, or is it sufficient to resolve `execution_mode` at IC creation and let existing gates handle it?
 
 ### 6. Goodhart's Law on Theory Challenges as Circuit Breaker
-When Theory Challenge pass rate determines agent access, the incentive to game challenges intensifies. The current framework already warns about this (adversarial calibration). But tying the gauge directly to a capability gate raises the stakes. How do you prevent challenge difficulty from being softened to avoid triggering restrictions?
+~~How do you prevent challenge difficulty from being softened to avoid triggering restrictions?~~ **Resolved.** See "Goodhart's Law Mitigations" section below. Key factors: challenges are agent-generated (operator doesn't control difficulty), answers are agent-evaluated against system behavior (can't bluff), per-subsystem currency tracks specialization honestly, and JOURNEYMAN/ENGINEER progression requires breadth across subsystems.
 
 ### 7. Repository Designation in the Directive Plane and CFP
-The current framework assigns risk tiers to *changes*, not to *repositories*. This model requires repos themselves to carry a designation (production vs. non-production) that governs merge gates. How does this integrate into the existing IC and CFP artifacts? Does `repo.designation` become a field on the IC, a repo-level config, or an organizational registry? The G6 gate predicate needs to check repo designation — what changes to the CFP state machine and gate definitions are required? Repo promotion (non-prod → prod) is an organizational control outside the scope of this framework.
+~~How does repo designation integrate into existing IC and CFP artifacts?~~ **Resolved.** See "Repository Designation — CFP Integration" section below. Repo designation is an external organizational control inherited at runtime; not stored in the IC. Gates query it directly. G1 warns on tier/designation mismatch, G3 resolves execution mode, G6 enforces the merge gate.
 
 ---
 
@@ -254,6 +254,63 @@ G6 additional predicate:
 
 ---
 
+## Repository Designation — CFP Integration
+
+Repository designation (production vs. non-production) is an **external organizational control**. The framework does not own it, configure it, or manage transitions between designations. It inherits the designation at runtime and uses it at specific gates.
+
+### Design Principles
+
+- **Not stored in the IC.** Repo designation is queried from the external system when needed. This avoids stale data — if an org changes a repo's designation, the gates immediately reflect it without needing to update existing ICs.
+- **Risk tier remains the operator's call.** Repo designation does not override `risk_tier` on the IC. An operator can declare any risk tier they choose. The protocol warns on mismatches but does not block.
+- **Three gates check designation.** Each serves a different purpose.
+
+### Gate Changes
+
+| Gate | Current CFP | Addition |
+|------|-------------|----------|
+| **G1** (INTENT→PLANNED) | IC valid, goal+scope non-empty, criteria falsifiable, currency valid | **Soft warning** if `risk_tier` on IC is inconsistent with repo designation (e.g., EXPLORATORY tier declared in a PRODUCTION repo). Does not block — the operator may have a valid reason. Warning is logged in the IC as an advisory. |
+| **G3** (APPROVED→EXECUTING) | Sandbox bounded to planned_modifications only | **Resolves execution mode** by checking repo designation against operator level. Determines whether APPRENTICE_2/RESTRICTED/ONBOARDING get agent access (non-production repo) or remain in Socratic/RESTRICTED mode (production repo). Also gates multi-agent orchestration access. |
+| **G6** (UNDERSTOOD→MERGED) | IR updated, artifacts committed, gauges recorded, no errors | **Merge gate predicate**: queries repo designation. If PRODUCTION and change contains agent-generated implementation and operator is below JOURNEYMAN → MERGE_BLOCKED. Operator-written code is never blocked. |
+
+### What the Protocol Does NOT Do
+
+- Does not define how repos are designated — that is organizational policy
+- Does not manage repo promotion (non-prod → prod) — that is an external control
+- Does not store designation in artifacts — queries it at runtime
+- Does not hard-block risk tier mismatches — warns only, because operators may legitimately choose a higher-intensity tier for a non-production repo (e.g., practicing the full protocol on a prototype)
+
+---
+
+## Goodhart's Law Mitigations
+
+Tying Theory Challenge performance to agent access (via the circuit breaker) raises Goodhart's Law risk: when a measure becomes a target, it ceases to be a good measure. The existing Directive Plane framework already warns about this and prescribes adversarial calibration. This section analyzes the specific gaming vectors in the adaptive operator model and the structural mitigations.
+
+### Why the Risk Is Lower Than It Appears
+
+**Challenges are agent-generated.** The operator does not control challenge difficulty. They cannot write easier questions for themselves. The agent generates challenges based on the change, the subsystem, and the IC constraints.
+
+**Answers are agent-evaluated against system behavior.** Theory Challenges ask for falsifiable predictions: "What happens if Provider X times out during capture?" The agent evaluates the answer by checking it against actual system behavior — tracing code paths, running scenarios, verifying against tests. The operator cannot bluff a correct answer. This is fundamentally different from a self-attestation ("do you understand this change?"), which is unfalsifiable and worthless as a control.
+
+**Per-subsystem currency tracks specialization honestly.** If an operator only works in payments/*, they are only CURRENT on payments/*. The model doesn't grant system-wide credit for narrow expertise. An operator who avoids unfamiliar subsystems isn't gaming the system — they're accurately reflected as UNFAMILIAR in the areas they avoid.
+
+**Progression requires breadth.** APPRENTICE operators can specialize — deep expertise in one area is valuable during learning. But JOURNEYMAN and ENGINEER progression requires demonstrated currency across a minimum breadth of the system's subsystems. This prevents the "stay in my comfort zone" vector from becoming a permanent avoidance strategy.
+
+### Remaining Vectors and Mitigations
+
+**Challenge difficulty could drift down over time.** The agent might calibrate challenge difficulty to the *change* (small change = easy challenge) rather than to the *subsystem complexity*. An operator could game this by making many small, simple changes to maintain high Prediction Accuracy without ever being tested on hard reasoning.
+
+**Mitigation:** Challenge difficulty must be calibrated to **subsystem complexity and criticality**, not change size. A one-line change in the auth module should still produce a hard challenge if auth has critical invariants and complex coupling. The agent's challenge generation should weight subsystem factors (invariant count, coupling density, historical defect rate) alongside change magnitude.
+
+**Common-mode failure in evaluation.** The same LLM generating the challenge and evaluating the answer is a closed loop. Shared blind spots mean the operator could give an answer that satisfies the evaluator but doesn't reflect genuine understanding.
+
+**Mitigation:** Periodic spot-checks by a human — the preceptor (for apprentices) or the Agentic Engineer (for all levels). Not every challenge — that defeats the purpose of automation — but enough to verify the agent's challenge quality isn't degrading. This is the adversarial calibration duty the Directive Plane already assigns to the Agentic Engineer. The spot-check rate itself is a tunable parameter per risk tier.
+
+**Many small changes to avoid hard challenges.** An operator could decompose work into trivially small changes to stay below the difficulty threshold.
+
+**Mitigation:** The Scope Breach Rate gauge already tracks change patterns. An operator consistently making changes well *below* the scope gate threshold — when the work logically warrants larger changes — is exhibiting a pattern that the Agentic Engineer should investigate. Abnormally low change magnitude is as suspicious as abnormally high.
+
+---
+
 ## Progression Ladder
 
 The Socratic mode is not static. It has internal stages where scaffolding is progressively removed as the operator demonstrates competence. The progression inverts the operator's relationship with the agent — from "agent tests me, I implement" to "agent implements, I verify the agent."
@@ -309,6 +366,7 @@ Stage transitions are **evidence-based, not time-based.** The gauges provide the
 | **Prediction Accuracy** | Rolling pass rate on Theory Challenges trending above threshold across N consecutive changes |
 | **Theory Challenge depth** | Operator answers are explanatory, not just correct — they demonstrate reasoning, not recall |
 | **Test quality gap** (Stage 2) | Operator-written tests converge toward agent-generated baseline in coverage and edge-case detection |
+| **Subsystem breadth** (JOURNEYMAN, ENGINEER) | Demonstrated currency across a minimum number of the system's subsystems — prevents permanent specialization at senior levels |
 | **Preceptor attestation** | Human mentor reviews the Socratic trail and signs off on readiness for next stage |
 
 No algorithm promotes an operator. The protocol provides evidence. A human (the preceptor) decides.
