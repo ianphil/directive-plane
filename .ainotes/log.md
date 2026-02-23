@@ -9,6 +9,7 @@
 - doc-structure: Docs restructured from 3 files to 5 topic-focused files (directive-plane, control-fidelity-protocol, operator-model, multi-agent, instrumentation). AOM content fully distributed and source file removed. Compact versions serve as regression tests — verified section-by-section post-refactor.
 - doc-structure: docs/README.md serves as the index page with reading order and exec summaries. GitHub renders it automatically when browsing docs/.
 - consistency: After restructuring, references to "two invariants" must be updated throughout all docs to "three invariants" — easy to miss in Part III and Conclusion of directive-plane.md.
+- docs-governance: Archived compact references can quickly become misleading; once superseded, remove all mentions from public readmes and contributor instructions to prevent stale guidance.
 
 ## 2026-02-22
 - ui-routing: The UI supports ?view=<screen> URL routing, which enables deterministic page-specific screenshots and review links.

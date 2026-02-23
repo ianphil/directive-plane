@@ -30,11 +30,3 @@ Start with the UI walkthrough, then read the framework and protocol. The operato
 - **[Instrumentation](instrumentation.md)** — How you know it's working: all gauges (core, orchestration, operator model), failure thresholds, signal integrity, Agentic Engineer role.
 
   Controls without instrumentation are faith. Every control artifact must be falsifiable — coupled to system state, not human assertion. Twelve gauges organized in three tiers (core: Prediction Accuracy, Scope Breach Rate, Time-to-Explain, Invariant Staleness; orchestration: Intent Propagation Fidelity, Cross-Agent Context Consistency, Decomposition Coherence, Composition Verification Rate; operator model: Test Quality Gap, Invariant Awareness, Socratic Iteration Count, Theory Confidence Distribution) instrument the health of the control system. Three-level failure thresholds (Yellow/Orange/Red) define response escalation. The Agentic Engineer owns the loop: reads the gauges, has halt authority, and maintains signal integrity — ensuring controls don't degrade into ritual.
-
-## Compact References
-
-Token-optimized versions for LLM context windows. Same content, no prose.
-
-- [directive-plane-compact.md](directive-plane-compact.md)
-- [control-fidelity-protocol-compact.md](control-fidelity-protocol-compact.md)
-- [adaptive-operator-model-compact.md](adaptive-operator-model-compact.md)

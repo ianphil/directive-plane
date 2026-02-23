@@ -20,14 +20,12 @@ There is no build step, bundler, test suite, or linter. The UI is vanilla HTML/C
 
 ### Documents
 
-- `docs/directive-plane.md` / `docs/directive-plane-compact.md` — The framework: stocks, runaway loops, seven leverage points, three-plane architecture, risk gradient, practices, cross-domain analogies.
-- `docs/control-fidelity-protocol.md` / `docs/control-fidelity-protocol-compact.md` — The protocol: state machines (single-agent, orchestrated, operator progression), gate predicates (G1–G6), artifact schemas (IC, OE, EE, CN, CP, RP), error states, risk tiers, execution mode × risk tier matrix, complexity ceiling.
-- `docs/operator-model.md` / `docs/adaptive-operator-model-compact.md` — The operator model: two-axis capability (craft × system familiarity), execution modes (Socratic, Restricted, Standard), progression ladder, circuit breaker, preceptor role, repository designation, merge gates.
+- `docs/directive-plane.md` — The framework: stocks, runaway loops, seven leverage points, three-plane architecture, risk gradient, practices, cross-domain analogies.
+- `docs/control-fidelity-protocol.md` — The protocol: state machines (single-agent, orchestrated, operator progression), gate predicates (G1–G6), artifact schemas (IC, OE, EE, CN, CP, RP), error states, risk tiers, execution mode × risk tier matrix, complexity ceiling.
+- `docs/operator-model.md` — The operator model: two-axis capability (craft × system familiarity), execution modes (Socratic, Restricted, Standard), progression ladder, circuit breaker, preceptor role, repository designation, merge gates.
 - `docs/multi-agent.md` — Multi-agent orchestration: intent transformation chains, compositional incoherence, scope partitioning, orchestrator trust boundary, complexity ceiling, verification mechanics.
 - `docs/instrumentation.md` — Instrumentation: falsifiability principle, signal integrity, all gauges (core + orchestration + operator model), failure thresholds (Yellow/Orange/Red), Agentic Engineer role.
 - `docs/ui-sample-walkthrough.md` — Narrative walkthrough of the UI with screenshots.
-
-Compact versions (`*-compact.md`) are token-optimized for LLM context. Prefer them when you need framework/protocol reference.
 
 ### UI (`src/ui/`)
 
