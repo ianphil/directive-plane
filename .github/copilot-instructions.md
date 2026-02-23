@@ -75,3 +75,4 @@ When working with docs or UI code, these terms have specific meanings in this fr
 - Badge variants follow a semantic pattern: `.ok`, `.warn`, `.danger`, `.info`, `.neutral`, plus phase-specific classes (`.phase-planning`, `.phase-doing`, `.phase-proving`, `.phase-merge`).
 - The UI has no framework dependency. DOM manipulation uses `querySelector`/`innerHTML` with template literals. Do not introduce a framework.
 - Never use MCP. For UI testing or taking screenshots, use the Playwright CLI directly.
+- Never add co-authored-by trailers or AI attribution to commit messages.
