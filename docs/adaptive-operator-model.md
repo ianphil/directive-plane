@@ -6,36 +6,6 @@
 
 ---
 
-## Open Items
-
-### 1. System Dynamics Impact
-~~What new stocks does this model introduce?~~ **Resolved.** See "System Dynamics Analysis" section below.
-
-### 2. Threshold Calibration
-~~What are the right thresholds for the Theory Challenge circuit breaker?~~ **Resolved.** See "Circuit Breaker Calibration" section below. Protocol defines defaults with organizational override (Agentic Engineer recommends, preceptor agrees). Hysteresis prevents flapping. Hybrid window (N changes + minimum time floor) prevents gaming. Recovery requires both gauge recovery AND preceptor approval.
-
-### 3. Preceptor Role in Protocol Artifacts
-~~How does the preceptor formally appear in the CFP?~~ **Resolved.** See "The Preceptor Role" section below. The preceptor is the engineering manager — distinct from the Agentic Engineer. They own the learning loop (progression, mentorship, Socratic trail review) while the Agentic Engineer owns the control loop (gauges, halt authority, IC approval). Preceptor sign-off is a formal gate for progression transitions and SUSPENDED recovery.
-
-### 4. Interaction with Multi-Agent Orchestration
-~~Can a junior operator participate in orchestrated (multi-agent) mode at all?~~ **Resolved.** Multi-agent orchestration is gated by both operator level and repo designation:
-- **CONSEQUENTIAL:** Multi-agent not allowed. The compositional incoherence risk is too high for systems where failure has legal, safety, or large-scale economic impact. Single-agent only.
-- **PROFESSIONAL:** ENGINEER-only. Orchestration requires the full theory reconstruction capacity that comes with demonstrated system mastery.
-- **Non-production (EXPLORATORY):** Available to JOURNEYMAN, ENGINEER, RESTRICTED, and ONBOARDING — operators who have agent access in EXPLORATORY. APPRENTICE_1 and APPRENTICE_2 do not get multi-agent access anywhere.
-
-Remaining question: does the Socratic mode need any adaptation for operators who use multi-agent on non-production repos, or is standard protocol sufficient since the stakes are low?
-
-### 5. Socratic Mode and Risk Tier Interaction
-~~Does Socratic mode sit alongside the risk tier matrix as an independent axis?~~ **Partially resolved.** The Execution Mode × Risk Tier Matrix defines the interaction: EXPLORATORY exempts APPRENTICE_2+, RESTRICTED, and ONBOARDING from mode restrictions. APPRENTICE_1 is bound everywhere. Remaining question: do the gate predicates (G1–G6) need per-cell overrides for the matrix, or is it sufficient to resolve `execution_mode` at IC creation and let existing gates handle it?
-
-### 6. Goodhart's Law on Theory Challenges as Circuit Breaker
-~~How do you prevent challenge difficulty from being softened to avoid triggering restrictions?~~ **Resolved.** See "Goodhart's Law Mitigations" section below. Key factors: challenges are agent-generated (operator doesn't control difficulty), answers are agent-evaluated against system behavior (can't bluff), per-subsystem currency tracks specialization honestly, and JOURNEYMAN/ENGINEER progression requires breadth across subsystems.
-
-### 7. Repository Designation in the Directive Plane and CFP
-~~How does repo designation integrate into existing IC and CFP artifacts?~~ **Resolved.** See "Repository Designation — CFP Integration" section below. Repo designation is an external organizational control inherited at runtime; not stored in the IC. Gates query it directly. G1 warns on tier/designation mismatch, G3 resolves execution mode, G6 enforces the merge gate.
-
----
-
 ## Origin
 
 This document explores integrating ideas from Russinovich and Hanselman's "Redefining the Software Engineering Profession for AI" [1] into the Directive Plane framework. Their paper identifies a structural threat to the software engineering talent pipeline: AI amplifies senior engineers ("AI boost") while creating drag on early-in-career (EiC) developers who lack the judgment to direct and verify agent output. They propose preceptor programs — structured mentorship where seniors deliberately grow juniors — and suggest that coding assistants could have an "EiC mode" that defaults to Socratic coaching before code generation.
