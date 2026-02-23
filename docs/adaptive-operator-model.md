@@ -209,7 +209,7 @@ Execution modes are not applied uniformly. The risk tier of the system modifies 
 |-------|--------------|--------------|-------------|
 | **APPRENTICE_1** | Socratic — full scaffold (bound) | Socratic — full scaffold (bound) | Socratic — full scaffold (bound) |
 | **APPRENTICE_2** | Socratic — tutor only (bound) | Socratic — tutor only (bound) | **Standard — full agent access** |
-| **JOURNEYMAN** | Standard + elevated challenges | Standard + elevated challenges | Standard |
+| **JOURNEYMAN** | Standard + elevated challenges (+1) | Standard + elevated challenges (+1) | Standard |
 | **ENGINEER** | Standard | Standard | Standard |
 | **RESTRICTED** | Agent writes tests, operator implements | Agent writes tests, operator implements | **Standard — full agent access** |
 | **ONBOARDING (senior)** | Agent writes tests, operator implements | Agent writes tests, operator implements | **Standard — full agent access** |
@@ -418,9 +418,9 @@ The agent stops writing tests. The operator must develop their own sense of what
 | **Tests written by** | Agent |
 | **Implementation by** | Agent |
 | **Agent coaching** | Inactive — operator must reconstruct without guidance |
-| **Theory source** | Operator reconstructs from agent output (with higher challenge bar than ENGINEER) |
+| **Theory source** | Operator reconstructs from agent output (with +1 challenge above ENGINEER count per risk tier) |
 
-The operator transitions to the *review* side. The agent implements. But Theory Challenges are more numerous and more demanding than they would be for an ENGINEER-level operator. This is the training ground for the skill of reconstructing theory from agent output — the core competency of the senior workflow.
+The operator transitions to the *review* side. The agent implements. But Theory Challenges are more numerous than they would be for an ENGINEER-level operator — JOURNEYMAN gets +1 challenge above the ENGINEER count for the risk tier (CONSEQUENTIAL: 4 vs. 3, PROFESSIONAL: 3 vs. 2). Challenge difficulty stays calibrated to the subsystem, not the operator level. The additional volume forces more reconstruction practice — this is the training ground for the skill of reconstructing theory from agent output, the core competency of the senior workflow.
 
 ### Stage 4 — Standard (ENGINEER)
 
@@ -563,9 +563,21 @@ The protocol defines default thresholds. Organizations can override them — the
 
 **Recovery requires preceptor approval.** Hitting the recovery threshold is necessary but not sufficient. The preceptor must also approve the transition out of RESTRICTED. This adds human judgment to the quantitative signal — the preceptor can see whether the recovery reflects genuine theory rebuilding or pattern-gaming.
 
+**Recovery velocity monitoring.** The preceptor (engineering manager) monitors whether a RESTRICTED operator is making recovery-eligible changes on the triggering subsystem(s). An operator who avoids recovery work — e.g., spending all time on EXPLORATORY repos or unrelated subsystems — is not gaming the system (EXPLORATORY work doesn't earn recovery credit), but they are not recovering either. The preceptor raises this with the operator and adjusts work assignments as needed. This is a management responsibility, not a protocol mechanism — the protocol provides visibility (scoped trigger, recovery credit tracking), the preceptor acts on it.
+
 **Thresholds are uniform across CONSEQUENTIAL and PROFESSIONAL.** The risk tier already controls other knobs (scope gates, challenge count, verifier requirements). The circuit breaker threshold measures operator comprehension, which is either sufficient or it isn't — the system's risk level doesn't change what "understanding" means. EXPLORATORY is exempt from the circuit breaker entirely.
 
 **Override authority.** The Agentic Engineer may recommend threshold adjustments for their team based on observed behavior (e.g., a highly complex system where 0.6 is too lenient, or a team where 0.8 recovery is creating prolonged RESTRICTED states that impede work). The preceptor must agree to the change. Overrides are logged and auditable.
+
+**Escalation override.** An escalation authority (engineering director or above) can temporarily restore agent access for a RESTRICTED or SUSPENDED operator. The override does not heal the circuit breaker — it suspends enforcement. Rules:
+
+- **Time-boxed.** The override has a defined expiration (e.g., 5 business days). When it expires, the operator's actual Prediction Accuracy determines their state — if still below threshold, they return to RESTRICTED.
+- **Written justification required.** The escalation authority must document why the override is necessary and what risk they are accepting. This becomes part of the auditable record.
+- **Scores continue accruing.** Theory Challenges still happen during the override period. Failures still record 0.0 (or the appropriate decay score) in the rolling window. The override grants agent access, not a gauge holiday.
+- **Logged and auditable.** The override, its justification, its duration, and the operator's Prediction Accuracy during the override period are all recorded. Frequent overrides for the same operator or team are a signal that the organization is understaffed or the thresholds need recalibration — not that the circuit breaker should be routinely bypassed.
+- **Does not reset recovery.** When the override expires, recovery progress resumes from where it was. The override period's scores feed the rolling window normally.
+
+This mirrors safety-critical domains: overrides exist but are expensive, visible, and create accountability. An organization that routinely overrides the circuit breaker is exhibiting the same pattern as a nuclear plant that routinely overrides safety interlocks — the override mechanism is not the problem; the pressure to use it is.
 
 ---
 
@@ -629,7 +641,7 @@ operator:
 
 - **`craft_level`** is an **input assessment** — a human judgment set by the preceptor about the operator's general engineering maturity. It does not change per-change and is not managed by the protocol. It constrains the operator's *starting point*: a JUNIOR enters at APPRENTICE_1, a SENIOR joining a new team enters at ONBOARDING. After that, progression is driven by gauges and preceptor attestation, not craft_level. The preceptor may reference craft_level when making progression decisions, but it does not mechanically gate any transition.
 - **`progression_stage`** is **protocol state** — tracked and updated by the protocol based on evidence (gauge thresholds + preceptor sign-off). This is the field that drives execution mode resolution and gate behavior.
-- **`execution_mode`** is **blank at IC creation** and **appended by G3** when the gate resolves the mode from operator level × repo designation. This preserves the IC's append-only invariant — G3 writes the field for the first time rather than modifying an existing value. Anyone reading the IC before G3 knows the mode hasn't been resolved yet.
+- **`execution_mode`** is **blank at IC creation** and **appended by G3** when the gate resolves the mode from operator level × repo designation. This preserves the IC's append-only invariant — G3 writes the field for the first time rather than modifying an existing value. Anyone reading the IC before G3 knows the mode hasn't been resolved yet. When `execution_mode` is SOCRATIC, the specific sub-mode (full scaffold vs. tutor only) is derived from `progression_stage` — APPRENTICE_1 gets full scaffold (agent writes tests + active coaching), APPRENTICE_2 gets tutor only (operator writes tests, agent coaches). This keeps the execution_mode enum simple while the scaffolding detail lives in progression_stage where it belongs.
 
 ---
 

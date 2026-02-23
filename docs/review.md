@@ -42,13 +42,13 @@ Post-brainstorm review of `adaptive-operator-model.md`. Cross-referenced against
 
 **Resolved.** `execution_mode` is blank at IC creation and appended by G3 when it resolves mode from operator level × repo designation. This is a clean append, not a modification — consistent with the IC append-only invariant.
 
-### 9. New gauges have no failure thresholds
+### 9. ~~New gauges have no failure thresholds~~
 
-The Directive Plane defines yellow/orange/red failure thresholds for its gauges. The three new gauges (Test Quality Gap, Invariant Awareness, Socratic Iteration Count) have degradation signals described qualitatively ("gap not closing," "low or declining") but no quantitative thresholds or integration into the yellow/orange/red framework. They're gauges without alarm setpoints.
+**Deferred to calibration.** Quantitative thresholds for the new gauges (Test Quality Gap, Invariant Awareness, Socratic Iteration Count, Theory Confidence Distribution) should be set empirically once the protocol is running, same as circuit breaker thresholds are organizational overrides. Specifying thresholds before operational experience would be speculative.
 
-### 10. No escalation/override path for RESTRICTED
+### 10. ~~No escalation/override path for RESTRICTED~~
 
-The nuclear analogy is used throughout, but nuclear plants have documented procedures for overriding safety systems under extraordinary circumstances (with extensive documentation and accountability). The document doesn't address whether RESTRICTED can ever be overridden by organizational authority above the Agentic Engineer/Preceptor. If the answer is "no override, ever" (consistent with "a plant that can't afford to SCRAM is already unsafe"), that should be stated explicitly. If there is an override, it needs documentation.
+**Resolved.** Escalation override exists: engineering director or above can temporarily restore agent access. Time-boxed, written justification required, scores continue accruing during override, logged and auditable. Override suspends enforcement but doesn't heal the circuit breaker — when it expires, actual Prediction Accuracy determines state. Frequent overrides are a signal of organizational dysfunction, not a reason to weaken the circuit breaker.
 
 ### 11. ~~THEORY_FAILURE ↔ circuit breaker interaction not specified~~
 
@@ -62,9 +62,9 @@ The nuclear analogy is used throughout, but nuclear plants have documented proce
 
 **Resolved.** R5 analysis expanded to recognize that theory has two qualities: construction depth (built by hand vs. reconstructed from agent output) and craft-weighted reasoning (craft maturity of the theory holder). Junior-built theory is overconfident (genuine but blind to craft-level concerns). Senior-reconstructed theory is underconfident (shallower direct knowledge, compensated by craft maturity). New **Theory Confidence Distribution** gauge tracks both axes per module and alarms on single-axis coverage. Agentic Engineer directs LP4 cognitive maintenance at the specific gap: seniors do code archaeology on agent-built modules (construction depth), juniors get targeted complex-module exposure under mentorship (craft reasoning).
 
-### 13. RESTRICTED/ONBOARDING multi-agent on EXPLORATORY may undermine recovery
+### 13. ~~RESTRICTED/ONBOARDING multi-agent on EXPLORATORY may undermine recovery~~
 
-A RESTRICTED operator whose theory degraded can use multi-agent orchestration on EXPLORATORY repos. The document says EXPLORATORY work doesn't count toward recovery. But the operator might spend time on EXPLORATORY multi-agent work *instead of* doing recovery work on the system where they're RESTRICTED. There's no mechanism to ensure recovery work actually happens — just that EXPLORATORY doesn't get credit for it.
+**Resolved.** The preceptor (engineering manager) monitors recovery velocity — whether the RESTRICTED operator is making recovery-eligible changes on the triggering subsystem(s). If the operator avoids recovery work, the preceptor raises it and adjusts work assignments. This is a management responsibility, not a protocol mechanism. The protocol provides visibility (scoped trigger, recovery credit tracking); the preceptor acts on it.
 
 ---
 
@@ -72,10 +72,10 @@ A RESTRICTED operator whose theory degraded can use multi-agent orchestration on
 
 Not bugs — decisions that should be made explicitly.
 
-### 14. SOCRATIC execution_mode covers two very different experiences
+### 14. ~~SOCRATIC execution_mode covers two very different experiences~~
 
-`execution_mode` has three values: SOCRATIC, RESTRICTED, STANDARD. But SOCRATIC encompasses both "full scaffold" (agent writes tests + active coaching) and "tutor only" (operator writes tests, agent coaches). These are materially different agent behaviors. The distinction is carried by `progression_stage` (APPRENTICE_1 vs. APPRENTICE_2), but anyone reading the IC's `execution_mode: SOCRATIC` can't tell which mode they're in without cross-referencing. Consider whether SOCRATIC_SCAFFOLD and SOCRATIC_TUTOR should be separate execution modes.
+**Resolved.** Keep single SOCRATIC execution_mode. Sub-mode (full scaffold vs. tutor only) is derived from `progression_stage` — APPRENTICE_1 = scaffold, APPRENTICE_2 = tutor. execution_mode answers "how does execution work?", progression_stage answers "what scaffolding level?" Documented in IC field semantics.
 
-### 15. JOURNEYMAN "elevated challenges" is unquantified
+### 15. ~~JOURNEYMAN "elevated challenges" is unquantified~~
 
-The matrix says JOURNEYMAN gets "Standard + elevated challenges" on CONSEQUENTIAL/PROFESSIONAL. The CFP specifies challenge counts per risk tier (3/2/1). Does "elevated" mean more challenges than ENGINEER gets? Harder challenges? Both? This is a key differentiator for the JOURNEYMAN stage and it's undefined.
+**Resolved.** Elevated = +1 challenge above ENGINEER count per risk tier (CONSEQUENTIAL: 4 vs. 3, PROFESSIONAL: 3 vs. 2). Challenge difficulty stays calibrated to the subsystem, not the operator level. Additional volume forces more reconstruction practice.
