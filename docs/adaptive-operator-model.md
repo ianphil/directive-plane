@@ -12,7 +12,7 @@
 ~~What new stocks does this model introduce?~~ **Resolved.** See "System Dynamics Analysis" section below.
 
 ### 2. Threshold Calibration
-What are the right thresholds for the Theory Challenge circuit breaker? Too sensitive → constant disruption, breeds resentment and evasion. Too lenient → never fires, becomes decorative. How does calibration vary across risk tiers, team sizes, and system complexity? Who calibrates — the Agentic Engineer? The preceptor? An organizational standard?
+~~What are the right thresholds for the Theory Challenge circuit breaker?~~ **Resolved.** See "Circuit Breaker Calibration" section below. Protocol defines defaults with organizational override (Agentic Engineer recommends, preceptor agrees). Hysteresis prevents flapping. Hybrid window (N changes + minimum time floor) prevents gaming. Recovery requires both gauge recovery AND preceptor approval.
 
 ### 3. Preceptor Role in Protocol Artifacts
 ~~How does the preceptor formally appear in the CFP?~~ **Resolved.** See "The Preceptor Role" section below. The preceptor is the engineering manager — distinct from the Agentic Engineer. They own the learning loop (progression, mentorship, Socratic trail review) while the Agentic Engineer owns the control loop (gauges, halt authority, IC approval). Preceptor sign-off is a formal gate for progression transitions and SUSPENDED recovery.
@@ -436,7 +436,7 @@ Prediction Accuracy is tracked as a rolling window per-operator per-subsystem. W
 1. `operator_currency` transitions from CURRENT → **RESTRICTED**
 2. In RESTRICTED, the agent cannot execute implementation — but it **still writes the tests**. The agent generates failing tests from the IC's acceptance criteria and invariants, and the operator writes the implementation to make them pass.
 3. The operator codes by hand. This forces the deep engagement with the codebase that rebuilds theory.
-4. Theory Challenges continue on the operator's manual changes. When Prediction Accuracy recovers above threshold for N consecutive changes, currency restores to CURRENT.
+4. Theory Challenges continue on the operator's manual changes. When Prediction Accuracy recovers above the recovery threshold across the hybrid window (N changes over minimum time floor) AND the preceptor approves, currency restores to CURRENT.
 
 ### Why RESTRICTED Is Not APPRENTICE
 
@@ -473,6 +473,31 @@ The current framework's LP4 (Cognitive Maintenance) is a *cultural* practice —
 The circuit breaker makes LP4 **involuntary and automatic.** It is not "we think you should code manually this week." It is "the protocol detected your theory is degraded — agent execution is suspended until it recovers." The system measured a state and responded. Same as a trading floor's position limits: you don't negotiate with the risk system, it cuts you off.
 
 **The cultural signal:** Agent access is not a right. It is a privilege maintained by demonstrating comprehension. Like a pilot's type rating or a trader's risk authorization.
+
+### Circuit Breaker Calibration
+
+The protocol defines default thresholds. Organizations can override them — the Agentic Engineer recommends adjustments, the preceptor agrees (since threshold changes affect the learning loop).
+
+**Default thresholds:**
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `restriction_threshold` | 0.6 | Prediction Accuracy below this triggers RESTRICTED |
+| `recovery_threshold` | 0.8 | Prediction Accuracy must exceed this to restore agent access |
+| `window_changes` | 10 | Minimum number of changes in the rolling window |
+| `window_time_floor` | 14 days | Minimum time span the window must cover |
+
+**Hysteresis.** The recovery threshold (0.8) is deliberately higher than the restriction threshold (0.6). This prevents flapping — an operator hovering around 0.6 doesn't bounce in and out of RESTRICTED on every change. They must demonstrate sustained improvement to recover.
+
+**Hybrid window.** The rolling window requires both a minimum number of changes AND a minimum time span. "Last 10 changes, but the window must span at least 14 days." This prevents two gaming vectors:
+- **Rushing recovery:** An operator can't blast through 10 trivial changes in a day to hit the recovery threshold. The time floor ensures the recovery reflects sustained work over a meaningful period.
+- **Thin samples:** A single pass or fail on a thin window doesn't swing the metric. The change count ensures statistical significance.
+
+**Recovery requires preceptor approval.** Hitting the recovery threshold is necessary but not sufficient. The preceptor must also approve the transition out of RESTRICTED. This adds human judgment to the quantitative signal — the preceptor can see whether the recovery reflects genuine theory rebuilding or pattern-gaming.
+
+**Thresholds are uniform across CONSEQUENTIAL and PROFESSIONAL.** The risk tier already controls other knobs (scope gates, challenge count, verifier requirements). The circuit breaker threshold measures operator comprehension, which is either sufficient or it isn't — the system's risk level doesn't change what "understanding" means. EXPLORATORY is exempt from the circuit breaker entirely.
+
+**Override authority.** The Agentic Engineer may recommend threshold adjustments for their team based on observed behavior (e.g., a highly complex system where 0.6 is too lenient, or a team where 0.8 recovery is creating prolonged RESTRICTED states that impede work). The preceptor must agree to the change. Overrides are logged and auditable.
 
 ---
 
@@ -522,9 +547,10 @@ operator:
     notifications/*: UNFAMILIAR
     auth/*: LAPSED
   circuit_breaker:
-    prediction_accuracy_window: 10              # rolling N changes
+    prediction_accuracy_window: 10              # minimum rolling N changes
+    window_time_floor: 14d                      # window must span at least this duration
     restriction_threshold: 0.6                  # below this → RESTRICTED
-    recovery_threshold: 0.8                     # above this for N consecutive → restore
+    recovery_threshold: 0.8                     # above this + preceptor approval → restore
     applies_to: [CONSEQUENTIAL, PROFESSIONAL]   # EXPLORATORY exempt
   exploratory_access: true | false              # false only for APPRENTICE_1
 ```
@@ -551,15 +577,20 @@ The Directive Plane currently governs the *human-agent interface* — how intent
 
 The key additions:
 
-1. **Two-dimensional operator capability** (craft × system familiarity), tracked per-subsystem
-2. **Socratic execution mode** — agent teaches, operator implements. Bound for juniors, optional for seniors.
-3. **Four-stage progression ladder** with decreasing scaffolding, evidence-based promotion, and preceptor attestation
-4. **Circuit breaker** — Theory Challenge performance gates agent access. Drop below threshold → RESTRICTED (agent writes tests, operator implements). Applies on CONSEQUENTIAL and PROFESSIONAL systems. EXPLORATORY exempt.
-5. **Senior onboarding mode** — RESTRICTED mode with tighter scope gates, guided archaeology, system-specific challenges. Respects craft maturity, builds system familiarity.
-6. **Repository designation and merge gates** — Repos are designated production or non-production. Only JOURNEYMAN+ can merge agent-generated code into production repos. APPRENTICE_2, RESTRICTED, and ONBOARDING can experiment on branches but cannot merge agent code to production. Operator-written code (from Socratic/RESTRICTED mode) always merges — they built the theory. Non-production repos are unrestricted (except APPRENTICE_1).
+1. **Third invariant** — Operator Capability Integrity. The meta-invariant that makes Outbound Intent Fidelity and Inbound Theory Preservation possible.
+2. **Two new leverage points** — LP6 (gate agent access to demonstrated comprehension) and LP8 (separate production authority from exploration access). LP2 refined to support graduated reconstruction.
+3. **Two-dimensional operator capability** (craft × system familiarity), tracked per-subsystem
+4. **Socratic execution mode** — agent teaches, operator implements. Bound for juniors, optional for seniors.
+5. **Four-stage progression ladder** with decreasing scaffolding, evidence-based promotion, and preceptor attestation. JOURNEYMAN/ENGINEER require subsystem breadth.
+6. **Circuit breaker** — Theory Challenge performance gates agent access. Hysteresis (restrict at 0.6, recover at 0.8), hybrid window (N changes + time floor), recovery requires preceptor approval. Applies on CONSEQUENTIAL and PROFESSIONAL. EXPLORATORY exempt.
+7. **Senior onboarding mode** — RESTRICTED mode with tighter scope gates, guided archaeology, system-specific challenges.
+8. **Repository designation and merge gates** — Repos designated production or non-production (external control, inherited at runtime). Only JOURNEYMAN+ can merge agent-generated code to production repos. G1 warns on tier mismatch, G3 resolves execution mode, G6 enforces merge gate.
+9. **Preceptor role** — engineering manager, distinct from Agentic Engineer. Owns the learning loop. Formal gate on progression transitions and SUSPENDED recovery. Reviews Socratic trails, spot-checks challenge quality.
+10. **System dynamics** — new stock (Operator Capability), balancing loops (B1–B3), reinforcing risk loops (R4–R5), interaction analysis with existing R1–R3.
+11. **Goodhart's Law mitigations** — agent-generated/evaluated challenges, subsystem breadth requirements, preceptor spot-checks, abnormal change pattern detection.
 
 The scaffolding doesn't just decrease — it *inverts*. The operator goes from "I build, agent tests me" to "agent builds, I verify the agent." This mirrors the actual engineering career arc and ensures that the humans directing agents have earned the judgment to do so.
 
 ---
 
-*Brainstorm draft. Not yet integrated into the Directive Plane or CFP.*
+*Brainstorm draft. All open items resolved. Not yet integrated into the Directive Plane or CFP.*
