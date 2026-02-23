@@ -239,16 +239,21 @@ The risk tier is a property of the **repository**, not just the change. Reposito
 **G6 extension:**
 
 ```
-G6 additional predicate:
+G6 additional predicates:
   IF repo.designation ∈ {PRODUCTION}
   AND change contains agent-generated implementation
   AND operator.progression_stage ∉ {JOURNEYMAN, ENGINEER}
+  THEN → MERGE_BLOCKED
+
+  IF repo.designation ∈ {PRODUCTION}
+  AND risk_tier = EXPLORATORY
   THEN → MERGE_BLOCKED
 ```
 
 **Key implications:**
 
-- **Operator-written code always merges.** If you wrote it under Socratic mode (APPRENTICE_1/2) or RESTRICTED mode, you built the theory — the code is yours. The merge gate only blocks agent-generated implementation.
+- **EXPLORATORY tier never ships to production.** Regardless of operator level, changes made under EXPLORATORY risk tier cannot merge to production repos. EXPLORATORY means lighter scope limits, fewer challenges, and optional verifiers — controls too loose for production-bound code. An ENGINEER who wants to explore on a feature branch in a production repo can use EXPLORATORY tier freely, but must re-execute the change under PROFESSIONAL or CONSEQUENTIAL tier to merge.
+- **Operator-written code always merges (at appropriate tier).** If you wrote it under Socratic mode (APPRENTICE_1/2) or RESTRICTED mode, you built the theory — the code is yours. The merge gate only blocks agent-generated implementation (for sub-JOURNEYMAN operators) and EXPLORATORY-tier changes.
 - **Feature branches in production repos are fine.** APPRENTICE_2 and RESTRICTED operators can use agents on branches to experiment, learn, and build familiarity. The branch is a learning artifact, not a shipping vehicle.
 - **Non-production repos are unrestricted** (except APPRENTICE_1). Prototypes, hackathons, personal sandboxes — merge freely. This is where APPRENTICE_2 and RESTRICTED operators get to experience full agent workflows.
 
@@ -261,7 +266,7 @@ Repository designation (production vs. non-production) is an **external organiza
 ### Design Principles
 
 - **Not stored in the IC.** Repo designation is queried from the external system when needed. This avoids stale data — if an org changes a repo's designation, the gates immediately reflect it without needing to update existing ICs.
-- **Risk tier remains the operator's call.** Repo designation does not override `risk_tier` on the IC. An operator can declare any risk tier they choose. The protocol warns on mismatches but does not block.
+- **Risk tier remains the operator's call, with a production merge constraint.** Repo designation does not override `risk_tier` on the IC. An operator can declare any risk tier they choose, including EXPLORATORY on a production repo (useful for exploration on feature branches). The protocol warns on mismatches at G1. However, G6 blocks merging EXPLORATORY-tier changes to production repos — EXPLORATORY intensity controls are too loose for production-bound code.
 - **Three gates check designation.** Each serves a different purpose.
 
 ### Gate Changes
@@ -270,14 +275,14 @@ Repository designation (production vs. non-production) is an **external organiza
 |------|-------------|----------|
 | **G1** (INTENT→PLANNED) | IC valid, goal+scope non-empty, criteria falsifiable, currency valid | **Soft warning** if `risk_tier` on IC is inconsistent with repo designation (e.g., EXPLORATORY tier declared in a PRODUCTION repo). Does not block — the operator may have a valid reason. Warning is logged in the IC as an advisory. |
 | **G3** (APPROVED→EXECUTING) | Sandbox bounded to planned_modifications only | **Resolves execution mode** by checking repo designation against operator level. Determines whether APPRENTICE_2/RESTRICTED/ONBOARDING get agent access (non-production repo) or remain in Socratic/RESTRICTED mode (production repo). Also gates multi-agent orchestration access. |
-| **G6** (UNDERSTOOD→MERGED) | IR updated, artifacts committed, gauges recorded, no errors | **Merge gate predicate**: queries repo designation. If PRODUCTION and change contains agent-generated implementation and operator is below JOURNEYMAN → MERGE_BLOCKED. Operator-written code is never blocked. |
+| **G6** (UNDERSTOOD→MERGED) | IR updated, artifacts committed, gauges recorded, no errors | **Merge gate predicates**: queries repo designation. (1) If PRODUCTION and change contains agent-generated implementation and operator is below JOURNEYMAN → MERGE_BLOCKED. (2) If PRODUCTION and risk_tier is EXPLORATORY → MERGE_BLOCKED. Operator-written code is never blocked at appropriate tier. |
 
 ### What the Protocol Does NOT Do
 
 - Does not define how repos are designated — that is organizational policy
 - Does not manage repo promotion (non-prod → prod) — that is an external control
 - Does not store designation in artifacts — queries it at runtime
-- Does not hard-block risk tier mismatches — warns only, because operators may legitimately choose a higher-intensity tier for a non-production repo (e.g., practicing the full protocol on a prototype)
+- Does not hard-block risk tier mismatches at G1 — warns only, because operators may legitimately choose a higher-intensity tier for a non-production repo (e.g., practicing the full protocol on a prototype) or EXPLORATORY tier on a production repo for branch-level exploration. The hard block is at G6: EXPLORATORY-tier changes cannot merge to production repos.
 
 ---
 
@@ -431,12 +436,17 @@ Theory Challenge performance is not just a gauge — it is a **circuit breaker**
 
 ### Mechanism
 
-Prediction Accuracy is tracked as a rolling window per-operator per-subsystem. When it drops below the defined threshold:
+Prediction Accuracy is tracked as a rolling window per-operator per-subsystem. The restriction is **global** (simple state machine), but the trigger and recovery are **scoped** to the subsystem(s) where theory degraded.
 
-1. `operator_currency` transitions from CURRENT → **RESTRICTED**
-2. In RESTRICTED, the agent cannot execute implementation — but it **still writes the tests**. The agent generates failing tests from the IC's acceptance criteria and invariants, and the operator writes the implementation to make them pass.
+When Prediction Accuracy drops below the threshold for *any* subsystem:
+
+1. `operator_currency` transitions from CURRENT → **RESTRICTED** globally. The triggering subsystem(s) are recorded in `circuit_breaker.triggered_by`.
+2. In RESTRICTED, the agent cannot execute implementation on *any* subsystem — but it **still writes the tests**. The agent generates failing tests from the IC's acceptance criteria and invariants, and the operator writes the implementation to make them pass.
 3. The operator codes by hand. This forces the deep engagement with the codebase that rebuilds theory.
-4. Theory Challenges continue on the operator's manual changes. When Prediction Accuracy recovers above the recovery threshold across the hybrid window (N changes over minimum time floor) AND the preceptor approves, currency restores to CURRENT.
+4. The operator can work on any subsystem under RESTRICTED mode, but **recovery credit only accrues from the triggering subsystem(s)**. Work on unrelated subsystems is productive (the team still gets value) but does not count toward restoring agent access.
+5. Theory Challenges continue on the operator's manual changes. When Prediction Accuracy on the triggering subsystem(s) recovers above the recovery threshold across the hybrid window (N changes over minimum time floor) AND the preceptor approves, currency restores to CURRENT globally.
+
+**Why global restriction with scoped recovery.** Per-subsystem restriction would be more precise but creates a parallel state machine — each subsystem carrying its own CURRENT/RESTRICTED/SUSPENDED track, with split-mode handling for changes that span subsystems. Global restriction keeps the state machine simple and conservative: if your theory is degraded somewhere, the amplifier is removed everywhere. But the protocol knows *where* to send you to rebuild — recovery requires demonstrated improvement on the specific subsystem(s) that triggered the breaker, not just any subsystem work.
 
 ### Why RESTRICTED Is Not APPRENTICE
 
@@ -549,9 +559,10 @@ operator:
   circuit_breaker:
     prediction_accuracy_window: 10              # minimum rolling N changes
     window_time_floor: 14d                      # window must span at least this duration
-    restriction_threshold: 0.6                  # below this → RESTRICTED
+    restriction_threshold: 0.6                  # below this → RESTRICTED (global)
     recovery_threshold: 0.8                     # above this + preceptor approval → restore
     applies_to: [CONSEQUENTIAL, PROFESSIONAL]   # EXPLORATORY exempt
+    triggered_by: [auth/*]                      # subsystem(s) that caused RESTRICTED; recovery credit scoped here
   exploratory_access: true | false              # false only for APPRENTICE_1
 ```
 

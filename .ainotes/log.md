@@ -12,3 +12,6 @@
 - architecture: Compact doc versions (*-compact.md) are token-optimized and preferred for LLM context over full versions.
 - ui: app.js follows a store/state/render pattern — seed data in `store`, UI tracking in `state`, innerHTML-based render functions, post-render event wiring via `attachTimelineListeners()`.
 
+- circuit-breaker: RESTRICTED state is global (simple state machine) but trigger and recovery are scoped to specific subsystem(s). `circuit_breaker.triggered_by` tracks which subsystem(s) caused the restriction. Recovery credit only accrues from triggering subsystem(s).
+- merge-gates: EXPLORATORY risk tier cannot merge to production repos regardless of operator level. G6 enforces this as a hard block. G1 remains a soft warning on tier/designation mismatch.
+- review: 15 review items identified across contradictions (4), gaps (7), weak mitigations (2), structural observations (2). Tracked in docs/review.md.
