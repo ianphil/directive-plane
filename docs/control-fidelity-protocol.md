@@ -42,6 +42,11 @@
 | **Intent Drift** | Semantic divergence between the root IC and a Sub-IC (measured via clause traceability, altered constraints, etc.). |
 | **Coupling Density** | Ratio of actual dependency edges and interaction pairs between specialists to the maximum possible. |
 | **Structural Adversariality** | Requirement that verification agents differ from execution agents in model family, framing, and objective to prevent common-mode failures. |
+| **Execution Mode** | The protocol-level behavior mode for the Execution Plane: SOCRATIC, RESTRICTED, or STANDARD. Resolved at G3 from operator level × repo designation. |
+| **Progression Stage** | Protocol-tracked operator state: APPRENTICE_1, APPRENTICE_2, JOURNEYMAN, or ENGINEER. Drives execution mode resolution and gate behavior. |
+| **Preceptor** | The engineering manager responsible for operator professional development. Owns the learning loop. Distinct from the Agentic Engineer who owns the control loop. |
+| **Repository Designation** | External organizational classification of a repository as PRODUCTION or NON-PRODUCTION. Inherited at runtime, not stored in the IC. |
+| **Circuit Breaker** | Automatic restriction of agent execution privileges when an operator's Prediction Accuracy drops below a threshold. |
 
 ---
 
@@ -97,6 +102,23 @@ INTENT ─G1→ DECOMPOSED ─G1a→ SPECIALIST_EXECUTING (Internal loop per spe
   ─G4a→ COMPOSED ─G4b→ COMPOSITION_VERIFIED ─G5a→ NARRATED ─G5→ UNDERSTOOD ─G6→ MERGED
 ```
 
+### 3.3 Operator Progression State Machine
+
+```
+APPRENTICE_1 → APPRENTICE_2 → JOURNEYMAN → ENGINEER
+                                    │
+                        (any level, theory drops)
+                                    │
+                               RESTRICTED ──(recovery)──→ restore previous level
+                                    │
+                        (prolonged failure: 2× window
+                         + no sustained improvement)
+                                    │
+                               SUSPENDED ──(preceptor path)──→ RESTRICTED → restore
+```
+
+Transitions are evidence-based (gauge thresholds) and require preceptor attestation. See [The Operator Model](operator-model.md) for progression criteria and circuit breaker mechanics.
+
 ---
 
 ## 4. Artifact Schemas
@@ -110,6 +132,27 @@ The canonical source of human intent. For orchestrated changes, Sub-ICs are stru
 - **Identity:** `change_id`, `operator_currency`, `risk_tier`.
 - **Intent:** `goal` (with individual `clause_ids` for mechanical tracing), `scope` (includes/excludes), `constraints`, `non_goals`, `acceptance_criteria`, and `invariants_in_scope` (dispositions cannot be `UNKNOWN`).
 - **Orchestration Chain** *(Sub-IC only):* `root_ic_ref`, `parent_ic_ref`, `inherited_constraints` (immutable verbatim text), `cross_agent_assumptions`, and mechanical tracing flags (`traces_to_root`, `trace_type: DIRECT|DERIVED`).
+- **Operator Block** *(Adaptive Model):*
+
+```yaml
+operator:
+  craft_level: SENIOR | MID | JUNIOR              # input assessment by preceptor
+  system_familiarity: ESTABLISHED | DEVELOPING | ONBOARDING | UNFAMILIAR
+  execution_mode:                                  # blank at IC creation; appended by G3
+  progression_stage: APPRENTICE_1 | APPRENTICE_2 | JOURNEYMAN | ENGINEER
+  subsystem_currency:
+    payments/*: CURRENT
+    notifications/*: UNFAMILIAR
+    auth/*: LAPSED
+  circuit_breaker:
+    prediction_accuracy_window: 10
+    window_time_floor: 14d
+    restriction_threshold: 0.6
+    recovery_threshold: 0.8
+    applies_to: [CONSEQUENTIAL, PROFESSIONAL]      # EXPLORATORY exempt
+    triggered_by: [auth/*]                          # scoped recovery
+  exploratory_access: true | false                  # false only for APPRENTICE_1
+```
 
 ### 4.2 Orchestration Envelope (OE)
 
@@ -148,13 +191,13 @@ The artifact that proves human theory was rebuilt.
 
 > All predicates must evaluate to `TRUE`. Any `FALSE` triggers an error state.
 
-- **G1** (`INTENT → PLANNED`/`DECOMPOSED`): IC exists, goal non-empty, scope non-empty, criteria falsifiable, invariant dispositions known, operator currency valid. *For orchestration:* clause IDs present.
+- **G1** (`INTENT → PLANNED`/`DECOMPOSED`): IC exists, goal non-empty, scope non-empty, criteria falsifiable, invariant dispositions known, operator currency valid. *For orchestration:* clause IDs present. *For adaptive model:* G1 emits a **soft warning** if `risk_tier` on IC is inconsistent with repo designation (e.g., EXPLORATORY tier declared in a PRODUCTION repo). Does not block — the operator may have a valid reason. Warning is logged in the IC as an advisory.
 
 - **G1a** (`DECOMPOSED → SPECIALIST_EXECUTING`): OE tool separation valid (no write access for orchestrator), partition complete, no context contradictions, mechanical traceability passes (no intent drift), depth/coupling within tier limits, operator approved decomposition.
 
 - **G2** (`PLANNED → APPROVED`): EE.pre within IC scope, magnitude within tier thresholds, invariants align.
 
-- **G3** (`APPROVED → EXECUTING`): Execution sandbox bounded strictly to `planned_modifications`.
+- **G3** (`APPROVED → EXECUTING`): Execution sandbox bounded strictly to `planned_modifications`. *For adaptive model:* G3 **resolves execution mode** by checking repo designation against operator level. Determines whether APPRENTICE_2/RESTRICTED/ONBOARDING get agent access (non-production repo) or remain in Socratic/RESTRICTED mode (production repo). Also gates multi-agent orchestration access. The resolved `execution_mode` is appended to the IC at this point.
 
 - **G4** (`EXECUTING → NARRATED`): EE.post completeness, no unmapped/unplanned modifications, criteria pass, invariants maintained.
 
@@ -166,28 +209,13 @@ The artifact that proves human theory was rebuilt.
 
 - **G5** (`NARRATED → UNDERSTOOD`): Operator passed required number of Theory Challenges, `theory_reconstructed == true`.
 
-- **G6** (`UNDERSTOOD → MERGED`): Invariant Register updated, artifacts committed, gauges recorded, no outstanding error states.
+- **G6** (`UNDERSTOOD → MERGED`): Invariant Register updated, artifacts committed, gauges recorded, no outstanding error states. *For adaptive model:* G6 queries repo designation and enforces merge gate predicates: (1) If PRODUCTION and change contains agent-generated implementation and operator is below JOURNEYMAN → `MERGE_BLOCKED`. (2) If PRODUCTION and risk_tier is EXPLORATORY → `MERGE_BLOCKED`. Operator-written code (from Socratic or RESTRICTED mode) is never blocked at appropriate tier.
 
 ---
 
 ## 6. Orchestration & Verification Mechanics
 
-### 6.1 Intent Propagation & Traceability
-
-Traceability is mechanical. Every Sub-IC clause must reference a root IC clause. If `trace_type` is `DERIVED`, a falsifiable justification must be provided. Constraints are inherited verbatim and are immutable by the orchestrator.
-
-### 6.2 Scope Partitioning & Conflict
-
-The orchestrator must partition work without overlaps. If overlaps exist, a `merge_strategy` is mandatory.
-
-- **Scope Expansion:** If a specialist requires more scope, the policy determines if it's prohibited, requires orchestrator negotiation (serialized to prevent silent overlaps), or requires human operator amendment.
-
-### 6.3 Segregation of Duties
-
-The orchestrator explains (CN); the verifier judges (CP).
-
-- At `CONSEQUENTIAL` tier: The verifier must be **structurally adversarial** (different model family, different context framing, explicit adversarial objective).
-- **Verification Method Hierarchy:** CP verdicts must explicitly declare their method. Deterministic tests are prioritized over LLM-assessed verdicts. At `CONSEQUENTIAL`, ≥80% of CP verdicts must be deterministic.
+Orchestration mechanics — intent propagation, scope partitioning, segregation of duties, and verification method hierarchies — are covered in the [Multi-Agent Orchestration](multi-agent.md) reference.
 
 ---
 
@@ -201,6 +229,7 @@ The orchestrator explains (CN); the verifier judges (CP).
 | `INVARIANT_CONFLICT` | Change violates invariant without declaring intent. | Revise to preserve, or operator amends IC to declare modification. |
 | `DECOMPOSITION_FAULT` | OE contains contradictions or violates tool capabilities. | Orchestrator re-decomposes, operator amends intent, or sandbox is reconfigured. |
 | `COMPOSITION_INCOHERENCE` | Emergent systemic failure, cross-agent assumption violation. | Targeted specialist re-execution, full re-decomposition, or intent amendment. |
+| `MERGE_BLOCKED` | Operator below JOURNEYMAN attempting to merge agent-generated code to production repo, or EXPLORATORY-tier change targeting production repo. | Operator builds theory through Socratic/RESTRICTED mode and progresses, or re-executes change under appropriate tier. |
 
 ---
 
@@ -260,6 +289,30 @@ The protocol restricts what the operator must review at each gate to prevent cog
 | Invariant Staleness | 30 days | 60 days | 90 days |
 | Operator Currency | 14 days | 30 days | 60 days |
 
+### 10.1 Execution Mode × Risk Tier
+
+| Level | CONSEQUENTIAL | PROFESSIONAL | EXPLORATORY |
+|-------|--------------|--------------|-------------|
+| APPRENTICE_1 | Socratic — full scaffold (bound) | Socratic — full scaffold (bound) | Socratic — full scaffold (bound) |
+| APPRENTICE_2 | Socratic — tutor only (bound) | Socratic — tutor only (bound) | Standard — full agent access |
+| JOURNEYMAN | Standard + elevated challenges (+1) | Standard + elevated challenges (+1) | Standard |
+| ENGINEER | Standard | Standard | Standard |
+| RESTRICTED | Agent tests, operator implements | Agent tests, operator implements | Standard — full agent access |
+| ONBOARDING | Agent tests, operator implements | Agent tests, operator implements | Standard — full agent access |
+
+### 10.2 Multi-Agent Orchestration Access
+
+| Level | CONSEQUENTIAL | PROFESSIONAL | EXPLORATORY |
+|-------|--------------|--------------|-------------|
+| APPRENTICE_1 | ❌ | ❌ | ❌ |
+| APPRENTICE_2 | ❌ | ❌ | ❌ |
+| JOURNEYMAN | ❌ | ❌ | ✅ |
+| ENGINEER | ❌ | ✅ | ✅ |
+| RESTRICTED | ❌ | ❌ | ✅ |
+| ONBOARDING | ❌ | ❌ | ✅ |
+
+Multi-agent orchestration is **never allowed on CONSEQUENTIAL systems**. See [The Operator Model](operator-model.md) for execution mode definitions and the Execution Mode × Risk Tier rationale.
+
 ---
 
 ## 11. Observability (Gauges)
@@ -277,3 +330,5 @@ The protocol restricts what the operator must review at each gate to prevent cog
 | **Composition Verification Rate** | % of multi-agent outputs verified for emergent behavior. |
 | **Orchestrator Override Rate** | Frequency of human CRRs or decomposition rejections. |
 | **Coupling Density Trend** | Growth of dependency/interaction edges over time. |
+
+Additional gauges for the adaptive operator model (Test Quality Gap, Invariant Awareness, Socratic Iteration Count, Theory Confidence Distribution) and for multi-agent orchestration (Intent Propagation Fidelity, Cross-Agent Context Consistency, Decomposition Coherence, Composition Verification Rate) are consolidated in the [Instrumentation](instrumentation.md) reference.

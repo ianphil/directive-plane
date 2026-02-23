@@ -11,20 +11,19 @@ If you are giving feedback, begin with the UI story first:
 1. **UI Walkthrough (lead):** [`docs/ui-sample-walkthrough.md`](docs/ui-sample-walkthrough.md)  
    The easiest way to understand the concept and react to it quickly.
 
-2. **Compact references (next):**
-   - [`docs/directive-plane-compact.md`](docs/directive-plane-compact.md)
-   - [`docs/control-fidelity-protocol-compact.md`](docs/control-fidelity-protocol-compact.md)
-
-3. **Full documents (deep dive):**
-   - [`docs/directive-plane.md`](docs/directive-plane.md)
-   - [`docs/control-fidelity-protocol.md`](docs/control-fidelity-protocol.md)
+2. **Full documents (deep dive):**
+   - [`docs/directive-plane.md`](docs/directive-plane.md) — framework thesis, dynamics, leverage points, architecture
+   - [`docs/control-fidelity-protocol.md`](docs/control-fidelity-protocol.md) — formal protocol spec, state machines, gates, artifacts
+   - [`docs/operator-model.md`](docs/operator-model.md) — operator capability, execution modes, progression, circuit breaker
+   - [`docs/multi-agent.md`](docs/multi-agent.md) — multi-agent orchestration, compositional incoherence, complexity ceiling
+   - [`docs/instrumentation.md`](docs/instrumentation.md) — gauges, failure thresholds, signal integrity, Agentic Engineer
 
 ## What this repo currently contains
 
 - [`src/ui/`](src/ui/) — sample cockpit-style web UI with seeded data
 - [`docs/ui-sample-walkthrough.md`](docs/ui-sample-walkthrough.md) — narrative walkthrough of the UI
 - [`docs/screenshots/`](docs/screenshots/) — screenshots used in the walkthrough
-- protocol and framework docs (compact + full versions)
+- protocol and framework docs
 
 ## Run the UI locally
 
