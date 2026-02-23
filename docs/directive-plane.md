@@ -159,13 +159,15 @@ The gradient scales intensity, not applicability. The temptation will be to read
 
 # Part III: The Three-Plane Architecture
 
-The stabilizing set implies a specific architecture. Before describing its structure, we must name the two properties it exists to protect:
+The stabilizing set implies a specific architecture. Before describing its structure, we must name the three properties it exists to protect:
 
 > **Outbound Intent Fidelity** — human will reaches the machine without loss of meaning, scope, or constraint.
 >
 > **Inbound Theory Preservation** — human understanding is reconstructed from machine-driven outcomes with sufficient fidelity to maintain steerability.
+>
+> **Operator Capability Integrity** — the humans directing agents possess and continuously develop the judgment required to specify intent and reconstruct theory.
 
-These are the invariants. Everything else is mechanism. If outbound intent fidelity fails, the machine does work the human did not ask for. If inbound theory preservation fails, the human loses the ability to steer. Either failure alone produces an uncontrollable system. Both must be designed for, maintained, and defended.
+These are the invariants. Everything else is mechanism. If outbound intent fidelity fails, the machine does work the human did not ask for. If inbound theory preservation fails, the human loses the ability to steer. If operator capability integrity fails, the other two become performative — artifacts exist but controls are hollow. Any single failure produces an unsteerable system. All three must be designed for, maintained, and defended.
 
 The architecture borrows its structure from modern networks. In networking, the control plane decides where traffic goes; the data plane moves it. They are architecturally separate, they have different failure modes, and critically — when the control plane fails, the data plane keeps forwarding based on stale state. The system keeps working. It just stops being steerable.
 
@@ -504,7 +506,7 @@ The central claim is that five specific capabilities — intent violation visibi
 
 But controls without instrumentation are faith. The four gauges — Prediction Accuracy, Scope Breach Rate, Time-to-Explain, and Invariant Staleness — provide the means to know whether the controls are working. The failure thresholds provide the means to act before degradation becomes crisis. And the Agentic Engineer — the person accountable for reading the gauges and maintaining the integrity of the loop — provides the organizational anchor without which these structures become advisory and eventually ceremonial.
 
-The architecture serves two invariants: **outbound intent fidelity** and **inbound theory preservation**. The Directive Plane ensures human will reaches the machine without loss of meaning, scope, or constraint. The Reconstruction Plane ensures human understanding is rebuilt from machine-driven outcomes with sufficient fidelity to maintain steerability. The Execution Plane operates between them. All three planes must be designed, maintained, and defended. Without the Directive Plane, intent is lost in transmission. Without the Reconstruction Plane, theory is lost in translation. Either failure alone produces an unsteerable system.
+The architecture serves three invariants: **outbound intent fidelity**, **inbound theory preservation**, and **operator capability integrity**. The Directive Plane ensures human will reaches the machine without loss of meaning, scope, or constraint. The Reconstruction Plane ensures human understanding is rebuilt from machine-driven outcomes with sufficient fidelity to maintain steerability. The adaptive operator model ensures the humans directing agents possess and develop the judgment to use both planes effectively. The Execution Plane operates between them. All three planes must be designed, maintained, and defended. Without the Directive Plane, intent is lost in transmission. Without the Reconstruction Plane, theory is lost in translation. Without operator capability integrity, both become performative ritual. Any single failure produces an unsteerable system.
 
 As multi-agent orchestration matures, the control problem compounds. Intent degrades across agent boundaries. Individually correct outputs compose into incoherent systems. Scope partitioning creates conflict surfaces invisible to any single agent. The five leverage points remain necessary but extend into new forms — Intent Contracts that propagate constraints across chains, Composition Narratives that surface emergent behavior, orchestration-level scope gates that detect what no individual agent can see. At the complexity ceiling — and it is a mathematical certainty that this ceiling will be reached — the human-in-the-loop must become human-over-the-loop, supervising structurally adversarial verification architectures rather than execution directly. That transition must be deliberate, not a drift into abdication. The danger of common-mode failure — monitoring agents that share the same blind spots as the agents they monitor — must be designed against from the start.
 
