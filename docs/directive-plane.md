@@ -38,6 +38,8 @@ We can model the dynamics of agentic development using four primary stocks and t
 
 **Navigability:** The practical ability of a human to find, understand, and modify any part of the system. This is a derived stock — a function of the ratio between Theory and Complexity.
 
+**Operator Capability:** The meta-skill: the ability to perform LP1–LP5 effectively. Unlike Human Theory — which measures understanding of the current system — Operator Capability is the general engineering judgment that feeds Theory. It grows under Socratic engagement, atrophies under passive agent use, and resets per-system.
+
 ### Flows and Loops
 
 **Reinforcing Loop R1 — The Velocity Trap.** As agents produce more output, System Complexity grows. If Theory does not keep pace, Navigability drops. Lower Navigability makes it harder to specify precise intent, which degrades Intent Clarity. Degraded intent produces less coherent agent output, which further increases effective Complexity (through inconsistency and redundancy). The loop accelerates.
@@ -45,6 +47,22 @@ We can model the dynamics of agentic development using four primary stocks and t
 **Reinforcing Loop R2 — Trust Erosion.** As the gap between Complexity and Theory widens, humans lose the ability to verify agent output. Unable to verify, they either accept all output uncritically (which compounds Complexity) or reject output defensively (which destroys velocity, creating pressure to bypass controls). Both paths are degenerative.
 
 **Reinforcing Loop R3 — Intent Drift.** When humans cannot fully understand the current state of the system, their intent specifications become detached from reality. They describe what they believe the system is, not what it actually is. Agents execute faithfully against incorrect mental models, producing technically correct but systemically incoherent changes.
+
+### Balancing Loops
+
+The reinforcing loops above are counteracted by three balancing loops introduced through the adaptive operator model:
+
+**Balancing Loop B1 — Socratic Theory Building.** Socratic mode forces manual implementation → Operator Capability grows → Human Theory grows → Navigability improves → Intent Clarity improves. Directly counteracts R1 (Velocity Trap).
+
+**Balancing Loop B2 — Circuit Breaker Recovery.** Theory drops → circuit breaker fires (LP6) → RESTRICTED mode forces manual coding → Human Theory rebuilds → Prediction Accuracy recovers → agent access restored. Converts LP4 from cultural aspiration to automatic balancing mechanism.
+
+**Balancing Loop B3 — Progression Ratchet.** Operator demonstrates competence → scaffolding removed → harder challenges → capability grows further. Evidence-based progression means you can't skip steps.
+
+### Reinforcing Loops (Risks)
+
+**Reinforcing Loop R4 — Velocity Pressure Cascade.** When one operator hits RESTRICTED, their velocity drops. Under deadline pressure, teammates compensate with more agent work → their theory drops → they risk hitting RESTRICTED → cascade. Mitigation: organizational slack capacity. A team that cannot afford a circuit breaker firing is a team that is already unsafe.
+
+**Reinforcing Loop R5 — Confidence Divergence.** The system develops a patchwork — modules built under Socratic mode have high construction depth, modules built by agents under standard review have higher craft reasoning. Neither alone is complete. Mitigation: a two-axis confidence model that tracks construction depth × craft-weighted reasoning per module, directing cognitive maintenance at the specific gap.
 
 ### Delay Effects
 
@@ -70,19 +88,40 @@ The controls are not the tax on velocity. Theory loss is the tax on velocity. Te
 
 ---
 
+## A Third Invariant
+
+The Directive Plane defines two invariants that the architecture exists to protect: outbound intent fidelity and inbound theory preservation. Both assume the human on one end is *capable*. They govern the interface between human and machine but say nothing about whether the human's ability to use that interface is growing, stable, or atrophying. This framework recognizes a third:
+
+**Operator Capability Integrity** — the humans directing agents possess and continuously develop the judgment required to specify intent and reconstruct theory.
+
+This is the *meta-invariant* — it is what makes the other two possible. Without it, the other two fail silently. Intent Briefs get filled out but are vague because the operator lacks the depth to be precise. Theory Challenges get answered but are surface-level because the operator lacks the foundation to reason deeply. The artifacts exist. The controls are performative.
+
+Operator Capability Integrity is not a fourth plane. It is a cross-cutting concern that lives across all three existing planes:
+
+- **Socratic mode** lives in the Execution Plane (changes *how* execution happens)
+- **The circuit breaker** lives in the Reconstruction Plane (triggered by theory challenge gauges)
+- **Merge gates** live in the Directive Plane (governance mechanism on what gets shipped)
+- **The progression ladder** spans all three (determines which mode each plane operates in for a given operator)
+
+The existing framework hints at this with LP4 (Reasoning Capability Preservation), but LP4 is framed as *maintenance* — preventing atrophy in people who already have the skill. The third invariant covers the full lifecycle: **growth** (juniors building capability through Socratic mode), **maintenance** (the circuit breaker catching degradation in experienced operators), and **adaptation** (onboarding rebuilding capability in a new system context).
+
+---
+
 # Part II: The Minimal Stabilizing Set
 
-The dynamics described above will destabilize any agentic development system unless specific balancing loops are introduced. Analysis suggests five leverage points that together form a minimal stabilizing set. Removing any one eventually makes the system unknowable and unsteerable, regardless of technical correctness.
+The dynamics described above will destabilize any agentic development system unless specific balancing loops are introduced. Analysis suggests seven leverage points that together form a minimal stabilizing set. Removing any one eventually makes the system unknowable and unsteerable, regardless of technical correctness.
 
-## 2.1 The Five Leverage Points
+## 2.1 The Seven Leverage Points
 
 | # | Leverage Point | Balancing Mechanism |
 |---|----------------|---------------------|
 | 1 | Make intent violations visible | Violations of stated intent surface immediately and automatically, not through review effort |
-| 2 | Force reconstruction of theory after changes | Humans must actively rebuild understanding of what changed and why, not merely acknowledge it |
+| 2 | Force graduated reconstruction of theory after changes | The method matches operator capability — juniors build theory through implementation, seniors reconstruct from agent output. The mechanism adapts; the requirement is invariant. |
 | 3 | Limit change magnitude without justification | The scope of any single change is bounded unless explicitly expanded with reasoning |
 | 4 | Preserve human reasoning capability | The system actively prevents atrophy of human understanding through required engagement |
 | 5 | Structure intent explicitly | Human intent is captured in artifacts that are machine-parseable and human-reviewable before execution |
+| 6 | Gate agent access to demonstrated comprehension | Agent execution gated by Prediction Accuracy. Theory degrades → amplifier removed. LP4 says "stay sharp." LP6 says "if you aren't sharp, the machine won't start." |
+| 7 | Separate production authority from exploration access | Use agents freely in non-production, ship only when qualified. Without this, LP6 either blocks learning or allows unverified production code. |
 
 ## 2.2 How Each Creates a Balancing Loop
 
@@ -95,6 +134,12 @@ The dynamics described above will destabilize any agentic development system unl
 **LP4 — Reasoning Capability Preservation** is the meta-stabilizer. It guards against the atrophy of the human ability to perform the other four functions. If humans stop engaging with system internals because agents handle everything, they lose the capacity to specify intent, detect violations, reconstruct theory, or judge change magnitude. This leverage point mandates periodic human engagement with raw complexity — not as busywork, but as cognitive maintenance.
 
 **LP5 — Explicit Intent Structure** creates a balancing loop against R3 (Intent Drift). By requiring intent to be captured in structured, inspectable artifacts before agent execution begins, the system creates a record of what was asked and a basis for comparing it against what was produced. Unstructured intent ("make it work") is the raw material of drift.
+
+**LP6 — Theory-Gated Agent Access** creates a balancing loop against LP4 degradation. When theory maintenance becomes voluntary, it gets skipped under velocity pressure. LP6 makes it involuntary — the system measures comprehension and removes the amplifier when it degrades. The circuit breaker converts LP4 from cultural aspiration into automatic mechanism.
+
+**LP7 — Production/Exploration Separation** creates a balancing loop against the all-or-nothing access problem. Without LP7, restricting agent access to protect production also blocks learning. LP7 decouples the two: operators can use agents freely in non-production environments while production access requires demonstrated competence.
+
+The seven leverage points form a dependency structure. LP5 missing → LP1 impossible. LP4 missing → LP2/LP3 performative. LP3 missing → LP2 intractable. LP6 missing → LP4 becomes voluntary and gets skipped under velocity pressure. LP7 missing → LP6 either blocks learning (too strict) or allows unverified code in production (too loose).
 
 ## 2.3 Risk Proportionality — The Control Gradient
 
@@ -326,118 +371,27 @@ This is the meta-failure. LP4 is the leverage point that maintains the human's a
 
 Without structured intent, there is no basis for any of the other controls. You cannot detect intent violations if intent was never specified. You cannot reconstruct theory if there is no theory to reconstruct against. You cannot bound change magnitude if the scope was never declared. Unstructured intent is the foundation failure — it makes the human-machine interface a lossy channel by default.
 
-## 5.6 Compound Failure
+## 5.6 Without LP6: Agent Access Not Gated by Comprehension
 
-In practice, these failures compound. Removing LP5 makes LP1 impossible. Removing LP4 makes LP2 and LP3 performative. Removing LP3 makes LP2 intractable. The five leverage points form a dependency structure where each reinforces the others. The minimal stabilizing set is minimal not because any element is optional, but because removing any element causes cascading degradation of the rest.
+> **Failure Pattern: Voluntary Maintenance Collapse**
+>
+> LP4 (cognitive maintenance) exists as a cultural practice but meets the highest resistance because it reduces velocity. Under deadline pressure, teams skip it. Without LP6's automatic circuit breaker, there is no mechanism to detect when theory has degraded below the threshold for safe agent use. Operators continue directing agents through systems they no longer understand. The failure is identical to LP4's but occurs faster because there is no backstop.
+
+## 5.7 Without LP7: Production and Exploration Coupled
+
+> **Failure Pattern: Binary Access Trap**
+>
+> Without separating production authority from exploration access, LP6 creates a dilemma. Restrict agent access to protect production → juniors cannot learn to use agents → talent pipeline stalls. Allow agent access to enable learning → unverified agent code reaches production → system becomes unsteerable. The binary choice forces organizations to either accept production risk or abandon agent-assisted learning. Both paths are degenerative.
+
+## 5.8 Compound Failure
+
+In practice, these failures compound. Removing LP5 makes LP1 impossible. Removing LP4 makes LP2 and LP3 performative. Removing LP3 makes LP2 intractable. LP6 missing makes LP4 voluntary and skippable under velocity pressure. LP7 missing makes LP6 either too strict (blocks learning) or too loose (allows unverified production code). The seven leverage points form a dependency structure where each reinforces the others. The minimal stabilizing set is minimal not because any element is optional, but because removing any element causes cascading degradation of the rest.
 
 ---
 
 # Part VI: Instrumentation — Measuring Steerability
 
-The architecture described in Parts II through V defines what must be controlled. This section addresses a more dangerous question: how do you know the controls are working?
-
-Every control system requires instrumentation. Without gauges, an operator cannot distinguish between a stable system and one that is moments from failure. Without alarms, degradation proceeds silently until it becomes catastrophe. The five leverage points are the controls. This section defines the instruments and the alarm thresholds.
-
-## 6.1 The Core Problem: Evidence vs. Assertion
-
-The central risk in any human-verification system is that the verification becomes performative. A signed checklist asserts that a check was performed. It does not prove that understanding was achieved. A reviewed Change Narrative asserts that the human read it. It does not prove that theory was reconstructed.
-
-Aviation discovered this distinction at the cost of lives. Early checklists were read-and-acknowledge: the pilot read the item and confirmed completion. This failed because pilots confirmed items out of habit without actually verifying the underlying state. Modern checklists are challenge-and-response: one pilot reads the challenge, the other verifies the instrument and states the actual value. The check is coupled to system state, not to human assertion.
-
-> **The Falsifiability Principle**
->
-> A control artifact has integrity when it is falsifiable — when it makes a claim that can be checked against reality. An Intent Brief that declares scope is falsifiable: the actual change either stayed within scope or it did not. A Theory Challenge that asks for a prediction is falsifiable: the prediction is either correct or it is not. An artifact that asks only for acknowledgment is unfalsifiable and therefore worthless as a control.
-
-## 6.2 Combating Goodhart's Law
-
-Metrics in software engineering are notoriously vulnerable to Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. If a team is penalized or slowed down for failing Theory Challenges, the natural systemic response is not to study the system harder, but to ask easier challenges.
-
-A framework that relies on human-generated questions to verify human understanding contains an inherent conflict of interest. If Time-to-Explain is consistently dropping while system complexity is rising, the control system must assume the instrument is broken, not that the team has achieved enlightenment.
-
-To prevent the four gauges from degrading into gamified vanity metrics, the framework relies on adversarial calibration. The instruments do not measure themselves; their rigor must be continuously adjusted. A Theory Challenge is only a valid instrument if it contains a genuine risk of failure. Ensuring that these artifacts remain falsifiable, sufficiently difficult, and immune to gamification is the primary operational duty of the Agentic Engineer. They do not just read the gauges — they are responsible for ensuring the gauges are actually connected to the engine.
-
-## 6.3 Signal Integrity for Each Leverage Point
-
-Each of the five leverage points produces artifacts. Each artifact is vulnerable to a specific mode of degradation. Signal integrity requires coupling each artifact to a verifiable state.
-
-### LP5 — Intent Briefs: Preventing Boilerplate
-
-An Intent Brief degrades into boilerplate when it is written after the fact, when it is copied from a previous brief with minor edits, or when its declarations are never checked against outcomes. The integrity mechanism is automatic scope validation: when the agent completes work, the actual files modified and behaviors changed are compared against the declared scope and constraints in the brief. Any discrepancy is surfaced as a signal, not buried in a diff.
-
-A healthy Intent Brief makes falsifiable claims. "Scope: auth module" is falsifiable — either the change touched only auth or it did not. "Make the login better" is not falsifiable and should be rejected by process before execution begins.
-
-### LP1 — Invariant Register: Preventing Staleness
-
-Invariants degrade through two mechanisms: they stop being checked, or the system evolves to violate them without anyone updating the register. The integrity mechanism is automated invariant checking on every change that touches a registered component, combined with a staleness clock. An invariant that has not been verified — either confirmed or explicitly updated — within a defined period is flagged as potentially stale. Stale invariants are worse than no invariants because they provide false confidence.
-
-### LP3 — Scope Gates: Preventing Normalization
-
-Scope gates degrade when exceptions become the norm. If 60% of changes exceed the declared threshold and are routinely approved, the gate has been normalized away. The integrity mechanism is tracking the breach rate over time. The absolute number of breaches matters less than the trend. A rising breach rate is a signal that the gate is losing its function as a control.
-
-### LP2 — Change Narratives and Theory Challenges: Preventing Ritual
-
-This is where signal integrity matters most, because this is the leverage point most vulnerable to performance without substance. A Change Narrative can be fluently written and completely disconnected from reality. A Theory Challenge can be answered from surface-level pattern matching rather than genuine understanding.
-
-The integrity mechanism is prediction. Theory Challenges should not ask "do you understand this change?" They should ask "what will happen if component X receives input Y after this change?" or "which other modules are affected if this component fails?" These are falsifiable questions. The human's prediction is recorded. Over time, predictions can be spot-checked against actual system behavior. A human who consistently predicts correctly holds theory. A human who consistently predicts incorrectly does not, regardless of what they signed off on.
-
-### LP4 — Cognitive Maintenance: Preventing Atrophy
-
-Cognitive maintenance degrades when it becomes a scheduled box-checking exercise rather than genuine engagement with complexity. The integrity mechanism is the Theory Reconstruction from Scratch exercise described in the Minimal Implementation section: write down what you believe a component does, then compare against reality. The gap between belief and reality is a direct, measurable quantity. If the gap is growing over time, LP4 is failing regardless of how many maintenance sessions are scheduled.
-
-## 6.4 The Four Gauges
-
-From the signal integrity mechanisms above, four measurable quantities emerge that together instrument the health of the control system:
-
-| Gauge | What It Measures | How It's Collected | Degradation Signal |
-|-------|------------------|--------------------|--------------------|
-| Prediction Accuracy | Fidelity of human theory | Track correctness of Theory Challenge responses over time | Declining accuracy rate |
-| Scope Breach Rate | Integrity of magnitude limits | Percentage of changes exceeding declared scope, tracked weekly | Rising breach rate or rising average breach size |
-| Time-to-Explain | Depth of system understanding | Periodic random sampling: ask an engineer to explain a subsystem, measure time and completeness | Increasing time or decreasing completeness |
-| Invariant Staleness | Currency of stated system properties | Age of each invariant since last verification or update | Growing number of invariants past verification deadline |
-
-These four gauges are not vanity metrics. They are instruments that read the four stocks defined in Part I. Prediction Accuracy reads Human Theory. Scope Breach Rate reads the effectiveness of the Complexity control. Time-to-Explain reads Navigability directly. Invariant Staleness reads the gap between stated and actual system properties.
-
-## 6.5 Failure Thresholds
-
-Gauges without alarm thresholds are decorations. The specific threshold values will vary by team, risk tolerance, and system criticality, but the existence of thresholds must not vary. A team practicing agentic engineering must define, in advance, the conditions under which they will slow or stop agent-driven work to reconstruct theory.
-
-The nuclear principle applies: when the situation exceeds your understanding, reduce power. Do not seek more information at current power.
-
-Thresholds operate at three levels:
-
-> **🟡 Yellow — Caution**
->
-> One or more gauges showing adverse trend over two consecutive measurement periods. Response: increase theory reconstruction effort, review recent changes for undetected drift, tighten scope gates temporarily.
-
-> **🟠 Orange — Degraded**
->
-> Prediction accuracy below team-defined threshold or Time-to-Explain exceeding team-defined limit for critical subsystems. Response: halt new agent-driven feature work. Dedicate capacity to theory reconstruction. Resume only when gauges return to acceptable range.
-
-> **🔴 Red — Unsteerable**
->
-> No team member can accurately predict behavior of a critical subsystem, or invariant violations are being discovered in production rather than in the control loop. Response: full stop on agent-driven changes. Conduct system-wide theory reconstruction. This is the engineering equivalent of a reactor SCRAM — a controlled shutdown to prevent uncontrolled failure.
-
-The crucial insight is that the Red threshold is not hypothetical. Without instrumentation, a team will not know they are in a Red state until a production incident reveals it. The gauges exist to make the Red state visible before it becomes a crisis.
-
-## 6.6 The Agentic Engineer
-
-The existence of instruments and thresholds implies the existence of someone accountable for reading the instruments and responding to the thresholds. Every high-amplification domain has converged on this: aviation has check airmen and crew resource management trainers, finance has risk officers with trading halt authority, nuclear has shift supervisors with SCRAM authority.
-
-In agentic development, this role is the Agentic Engineer.
-
-The Agentic Engineer is not a new invention. It is the recognition that agentic development constitutes a new engineering discipline with its own body of knowledge, its own failure modes, and its own required competencies. Just as software engineering emerged as a discipline distinct from computer science, agentic engineering emerges as a discipline distinct from software engineering.
-
-The defining characteristics of the Agentic Engineer:
-
-- **Owns the control loop, not the code.** Their primary responsibility is the integrity of the human-machine interface — the steerability of the system — not the features it produces.
-
-- **Reads the gauges.** They monitor Prediction Accuracy, Scope Breach Rate, Time-to-Explain, and Invariant Staleness. They are accountable for knowing the current state of the control system.
-
-- **Has halt authority.** They can slow or stop agent-driven work when the control loops are degrading. This authority must be real — backed by organizational structure — not advisory. Advisory authority gets overridden by velocity pressure every time.
-
-- **Maintains signal integrity.** They are responsible for ensuring that artifacts remain falsifiable and coupled to system state, that Theory Challenges test for genuine understanding, and that controls do not degrade into ritual.
-
-Not every team needs a dedicated Agentic Engineer. In smaller teams, this may be a hat worn by a senior engineer. In larger or higher-risk organizations, it may be a full-time role. The scale is flexible. The accountability is not. Someone must own the loop, and that ownership must include the authority to protect it.
+The architecture described in Parts II through V defines what must be controlled. How to know the controls are working — gauges, failure thresholds, signal integrity, and the Agentic Engineer role — is covered in the [Instrumentation](instrumentation.md) reference.
 
 ---
 
@@ -538,112 +492,7 @@ For a team adopting these practices, the recommended sequence is:
 
 # Part VIII: Multi-Agent Orchestration — The Compounding Control Problem
 
-The framework presented in Parts I through VII assumes a dyadic control loop: one human, one agent, one channel of intent, one channel of theory reconstruction. This assumption holds for the majority of current agentic development practice. It will not hold for long.
-
-Multi-agent orchestration — systems where agents delegate to other agents, decompose tasks across specialist agents, or coordinate through protocols like A2A — introduces failure modes that are qualitatively different from those in the dyadic model. The five leverage points remain necessary. They are no longer sufficient.
-
-## 8.1 The Intent Transformation Chain
-
-In the dyadic model, intent traverses a single hop: human to agent. The Intent Brief (LP5) governs that hop. The human specifies goal, scope, constraints, and acceptance criteria. The agent executes within those bounds. The channel is lossy but manageable because there is only one translation step.
-
-In orchestrated systems, intent passes through a chain: human to orchestrator agent, orchestrator to specialist agents, specialists to sub-task agents. At each hop, the receiving agent interprets, decomposes, and recontextualizes the intent it received. By the time a leaf agent is writing code, the connection to the original human intent may have passed through three or more layers of LLM interpretation. Each hop is a lossy channel. The losses compound.
-
-This creates a specific problem for LP5: where does the Intent Brief live? In the dyadic model, the answer is simple — the human writes it, the agent executes against it. In an orchestrated system, the orchestrator must generate sub-briefs for each specialist. These sub-briefs are themselves LLM-generated artifacts. They may faithfully decompose the original intent, or they may introduce architectural opinions, scope interpretations, or implicit constraints that the human never specified.
-
-The human cannot validate every sub-brief — that defeats the purpose of orchestration. But if no one validates them, then unstructured intent exists at every layer below the top. The framework's foundational control is absent precisely where the work is being done.
-
-> **The Intent Fidelity Problem**
->
-> In a chain of length *n*, intent fidelity degrades at each hop. The human controls the first hop. No one controls the rest. The probability that the leaf agent's understanding matches the human's intent decreases with chain length, even when every individual agent operates correctly.
-
-### Toward Intent Contracts
-
-The Intent Brief must evolve into an **Intent Contract** — a structured artifact that travels with the work across agent boundaries. The contract carries not just the current task specification but the original human intent, the declared constraints, and the scope boundaries from the root of the chain. At each hop, the receiving agent can check its sub-task against the root contract, not just against the immediate parent's instructions.
-
-This is analogous to how financial transactions carry compliance metadata through chains of intermediaries. The originating bank's regulatory constraints do not disappear because a correspondent bank is executing the settlement. The constraints propagate.
-
-Protocol-level support for intent propagation — carrying the original brief's constraints as immutable context through A2A handoffs — is not an optimization. It is a structural requirement for multi-agent steerability.
-
-## 8.2 Emergent Behavior and Compositional Incoherence
-
-The second fundamental problem is that individually correct agent outputs can compose into systemically incoherent results.
-
-In the dyadic model, the human reconstructs theory for one agent's output. The Change Narrative explains what one agent did and why. Theory Challenges verify the human understands that one change. This is tractable because the unit of understanding is a single bounded change.
-
-In orchestrated systems, the unit that matters is the *composition*. Agent A modifies the authentication module. Agent B modifies the API gateway. Both operate within their declared scopes. Both produce correct, well-tested code. But Agent A assumed tokens would be validated at the gateway, and Agent B assumed tokens would be validated at the service level. Neither agent is wrong in isolation. The system is wrong in composition.
-
-This is the 2008 financial crisis analogy from Part IV applied recursively. Individual CDOs were technically sound. The system of interconnections between them was unknowable. In multi-agent orchestration, individual agent outputs are technically sound. The system of interactions between those outputs can be unknowable.
-
-### The Composition Narrative
-
-The Change Narrative practice (LP2) must extend to include a **Composition Narrative** — an explanation of how multiple agents' outputs interact and what emergent properties arise from their combination. The orchestrator agent is the natural entity to produce this, since it holds the decomposition logic and can see all sub-task results.
-
-But this introduces a new trust relationship. In the dyadic model, the human trusts an agent to explain its own work — a relatively constrained task. In the orchestrated model, the human trusts an agent to explain the *behavior of a system of agents*. The orchestrator is reasoning about emergent properties of compositions it designed. It is simultaneously the architect and the auditor. This is the segregation-of-duties violation that Part IV's financial analogy warns against.
-
-Whether this trust is well-placed — whether an orchestrator can reliably detect compositional incoherence in its own decompositions — is an open empirical question. The conservative assumption is that it cannot, which implies the need for independent verification of compositional properties.
-
-## 8.3 Scope Partitioning and Conflict Detection
-
-In the dyadic model, scope is declared once and checked once. The Scope Gate (LP3) verifies that the agent's changes fall within the declared boundary. This works because there is one agent, one scope, one boundary.
-
-In orchestrated systems, scope must be *partitioned* across agents. The orchestrator decomposes a task and assigns sub-scopes to specialists. Three problems arise:
-
-**Overlapping partitions.** Two specialist agents both modify the same file based on different sub-tasks from the same parent intent. Neither agent exceeds its locally declared scope. But the concurrent modifications create merge conflicts, semantic contradictions, or subtle behavioral inconsistencies. This is not a scope violation in any individual agent's view — it is a coherence problem that only exists at the orchestration level.
-
-**Implicit scope expansion.** A specialist agent determines that completing its sub-task requires modifying a component outside its declared scope. In the dyadic model, this triggers the Scope Gate and the human authorizes or redirects. In the orchestrated model, the specialist may negotiate scope expansion with the orchestrator rather than the human. The orchestrator may grant it based on its own judgment. The human's scope boundary has been modified without their knowledge or consent.
-
-**Transitive effects.** Agent A's changes alter the behavior of a component that Agent B depends on, but Agent B's scope declaration does not include Agent A's components. Agent B operates correctly against the pre-change state. After Agent A's changes propagate, Agent B's output is no longer correct, but no scope violation has occurred because no single agent exceeded its boundaries.
-
-These problems require scope gates that operate at the orchestration level — gates that understand the full partitioning, detect overlaps, flag transitive dependencies, and ensure that scope negotiations between agents are visible to the human. The individual agent-level Scope Gate remains necessary but is no longer sufficient.
-
-## 8.4 Observability Across Agent Boundaries
-
-The four gauges defined in Part VI — Prediction Accuracy, Scope Breach Rate, Time-to-Explain, and Invariant Staleness — are designed to instrument a single control loop. Multi-agent orchestration requires instrumenting the *inter-agent channels* as well.
-
-**Intent fidelity between agents.** What is the semantic distance between the human's original intent and the sub-task specification received by a leaf agent? This is measurable: compare the root Intent Contract against each sub-brief and quantify the drift. A growing distance over successive orchestration layers is a signal that the intent propagation channel is degrading.
-
-**Context consistency across agents.** Are specialist agents receiving context that is consistent with each other? If Agent A is told the system uses architecture X and Agent B is told it uses architecture Y, their individually correct outputs will be compositionally incoherent. Context divergence between sibling agents is a leading indicator of compositional failure.
-
-**Orchestrator decomposition fidelity.** Is the orchestrator's decomposition of the task faithful to the original intent, or has it introduced its own architectural opinions? The orchestrator is itself an LLM making judgment calls about task decomposition. Those judgments are invisible in the current framework. They need instrumentation.
-
-This maps most closely to the nuclear analogy from Part IV. A nuclear plant is not one control loop — it is hundreds of interlocking loops with shared state. The shift supervisor does not monitor each loop individually. They monitor the *plant state* that emerges from all loops together. The Agentic Engineer in a multi-agent system needs something analogous: a system-level view of agent coordination, not a collection of individual agent dashboards.
-
-### Additional Gauges for Orchestrated Systems
-
-| Gauge | What It Measures | Degradation Signal |
-|-------|------------------|--------------------|
-| Intent Propagation Fidelity | Semantic distance between root intent and leaf-agent sub-briefs | Growing distance at deeper orchestration layers |
-| Cross-Agent Context Consistency | Agreement between context provided to sibling agents | Contradictory assumptions across concurrent agents |
-| Decomposition Coherence | Whether the orchestrator's task decomposition covers the original intent without gaps or overlaps | Missing coverage or redundant sub-tasks |
-| Composition Verification Rate | Percentage of multi-agent outputs verified for emergent behavior, not just individual correctness | Declining rate or increasing undetected composition failures |
-
-## 8.5 The Orchestrator as a New Trust Boundary
-
-The orchestrator agent occupies a unique and dangerous position in the control architecture. It is the entity that decomposes human intent into machine-executable sub-tasks. It decides how the work is partitioned, what context each specialist receives, and how results are composed. If the orchestrator's decomposition is wrong, every downstream agent executes faithfully against a flawed plan.
-
-This is mode confusion at the automation layer rather than the human layer. In the aviation analogy: the pilot's autopilot is itself delegating to subsystems the pilot cannot see. The pilot believes the autopilot is executing a certain flight plan. The autopilot has decomposed that plan into sub-tasks for the flight management computer, the autothrottle, and the flight control computers. If the decomposition is flawed — if the autopilot has misinterpreted the flight plan — every subsystem will execute correctly against incorrect instructions, and the pilot will not detect the error until the aircraft is in the wrong place.
-
-The orchestrator is, in control theory terms, a *hidden supervisory layer*. It makes decisions that shape all downstream behavior, but those decisions are not currently subject to the same controls as the agents it supervises. The Intent Brief governs the human-to-orchestrator boundary. Nothing in the current framework governs the orchestrator-to-specialist boundary with equivalent rigor.
-
-This is the gap that must be closed. The orchestrator's decomposition decisions — how it partitions scope, what constraints it propagates, what context it provides to each specialist — must be inspectable, challengeable, and subject to the same falsifiability principle that governs all other control artifacts.
-
-## 8.6 The Complexity Ceiling and the Limits of Theory
-
-Multi-agent orchestration forces a confrontation with the fundamental constraint of this entire framework: human cognitive bandwidth.
-
-In the dyadic model, theory reconstruction works because the unit of change is bounded. In orchestrated systems, the unit of change is the composed output of multiple agents interacting across time. The theory required to understand this includes not just what each agent did, but how their outputs interact, what assumptions the orchestrator made during decomposition, and what emergent properties arise from the composition.
-
-Because the space of emergent behaviors in interacting subsystems is combinatorial, it is a mathematical certainty that multi-agent orchestration will eventually exceed the human capacity for theory reconstruction. There is a hard complexity ceiling to human-in-the-loop agentic engineering. When an orchestrator decomposes a task into fifteen sub-tasks across eight specialist agents, no human can verify the full behavioral surface area of the result before it is merged.
-
-The engineering conclusion is stark: unbounded multi-agent orchestration applied to consequential systems without independent, automated verification layers is structurally unsafe.
-
-When the complexity ceiling is breached, the control architecture must undergo a phase shift. The human-in-the-loop model must evolve into a human-over-the-loop model. The human no longer supervises the execution directly; they supervise a layer of independent monitoring agents that verify compositional properties, audit the orchestrator's decompositions, and surface anomalies.
-
-This is not an abdication of control, but it is a dangerous transition. It introduces a second-order theory problem: the human must now hold the theory of the monitoring apparatus. If the orchestrator and the monitoring agents share the same underlying LLM biases or blind spots, the control loop is illusory — a phenomenon known in aviation as **common-mode failure**. When redundant systems share a common flaw, redundancy provides no protection. Two autopilot computers running the same software will make the same wrong decision at the same time.
-
-To operate safely above the complexity ceiling, the verification agents must be structurally adversarial to the execution agents. They must be built on different models, prompted with different context, and explicitly rewarded for finding compositional incoherence. This is defense in depth applied to the monitoring layer itself — the same principle that nuclear engineering uses when it requires diverse and redundant safety systems.
-
-The frontier of agentic engineering is not building larger swarms of agents. It is building the defense-in-depth verification architectures that allow us to survive them. The five leverage points remain the foundation, but the Agentic Engineer's ultimate job will be designing the system that watches the system.
+Multi-agent orchestration introduces failure modes qualitatively different from the dyadic model. The five leverage points remain necessary but are no longer sufficient. Intent transformation chains, compositional incoherence, scope partitioning conflicts, and the complexity ceiling are covered in the [Multi-Agent Orchestration](multi-agent.md) reference.
 
 ---
 
@@ -663,9 +512,19 @@ The analogous domains — aviation, finance, nuclear power — arrived at the sa
 
 Agentic engineering is not a subspecialty of software engineering. It is the discipline that emerges when software engineering operates under power amplification. It has its own failure modes, its own instruments, its own required competencies, and its own professional obligation: to ensure that speed never outpaces steerability.
 
+The framework now recognizes a third invariant: **Operator Capability Integrity** — the meta-invariant that makes the other two possible. Without capable operators, intent fidelity is performative and theory preservation is superficial. The adaptive operator model — Socratic execution modes, evidence-based progression, theory-gated agent access — ensures that the humans directing agents possess and continuously develop the judgment required to do so. Two additional leverage points, LP6 (gate agent access to demonstrated comprehension) and LP7 (separate production authority from exploration access), complete the minimal stabilizing set. The progression ladder, circuit breaker, and merge gates that implement these leverage points are detailed in the [Operator Model](operator-model.md).
+
 > **The goal is not to slow down.**
 >
 > The goal is to move fast while knowing where you are going, knowing where you have been, and retaining the ability to change direction. Speed without steerability is not velocity. It is ballistic trajectory.
+
+---
+
+## Attribution
+
+The adaptive operator model integrates ideas from Russinovich and Hanselman's "Redefining the Software Engineering Profession for AI," which identifies the structural threat to the engineering talent pipeline when AI amplifies seniors while creating drag on early-in-career developers. Their proposal for preceptor programs and Socratic coaching modes became the foundation for the protocol-level execution modes and competency-gated agent access described in the [Operator Model](operator-model.md).
+
+[1] Russinovich, M. and Hanselman, S. "Redefining the Software Engineering Profession for AI." *Communications of the ACM*. DOI: [10.1145/3779312](https://dl.acm.org/doi/10.1145/3779312)
 
 ---
 

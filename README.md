@@ -14,10 +14,14 @@ If you are giving feedback, begin with the UI story first:
 2. **Compact references (next):**
    - [`docs/directive-plane-compact.md`](docs/directive-plane-compact.md)
    - [`docs/control-fidelity-protocol-compact.md`](docs/control-fidelity-protocol-compact.md)
+   - [`docs/adaptive-operator-model-compact.md`](docs/adaptive-operator-model-compact.md)
 
 3. **Full documents (deep dive):**
-   - [`docs/directive-plane.md`](docs/directive-plane.md)
-   - [`docs/control-fidelity-protocol.md`](docs/control-fidelity-protocol.md)
+   - [`docs/directive-plane.md`](docs/directive-plane.md) — framework thesis, dynamics, leverage points, architecture
+   - [`docs/control-fidelity-protocol.md`](docs/control-fidelity-protocol.md) — formal protocol spec, state machines, gates, artifacts
+   - [`docs/operator-model.md`](docs/operator-model.md) — operator capability, execution modes, progression, circuit breaker
+   - [`docs/multi-agent.md`](docs/multi-agent.md) — multi-agent orchestration, compositional incoherence, complexity ceiling
+   - [`docs/instrumentation.md`](docs/instrumentation.md) — gauges, failure thresholds, signal integrity, Agentic Engineer
 
 ## What this repo currently contains
 
