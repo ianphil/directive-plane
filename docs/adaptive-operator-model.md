@@ -21,7 +21,7 @@
 ~~Can a junior operator participate in orchestrated (multi-agent) mode at all?~~ **Resolved.** Multi-agent orchestration is gated by both operator level and repo designation:
 - **CONSEQUENTIAL:** Multi-agent not allowed. The compositional incoherence risk is too high for systems where failure has legal, safety, or large-scale economic impact. Single-agent only.
 - **PROFESSIONAL:** ENGINEER-only. Orchestration requires the full theory reconstruction capacity that comes with demonstrated system mastery.
-- **Non-production (EXPLORATORY):** Available to ENGINEER, RESTRICTED, and ONBOARDING — operators who have agent access in EXPLORATORY. APPRENTICE_1 and APPRENTICE_2 do not get multi-agent access anywhere.
+- **Non-production (EXPLORATORY):** Available to JOURNEYMAN, ENGINEER, RESTRICTED, and ONBOARDING — operators who have agent access in EXPLORATORY. APPRENTICE_1 and APPRENTICE_2 do not get multi-agent access anywhere.
 
 Remaining question: does the Socratic mode need any adaptation for operators who use multi-agent on non-production repos, or is standard protocol sufficient since the stakes are low?
 
@@ -92,9 +92,9 @@ The existing five leverage points still hold. This model adds two and refines on
 |---|---------------|--------------|
 | LP2 | Force theory reconstruction **(refined)** | Now *graduated* — the method of reconstruction matches operator capability. Juniors build theory through implementation (Socratic). Seniors reconstruct from agent output (Change Narratives). The mechanism adapts; the requirement is invariant. |
 | **LP6** | **Gate agent access to demonstrated comprehension** | Agent execution is a privilege gated by Prediction Accuracy. When theory degrades, the amplifier is removed (RESTRICTED). Distinct from LP4: LP4 says "stay sharp." LP6 says "if you aren't sharp, the machine won't start." LP4 is recurrent training. LP6 is the medical certificate. |
-| **LP8** | **Separate production authority from exploration access** | The ability to *use* agents (learning, experimenting) is decoupled from the ability to *ship* agent output to production. Without this, the choice is all-or-nothing: juniors either use agents and ship unverified code, or can't use agents and never learn the tool. LP8 creates the third option: use freely in non-production, ship only when qualified. |
+| **LP7** | **Separate production authority from exploration access** | The ability to *use* agents (learning, experimenting) is decoupled from the ability to *ship* agent output to production. Without this, the choice is all-or-nothing: juniors either use agents and ship unverified code, or can't use agents and never learn the tool. LP7 creates the third option: use freely in non-production, ship only when qualified. |
 
-**Dependency structure (extended):** LP5 missing → LP1 impossible. LP4 missing → LP2/LP3 performative. LP3 missing → LP2 intractable. **LP6 missing → LP4 becomes voluntary and gets skipped under velocity pressure. LP8 missing → LP6 either blocks learning (too strict) or allows unverified code in production (too loose).**
+**Dependency structure (extended):** LP5 missing → LP1 impossible. LP4 missing → LP2/LP3 performative. LP3 missing → LP2 intractable. **LP6 missing → LP4 becomes voluntary and gets skipped under velocity pressure. LP7 missing → LP6 either blocks learning (too strict) or allows unverified code in production (too loose).**
 
 ### New Balancing Loops
 
@@ -189,7 +189,7 @@ In Socratic mode, the agent's role inverts. It does not implement. It *teaches* 
 
 ### RESTRICTED Mode (Agent Tests, Operator Implements)
 
-In RESTRICTED mode, the agent writes the tests but the operator writes the implementation. This mode is shared across three entry paths — see "The Circuit Breaker" and "Senior Onboarding Mode" below. It is also the default for APPRENTICE_1 on CONSEQUENTIAL and PROFESSIONAL systems.
+In RESTRICTED mode, the agent writes the tests but the operator writes the implementation. This mode is shared across two entry paths — see "The Circuit Breaker" and "Senior Onboarding Mode" below. It is also the default for APPRENTICE_1 on CONSEQUENTIAL and PROFESSIONAL systems.
 
 ### STANDARD Mode (Current CFP)
 
@@ -448,6 +448,23 @@ No algorithm promotes an operator. The protocol provides evidence. A human (the 
 
 Theory Challenge performance is not just a gauge — it is a **circuit breaker**. When an operator's Prediction Accuracy drops below a threshold, agent execution privileges are automatically restricted. This applies to *all* operators at *every* level, not just juniors. The restriction applies on CONSEQUENTIAL and PROFESSIONAL systems only — EXPLORATORY systems retain full agent access (see the Execution Mode × Risk Tier Matrix above).
 
+### Theory Challenge Scoring and the Rolling Window
+
+Each change produces a **Prediction Accuracy score** that feeds the rolling window. The score is determined by the Theory Challenge outcome at G5:
+
+| Outcome | Score | What Happens |
+|---------|-------|--------------|
+| Pass on first attempt | 1.0 | Change proceeds to G6 |
+| Pass on second attempt | 0.5 | THEORY_FAILURE fired and recovered — change proceeds |
+| Pass on third attempt | 0.25 | THEORY_FAILURE fired and recovered — change proceeds |
+| Fourth attempt (fail) | 0.0 | Agentic Engineer is dispatched to understand the change and approve merge |
+
+**Decay logic.** The score halves with each failed attempt. This rewards operators who reconstruct theory quickly while still giving credit for eventual understanding. The decay creates a real consequence for failing — even a second-attempt pass drags the rolling average down, making the circuit breaker progressively more likely to fire.
+
+**Fourth-attempt escalation.** If the operator fails three consecutive challenges on the same change, the protocol stops retrying. The Agentic Engineer reviews the change directly — they reconstruct the theory themselves, verify the change is safe, and approve the merge. The 0.0 score is recorded in the rolling window regardless. This prevents a change from being blocked indefinitely while ensuring someone with sufficient judgment verifies it before it ships.
+
+**Multiple challenges per change.** When a risk tier requires multiple challenges (e.g., CONSEQUENTIAL = 3), each challenge follows the decay independently. The change's score in the rolling window is the **minimum** across all challenges — the weakest understanding determines the score. An operator who aces two challenges but needs three attempts on the third scores 0.25 for that change, not the average.
+
 ### Mechanism
 
 Prediction Accuracy is tracked as a rolling window per-operator per-subsystem. The restriction is **global** (simple state machine), but the trigger and recovery are **scoped** to the subsystem(s) where theory degraded.
@@ -567,7 +584,7 @@ Senior onboarding uses the same RESTRICTED mode as the circuit breaker — agent
 | **Guided archaeology** | Agent narrates the history of the subsystem being modified: prior refactors, the problems they solved, the invariants they introduced |
 | **Graduation** | System familiarity gauges (Prediction Accuracy, Time-to-Explain, Invariant Awareness) hit threshold for the relevant subsystems |
 
-This makes RESTRICTED a shared mode with three entry paths: junior progression (Stage 1), circuit breaker (theory degradation), and senior onboarding (system unfamiliarity). The experience is the same — agent tests, operator implements — but the reason you're there differs.
+This makes RESTRICTED a shared mode with two entry paths: circuit breaker (theory degradation) and senior onboarding (system unfamiliarity). The experience is the same — agent tests, operator implements — but the reason you're there differs. (APPRENTICE_1 in Socratic mode is mechanically similar — agent writes tests, operator implements — but includes active coaching, making it a distinct mode.)
 
 ---
 
@@ -590,9 +607,9 @@ The Intent Contract gains new fields to support the adaptive model:
 
 ```yaml
 operator:
-  craft_level: SENIOR | MID | JUNIOR
+  craft_level: SENIOR | MID | JUNIOR              # input assessment — set by preceptor, not protocol
   system_familiarity: ESTABLISHED | DEVELOPING | ONBOARDING | UNFAMILIAR
-  execution_mode: SOCRATIC | RESTRICTED | STANDARD   # resolved from operator level × risk tier
+  execution_mode:                                  # blank at IC creation; appended by G3
   progression_stage: APPRENTICE_1 | APPRENTICE_2 | JOURNEYMAN | ENGINEER
   subsystem_currency:
     payments/*: CURRENT
@@ -608,6 +625,12 @@ operator:
   exploratory_access: true | false              # false only for APPRENTICE_1
 ```
 
+**Field semantics:**
+
+- **`craft_level`** is an **input assessment** — a human judgment set by the preceptor about the operator's general engineering maturity. It does not change per-change and is not managed by the protocol. It constrains the operator's *starting point*: a JUNIOR enters at APPRENTICE_1, a SENIOR joining a new team enters at ONBOARDING. After that, progression is driven by gauges and preceptor attestation, not craft_level. The preceptor may reference craft_level when making progression decisions, but it does not mechanically gate any transition.
+- **`progression_stage`** is **protocol state** — tracked and updated by the protocol based on evidence (gauge thresholds + preceptor sign-off). This is the field that drives execution mode resolution and gate behavior.
+- **`execution_mode`** is **blank at IC creation** and **appended by G3** when the gate resolves the mode from operator level × repo designation. This preserves the IC's append-only invariant — G3 writes the field for the first time rather than modifying an existing value. Anyone reading the IC before G3 knows the mode hasn't been resolved yet.
+
 ---
 
 ## Mapping to Existing Framework Concepts
@@ -616,7 +639,7 @@ operator:
 |------------|---------|-------------|
 | Socratic mode | LP4 (Reasoning Capability Preservation) | Structural implementation — forces engagement rather than relying on cultural practice |
 | Circuit breaker | **LP6 (Gate agent access to demonstrated comprehension)** | New leverage point — removes the amplifier when theory degrades |
-| Merge gates / repo designation | **LP8 (Separate production authority from exploration access)** | New leverage point — decouples learning from shipping |
+| Merge gates / repo designation | **LP7 (Separate production authority from exploration access)** | New leverage point — decouples learning from shipping |
 | Progression ladder | LP2 (Forced Theory Reconstruction) — refined | Graduated reconstruction intensity matched to operator capability |
 | Per-subsystem currency | Operator Currency (CFP) | More granular — currency is not global but scoped to the subsystem being modified |
 | Preceptor role | Agentic Engineer | Distinct role — preceptor (engineering manager) owns the learning loop, Agentic Engineer owns the system control loop. They collaborate but have separate authority. |
@@ -631,7 +654,7 @@ The Directive Plane currently governs the *human-agent interface* — how intent
 The key additions:
 
 1. **Third invariant** — Operator Capability Integrity. The meta-invariant that makes Outbound Intent Fidelity and Inbound Theory Preservation possible.
-2. **Two new leverage points** — LP6 (gate agent access to demonstrated comprehension) and LP8 (separate production authority from exploration access). LP2 refined to support graduated reconstruction.
+2. **Two new leverage points** — LP6 (gate agent access to demonstrated comprehension) and LP7 (separate production authority from exploration access). LP2 refined to support graduated reconstruction.
 3. **Two-dimensional operator capability** (craft × system familiarity), tracked per-subsystem
 4. **Socratic execution mode** — agent teaches, operator implements. Bound for juniors, optional for seniors.
 5. **Four-stage progression ladder** with decreasing scaffolding, evidence-based promotion, and preceptor attestation. JOURNEYMAN/ENGINEER require subsystem breadth.

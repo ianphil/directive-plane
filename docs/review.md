@@ -6,13 +6,13 @@ Post-brainstorm review of `adaptive-operator-model.md`. Cross-referenced against
 
 ## Contradictions
 
-### 1. "Three entry paths to RESTRICTED" — actually two
+### 1. ~~"Three entry paths to RESTRICTED" — actually two~~
 
-Line 519 claims RESTRICTED has three entry paths: "junior progression (Stage 1), circuit breaker, and senior onboarding." But the document itself explicitly distinguishes RESTRICTED from APPRENTICE in the "Why RESTRICTED Is Not APPRENTICE" section. APPRENTICE_1 is Socratic with full coaching — a different mode. RESTRICTED has two entry paths: circuit breaker and onboarding. The "three" claim contradicts the mode definitions.
+**Resolved.** Fixed to "two entry paths" (circuit breaker and onboarding). Added clarifying note that APPRENTICE_1 Socratic mode is mechanically similar but distinct due to active coaching.
 
-### 2. Open Item #4 resolution text omits JOURNEYMAN from EXPLORATORY multi-agent
+### 2. ~~Open Item #4 resolution text omits JOURNEYMAN from EXPLORATORY multi-agent~~
 
-The Open Item #4 resolution says EXPLORATORY multi-agent is available to "ENGINEER, RESTRICTED, and ONBOARDING." But the multi-agent matrix gives JOURNEYMAN ✅ on EXPLORATORY, and the narrative text says "any operator with agent access (JOURNEYMAN+, RESTRICTED, ONBOARDING)." The open item resolution text is stale — it doesn't match the matrix it was supposed to resolve.
+**Resolved.** Added JOURNEYMAN to the Open Item #4 resolution text to match the multi-agent matrix.
 
 ### 3. ~~Per-subsystem currency vs. global RESTRICTED state~~
 
@@ -26,21 +26,21 @@ The Open Item #4 resolution says EXPLORATORY multi-agent is available to "ENGINE
 
 ## Gaps
 
-### 5. LP7 is missing
+### 5. ~~LP7 is missing~~
 
-LP1–LP5 exist in the Directive Plane. This document introduces LP6 and LP8. LP7 is never mentioned. Intentional reservation or numbering oversight?
+**Resolved.** Renumbered LP8 → LP7. No gap in leverage point numbering.
 
 ### 6. ~~SUSPENDED state is underspecified~~
 
 **Resolved.** SUSPENDED triggers after 2× the recovery window (default 28 days) in RESTRICTED with no sustained improvement trend. Operationally it's RESTRICTED with tighter scope gates and preceptor paired on every change (direct mentorship, not async trail review). Preceptor designs the recovery path. Recovery is two-step: SUSPENDED → RESTRICTED (preceptor-attested) → CURRENT (normal recovery). Calibration defaults added to the circuit breaker threshold table.
 
-### 7. `craft_level` vs. `progression_stage` — relationship undefined
+### 7. ~~`craft_level` vs. `progression_stage` — relationship undefined~~
 
-The IC has both `craft_level: SENIOR | MID | JUNIOR` and `progression_stage: APPRENTICE_1 | ... | ENGINEER`. Can a JUNIOR be JOURNEYMAN? Can a MID be ENGINEER? Is craft_level an input assessment that constrains which progression stages are reachable, or are they independent? The mapping rules are missing.
+**Resolved.** `craft_level` is an input assessment (set by preceptor, not protocol) that constrains the starting point: JUNIOR → APPRENTICE_1, SENIOR on new team → ONBOARDING. `progression_stage` is protocol state driven by gauges + preceptor attestation. craft_level informs preceptor judgment but doesn't mechanically gate transitions.
 
-### 8. `execution_mode` in the IC vs. append-only rule
+### 8. ~~`execution_mode` in the IC vs. append-only rule~~
 
-The IC field shows `execution_mode: SOCRATIC | RESTRICTED | STANDARD`, but the document says G3 "resolves execution mode" at runtime. The CFP requires ICs to be append-only. If execution_mode is pre-populated at IC creation and G3 changes it, that violates append-only. If it's left blank and filled at G3, that's fine but should be stated. When exactly is this field written?
+**Resolved.** `execution_mode` is blank at IC creation and appended by G3 when it resolves mode from operator level × repo designation. This is a clean append, not a modification — consistent with the IC append-only invariant.
 
 ### 9. New gauges have no failure thresholds
 
@@ -50,9 +50,9 @@ The Directive Plane defines yellow/orange/red failure thresholds for its gauges.
 
 The nuclear analogy is used throughout, but nuclear plants have documented procedures for overriding safety systems under extraordinary circumstances (with extensive documentation and accountability). The document doesn't address whether RESTRICTED can ever be overridden by organizational authority above the Agentic Engineer/Preceptor. If the answer is "no override, ever" (consistent with "a plant that can't afford to SCRAM is already unsafe"), that should be stated explicitly. If there is an override, it needs documentation.
 
-### 11. THEORY_FAILURE ↔ circuit breaker interaction not specified
+### 11. ~~THEORY_FAILURE ↔ circuit breaker interaction not specified~~
 
-The CFP has a per-change THEORY_FAILURE error state (operator fails a challenge → must re-engage). The circuit breaker operates on a rolling Prediction Accuracy window. The connection is implicit (failed challenges presumably feed the rolling window) but never stated. Does a THEORY_FAILURE at G5 count as a 0 in the rolling window? What about partial passes?
+**Resolved.** Theory Challenge scoring uses a halving decay: first-attempt pass = 1.0, second = 0.5, third = 0.25, fourth attempt = 0.0 with Agentic Engineer dispatched to understand and approve merge. Score feeds the rolling Prediction Accuracy window. Multiple challenges per change (risk tier dependent) use minimum score across all challenges. Fourth-attempt escalation prevents indefinite blocking while ensuring qualified review.
 
 ---
 
