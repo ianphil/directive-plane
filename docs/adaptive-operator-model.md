@@ -611,6 +611,16 @@ This makes RESTRICTED a shared mode with two entry paths: circuit breaker (theor
 
 These supplement the existing four gauges (Prediction Accuracy, Scope Breach Rate, Time-to-Explain, Invariant Staleness) and the orchestration gauges.
 
+### Failure Thresholds for New Gauges
+
+The existing framework defines three alert levels. The new gauges integrate into the same framework:
+
+| Level | Signal | Response |
+|-------|--------|----------|
+| **🟡 Yellow** | Test Quality Gap not closing over 3+ consecutive changes for an APPRENTICE_2. Socratic Iteration Count trending upward over 3+ changes. Theory Confidence Distribution shows 1+ high-complexity modules with single-axis coverage. | Preceptor reviews Socratic trails for the affected operator. Agentic Engineer schedules targeted LP4 maintenance for single-axis modules. |
+| **🟠 Orange** | Test Quality Gap widening (operator's tests are getting *worse* relative to baseline). Socratic Iteration Count exceeding 2× the operator's rolling average. Invariant Awareness declining for an onboarding operator after initial ramp period. Theory Confidence Distribution shows critical-path modules with single-axis coverage. | Preceptor intervenes directly — adjusts learning focus, considers whether progression pace is appropriate. Agentic Engineer directs code archaeology sessions at critical-path modules. |
+| **🔴 Red** | Socratic Iteration Count flat at 1 across multiple changes (challenges are too easy — adversarial calibration has failed). Theory Confidence Distribution shows critical-path modules with *no* theory holders on either axis. | Agentic Engineer recalibrates challenge generation (adversarial calibration duty). Team-wide reconstruction effort for uncovered critical-path modules — equivalent to the existing "full stop, system-wide reconstruction" response. |
+
 ---
 
 ## IC Field Extensions

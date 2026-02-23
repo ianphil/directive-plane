@@ -44,7 +44,7 @@ Post-brainstorm review of `adaptive-operator-model.md`. Cross-referenced against
 
 ### 9. ~~New gauges have no failure thresholds~~
 
-**Deferred to calibration.** Quantitative thresholds for the new gauges (Test Quality Gap, Invariant Awareness, Socratic Iteration Count, Theory Confidence Distribution) should be set empirically once the protocol is running, same as circuit breaker thresholds are organizational overrides. Specifying thresholds before operational experience would be speculative.
+**Resolved.** New gauges integrated into the yellow/orange/red failure threshold framework with signal descriptions and response actions at each level. Follows the same pattern as existing gauges — qualitative signals calibrated by the Agentic Engineer, not hardcoded numbers.
 
 ### 10. ~~No escalation/override path for RESTRICTED~~
 
