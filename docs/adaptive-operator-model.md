@@ -108,7 +108,21 @@ The existing five leverage points still hold. This model adds two and refines on
 
 **R4 — Velocity Pressure Cascade.** When one operator hits RESTRICTED, their velocity drops. Under deadline pressure, teammates compensate with more agent-driven work → *their* theory engagement decreases → *they* risk hitting RESTRICTED → more velocity drops → more pressure. **Vulnerability:** small teams under deadline pressure. **Mitigation:** organizational — teams need slack capacity, same as any system with circuit breakers. The nuclear analogy holds: a plant that cannot afford to SCRAM is a plant that is already unsafe.
 
-**R5 — Confidence Divergence.** Modules built under Socratic mode have high theory confidence. Modules built by agents under standard review have lower confidence. Over time, the system develops a patchwork — some modules deeply understood, others not. If high-confidence modules cluster around junior work (simpler modules) and low-confidence modules cluster around senior agent-driven work (complex modules), you get an inversion: the most complex parts of the system are the least understood. **Mitigation:** the existing gauges (Time-to-Explain, Invariant Staleness) should detect this, but the inversion pattern should be explicitly monitored.
+**R5 — Confidence Divergence.** Modules built under Socratic mode have high theory confidence. Modules built by agents under standard review have lower confidence. Over time, the system develops a patchwork — some modules deeply understood, others not. If high-confidence modules cluster around junior work (simpler modules) and low-confidence modules cluster around senior agent-driven work (complex modules), you get an inversion: the most complex parts of the system are the least understood.
+
+The risk is more nuanced than raw confidence levels. Theory has two qualities that differ by acquisition method:
+
+- **Junior-built theory is overconfident.** A junior who built a module by hand in Socratic mode has high measured confidence (passes challenges, can explain the code). But their craft maturity limits what they can *see* — they may miss concurrency issues, subtle security implications, or architectural coupling that a senior would catch. The theory is genuine but has blind spots the junior doesn't know about.
+- **Senior-reconstructed theory is underconfident.** A senior who passes Theory Challenges on a complex module has *reconstructed* theory — shallower than built theory for direct system knowledge. But their craft maturity compensates: they can reason about failure modes, architectural implications, and cross-cutting concerns that a junior can't, even with less direct familiarity. The gauges may undercount their effective understanding.
+
+Neither type of theory alone is complete. The ideal is overlap: someone who both built the code AND has the craft maturity to reason about its implications.
+
+**Mitigation — two-axis confidence model.** Module-level theory confidence is tracked on two axes:
+
+1. **Construction depth** — was this module built or reconstructed? By whom? How recently? Modules where the only theory holders built it under Socratic mode have high construction depth but potentially low craft-weighted reasoning. Modules where the only theory holders are seniors who reconstructed from agent output have the inverse.
+2. **Craft-weighted reasoning** — does someone with sufficient craft maturity hold theory for this module? A module understood only by APPRENTICE-level operators has a craft reasoning gap regardless of how well they can explain the code.
+
+The **Theory Confidence Distribution** gauge (see "New Gauges" below) tracks both axes per module and alarms on single-axis coverage — modules where theory is either construction-deep but craft-shallow, or craft-strong but construction-shallow. The Agentic Engineer uses this to direct LP4 cognitive maintenance at the specific gap: seniors do code archaeology on agent-built complex modules (build construction depth), juniors get targeted exposure to complex modules under senior mentorship (build craft reasoning).
 
 ### Interaction with Existing Reinforcing Loops
 
@@ -468,13 +482,38 @@ APPRENTICE_1 ──→ APPRENTICE_2 ──→ JOURNEYMAN ──→ ENGINEER │
                     │              ▼                        │
                     │         RESTRICTED ──(recovery)──→ restore previous level
                     │              │                        │
-                    │       (prolonged failure)             │
+                    │    (prolonged failure: 2× window      │
+                    │     + no sustained improvement)       │
                     │              │                        │
                     │              ▼                        │
-                    │         SUSPENDED                     │
-                    │    (preceptor/lead intervention)      │
+                    │         SUSPENDED ──(preceptor path   │
+                    │         + gauge recovery)──→ RESTRICTED ──→ restore
+                    │                                      │
                     └──────────────────────────────────────┘
 ```
+
+### SUSPENDED State
+
+SUSPENDED is the escalation when self-directed recovery under RESTRICTED fails. It is not removal from the team — it is closer mentorship with tighter constraints.
+
+**Trigger (automatic):** An operator transitions from RESTRICTED → SUSPENDED when they have been RESTRICTED for 2× the recovery window (default: 2 × 14 days = 28 days minimum) AND Prediction Accuracy on the triggering subsystem(s) has not shown sustained improvement (no upward trend across the window). The time floor prevents premature escalation; the gauge check prevents punishing someone who is improving slowly. A RESTRICTED operator whose accuracy is trending upward stays RESTRICTED regardless of elapsed time.
+
+**Operational behavior:** SUSPENDED is RESTRICTED with tighter constraints and direct preceptor involvement:
+
+| Aspect | RESTRICTED | SUSPENDED |
+|--------|-----------|-----------|
+| **Agent role** | Writes tests, operator implements | Same — writes tests, operator implements |
+| **Scope gates** | Standard for operator level | Tighter — smaller blast radius for each change |
+| **Preceptor involvement** | Trail review (async) | Paired on every change (direct mentorship) |
+| **Work routing** | Operator chooses work, recovery credit scoped to triggering subsystem(s) | Preceptor designs structured recovery path — specific subsystems, specific change types |
+| **EXPLORATORY access** | Full agent access | Full agent access (unchanged) |
+
+**Recovery (two-step):** SUSPENDED recovery exits to RESTRICTED first, not directly to CURRENT. The operator must then complete normal RESTRICTED recovery to regain agent access.
+
+1. **SUSPENDED → RESTRICTED:** Preceptor designs a structured recovery path (targeted subsystems, change types, possibly paired sessions). Recovery requires Prediction Accuracy on the triggering subsystem(s) reaching a preceptor-defined intermediate threshold AND preceptor attestation that the operator has genuinely rebuilt theory. The preceptor makes the call — the gauges provide evidence, not a verdict.
+2. **RESTRICTED → CURRENT:** Normal RESTRICTED recovery — Prediction Accuracy exceeds recovery threshold (0.8) across the hybrid window on the triggering subsystem(s), plus preceptor approval.
+
+**Why two-step recovery.** An operator who failed to self-recover under RESTRICTED should not jump straight to full agent access when they start improving. The intermediate step (back to RESTRICTED, self-directed recovery) confirms that the improvement holds without the tighter SUSPENDED scaffolding.
 
 ### Why Automatic, Not Voluntary
 
@@ -496,6 +535,8 @@ The protocol defines default thresholds. Organizations can override them — the
 | `recovery_threshold` | 0.8 | Prediction Accuracy must exceed this to restore agent access |
 | `window_changes` | 10 | Minimum number of changes in the rolling window |
 | `window_time_floor` | 14 days | Minimum time span the window must cover |
+| `suspension_time` | 28 days | Minimum time in RESTRICTED before SUSPENDED escalation (2× window_time_floor) |
+| `suspension_trend` | no upward trend | SUSPENDED only triggers if Prediction Accuracy is not trending upward across the window |
 
 **Hysteresis.** The recovery threshold (0.8) is deliberately higher than the restriction threshold (0.6). This prevents flapping — an operator hovering around 0.6 doesn't bounce in and out of RESTRICTED on every change. They must demonstrate sustained improvement to recover.
 
@@ -537,6 +578,7 @@ This makes RESTRICTED a shared mode with three entry paths: junior progression (
 | **Test Quality Gap** | Delta between operator-written tests and agent-generated baseline (coverage, edge cases) | APPRENTICE_2 | Gap not closing over time |
 | **Invariant Awareness** | Can the operator name the invariants for a component before being shown them? | Onboarding / all | Low or declining awareness score |
 | **Socratic Iteration Count** | Number of agent challenge-response cycles before operator's implementation passes | APPRENTICE_1, APPRENTICE_2 | Rising count (not learning) or flat at 1 (challenges too easy) |
+| **Theory Confidence Distribution** | Per-module two-axis confidence: construction depth (built vs. reconstructed, by whom) × craft-weighted reasoning (craft maturity of theory holders) | Team-level / Agentic Engineer | Single-axis coverage — modules with high construction depth but low craft reasoning, or high craft reasoning but low construction depth. High-complexity modules with no overlap between axes. |
 
 These supplement the existing four gauges (Prediction Accuracy, Scope Breach Rate, Time-to-Explain, Invariant Staleness) and the orchestration gauges.
 

@@ -30,9 +30,9 @@ The Open Item #4 resolution says EXPLORATORY multi-agent is available to "ENGINE
 
 LP1–LP5 exist in the Directive Plane. This document introduces LP6 and LP8. LP7 is never mentioned. Intentional reservation or numbering oversight?
 
-### 6. SUSPENDED state is underspecified
+### 6. ~~SUSPENDED state is underspecified~~
 
-Referenced in the state machine and preceptor role but never defined operationally. What triggers RESTRICTED → SUSPENDED? ("Prolonged failure" — how long? What metric?) What can a SUSPENDED operator do? Can they still write code? Do they get agent-generated tests? Is it effectively "you cannot work on this codebase until the preceptor clears you"? This is a non-trivial protocol state with no specification.
+**Resolved.** SUSPENDED triggers after 2× the recovery window (default 28 days) in RESTRICTED with no sustained improvement trend. Operationally it's RESTRICTED with tighter scope gates and preceptor paired on every change (direct mentorship, not async trail review). Preceptor designs the recovery path. Recovery is two-step: SUSPENDED → RESTRICTED (preceptor-attested) → CURRENT (normal recovery). Calibration defaults added to the circuit breaker threshold table.
 
 ### 7. `craft_level` vs. `progression_stage` — relationship undefined
 
@@ -58,9 +58,9 @@ The CFP has a per-change THEORY_FAILURE error state (operator fails a challenge 
 
 ## Weak Mitigations
 
-### 12. R5 (Confidence Divergence) mitigation is hand-waved
+### 12. ~~R5 (Confidence Divergence) mitigation is hand-waved~~
 
-The document identifies a real risk: seniors use agents on complex modules (lower theory confidence), juniors do Socratic on simple modules (higher theory confidence) — the most complex parts become the least understood. The mitigation is "existing gauges *should* detect this" and "should be explicitly monitored." But no gauge, mechanism, or monitoring approach is proposed. This is the most architecturally dangerous risk identified in the document and it gets the weakest mitigation.
+**Resolved.** R5 analysis expanded to recognize that theory has two qualities: construction depth (built by hand vs. reconstructed from agent output) and craft-weighted reasoning (craft maturity of the theory holder). Junior-built theory is overconfident (genuine but blind to craft-level concerns). Senior-reconstructed theory is underconfident (shallower direct knowledge, compensated by craft maturity). New **Theory Confidence Distribution** gauge tracks both axes per module and alarms on single-axis coverage. Agentic Engineer directs LP4 cognitive maintenance at the specific gap: seniors do code archaeology on agent-built modules (construction depth), juniors get targeted complex-module exposure under mentorship (craft reasoning).
 
 ### 13. RESTRICTED/ONBOARDING multi-agent on EXPLORATORY may undermine recovery
 
