@@ -11,12 +11,13 @@
 ## Table of Contents
 
 1. [Purpose and Scope](#1-purpose-and-scope)
-2. [Extension Point Registry](#2-extension-point-registry)
-3. [Extension Manifest](#3-extension-manifest)
-4. [Composition Rules](#4-composition-rules)
-5. [Base CFP Contract](#5-base-cfp-contract)
-6. [Activation Mechanism](#6-activation-mechanism)
-7. [Extension Lifecycle](#7-extension-lifecycle)
+2. [Formal Model](#2-formal-model)
+3. [Extension Point Registry](#3-extension-point-registry)
+4. [Extension Manifest](#4-extension-manifest)
+5. [Composition Rules](#5-composition-rules)
+6. [Base CFP Contract](#6-base-cfp-contract)
+7. [Activation Mechanism](#7-activation-mechanism)
+8. [Extension Lifecycle](#8-extension-lifecycle)
 
 ---
 
@@ -39,11 +40,44 @@ The first concrete extension defined under this layer is the Multi-Agent CFP Ext
 
 ---
 
-## 2. Extension Point Registry
+## 2. Formal Model
+
+The extension layer is formally grounded in **statechart semantics** — the vocabulary and composition rules developed from Harel statecharts and subsequently adopted in the UML State Machine model. This grounding is terminological, not a serialization prescription: the spec does not adopt SCXML or any machine-executable encoding.
+
+The reason for vocabulary without SCXML: the CFP's audience is engineers reasoning about control guarantees, not state machine interpreters consuming XML. More practically, the gates involve human judgment and LLM assessment — SCXML would imply mechanical executability and then have to hand-wave exactly the parts of the protocol that matter most. The statechart vocabulary makes the composition rules in §5 precise without overstating what the protocol engine can mechanically enforce.
+
+### 2.1 Vocabulary Mapping
+
+The following table maps extension layer concepts to their statechart equivalents. Both columns are normative; the statechart term is the precise formal reference, and the extension layer concept is the operational language used throughout this spec.
+
+| Extension Layer Concept | Statechart Term | Implication |
+|---|---|---|
+| A base state whose content is expanded by an extension binding to `POST_G1`, `POST_G4`, or `POST_G5` | **State refinement** — an atomic state is refined into a compound state | The base state's entry and exit behavior is preserved; the extension adds internal structure between them |
+| Any extension state that wraps a nested sub-machine (e.g., `MA.SPECIALIST_EXECUTING`) | **Compound state** — a state containing child states | The outer state remains active as long as any child state is active; the inner base CFP loops are the children |
+| Concurrent specialist base CFP loops that all must complete before a join gate (e.g., `MA.G4a`) passes | **Parallel (orthogonal) regions** with a **synchronization join** | Regions execute concurrently; the join fires only when every region has reached its final child state |
+| Gate predicates (`G1`–`G6`, extension gates such as `MA.G1a`) | **Guard conditions** on transitions | A transition fires only when its guard evaluates to `TRUE`; `FALSE` holds the machine in the current state and raises an error |
+| Error recovery resuming the protocol from a prior state (e.g., `MA.COMPOSITION_INCOHERENCE` resuming from `MA.COMPOSED`) | **Shallow history pseudo-state** | On re-entry, the machine resumes at the last active child state of the preceding compound state rather than re-entering at the initial sub-state |
+| "Extensions add states to base states; they never remove or replace them" | **State refinement with preserved entry/exit contract** | The refined compound state honors the original atomic state's entry (gate checks that opened it) and exit (gate checks that close it); extension sub-states execute between those contracts |
+
+### 2.2 Scope and Limits of the Mapping
+
+The statechart vocabulary applies to the structural and compositional properties of the extension layer: how states nest, how concurrent regions synchronize, how guards govern transitions, and how history pseudo-states support error recovery.
+
+The mapping does not extend to:
+
+- **Mechanical executability.** The protocol engine interprets this spec; it is not generated from a statechart interpreter. Gates that require human review or LLM assessment are guard conditions in the formal model but are not automatically evaluable.
+- **Event-driven activation.** Standard statechart semantics are event-driven; this spec does not model events explicitly. State transitions are governed by gate predicates, not by discrete event queues.
+- **Action language.** Statecharts commonly specify entry/exit/transition actions in a formal action language. This spec describes actions in natural language within artifact schemas and gate predicate definitions.
+
+Where the statechart vocabulary appears in subsequent sections — particularly §5 (Composition Rules) — it carries the precise meaning defined here.
+
+---
+
+## 3. Extension Point Registry
 
 Extension points are named hooks in the base CFP at which an extension may inject additional states, gates, artifacts, error states, or gauges. Each extension point has a defined position in the state machine, a declared interface, and a stability guarantee.
 
-### 2.1 State Injection Points
+### 3.1 State Injection Points
 
 Extensions may inject new states and their associated transitions at the following positions. Injected states do not replace the base states they border; they are inserted between them.
 
@@ -60,7 +94,7 @@ Each injected state must declare:
 - Exit conditions (gate predicate(s) that must pass to leave the state)
 - Owner (the role responsible for work in this state)
 
-### 2.2 Artifact Schema Extension Slots
+### 3.2 Artifact Schema Extension Slots
 
 The base artifact schemas (IC, EE, RP) expose named extension slots. An extension may add fields to a slot but may not remove or rename base fields.
 
@@ -70,9 +104,9 @@ The base artifact schemas (IC, EE, RP) expose named extension slots. An extensio
 | EE | `ee.extension_fields` | `planned_modifications`, `anticipated_side_effects`, `test_plan`, `invariant_declarations`, `estimated_magnitude`, `actual_modifications`, `unmapped_modifications`, `unplanned_modifications`, `acceptance_results`, `invariant_results` | Any additional fields, keyed under the extension namespace |
 | RP | `rp.extension_fields` | `narrative`, `challenges`, `attestation` | Any additional fields, keyed under the extension namespace |
 
-An extension may also register entirely new artifact types (see §3 manifest schema). New artifact types are owned by the extension and do not affect the base schema.
+An extension may also register entirely new artifact types (see §4 manifest schema). New artifact types are owned by the extension and do not affect the base schema.
 
-### 2.3 Error State Registration
+### 3.3 Error State Registration
 
 Extensions may register new error states. Each registered error state must declare:
 
@@ -81,7 +115,7 @@ Extensions may register new error states. Each registered error state must decla
 - The recovery path (sequence of actions required to exit the error state)
 - Which base state the protocol resumes from after successful recovery
 
-### 2.4 Gauge Registration
+### 3.4 Gauge Registration
 
 Extensions may register new observability gauges. Each registered gauge must declare:
 
@@ -93,7 +127,7 @@ Extensions may register new observability gauges. Each registered gauge must dec
 
 Registered gauges are surfaced alongside base gauges in the instrumentation reference. See [Instrumentation](instrumentation.md) for the base gauge set and threshold framework.
 
-### 2.5 Risk Tier Parameter Extension
+### 3.5 Risk Tier Parameter Extension
 
 The base CFP risk tiering table defines parameters for three tiers (CONSEQUENTIAL, PROFESSIONAL, EXPLORATORY). An extension may add new rows (parameters) to this table. Extensions may not modify existing row values in the base table.
 
@@ -106,11 +140,11 @@ Each new risk tier parameter must declare:
 
 ---
 
-## 3. Extension Manifest
+## 4. Extension Manifest
 
 Every extension must provide a manifest — a structured declaration of its identity, its bindings to extension points, and its compatibility contract. The manifest is the single source of truth the base CFP engine uses to wire up the augmented flow.
 
-### 3.1 Manifest Schema
+### 4.1 Manifest Schema
 
 ```yaml
 extension:
@@ -190,25 +224,25 @@ extension:
       description: <string>
 ```
 
-### 3.2 Manifest Validation Rules
+### 4.2 Manifest Validation Rules
 
 At `G1`, the base CFP engine validates every extension declared on the IC:
 
 1. Extension ID and version exist in the known extension registry.
 2. `target_cfp_version` is compatible with the running base CFP version.
 3. All declared dependencies are present and version-compatible.
-4. No two active extensions bind to the same state injection hook with conflicting state names (conflict detection; see §4.2).
+4. No two active extensions bind to the same state injection hook with conflicting state names (conflict detection; see §5.2).
 5. The combined set of injected states produces a valid, acyclic state machine.
 
 If any manifest validation fails, `G1` returns `FALSE` and the error `EXTENSION_INCOMPATIBLE` is raised.
 
 ---
 
-## 4. Composition Rules
+## 5. Composition Rules
 
 When multiple extensions are active on a single IC, their contributions must be composed into a single coherent augmented state machine. The following rules govern that composition.
 
-### 4.1 Namespace Isolation
+### 5.1 Namespace Isolation
 
 Every element registered by an extension — states, gates, artifacts, error states, gauges — must be prefixed with the extension's namespace identifier. Namespace identifiers are assigned at extension registration and are globally unique.
 
@@ -221,7 +255,7 @@ Examples:
 
 Base CFP elements (`G1`–`G6`, `INTENT`, `PLANNED`, etc.) are in the root namespace and may not be claimed by extensions.
 
-### 4.2 Conflict Detection
+### 5.2 Conflict Detection
 
 A conflict occurs when two active extensions attempt to bind to the same injection hook and inject states that would produce an ambiguous ordering in the augmented state machine. The engine detects conflicts at `G1` manifest validation.
 
@@ -233,13 +267,13 @@ Conflict types:
 | **Gate predicate conflict** | Two extensions add additional predicates to the same base gate that are mutually exclusive | `G1` fails; reported as `EXTENSION_GATE_CONFLICT` |
 | **Artifact field conflict** | Two extensions add a field with the same name to the same artifact slot | `G1` fails; reported as `EXTENSION_ARTIFACT_CONFLICT` |
 
-### 4.3 Load Order and Precedence
+### 5.3 Load Order and Precedence
 
-When two extensions bind to the same injection hook without a conflict, load order determines the ordering of their injected states. Load order is declared on the IC in the `extensions` field (see §6). Extensions listed earlier are injected closer to the base state.
+When two extensions bind to the same injection hook without a conflict, load order determines the ordering of their injected states. Load order is declared on the IC in the `extensions` field (see §7). Extensions listed earlier are injected closer to the base state.
 
 If an extension declares a dependency on another extension, the dependency is always loaded before the dependent, regardless of IC listing order.
 
-### 4.4 Extension Dependency Graph
+### 5.4 Extension Dependency Graph
 
 Extensions may depend on other extensions. The dependency graph must be acyclic. The engine validates the dependency graph at manifest resolution and fails `G1` with `EXTENSION_CYCLE_DETECTED` if a cycle is found.
 
@@ -247,11 +281,11 @@ An extension that declares a dependency inherits the dependent extension's names
 
 ---
 
-## 5. Base CFP Contract
+## 6. Base CFP Contract
 
 The following elements of the base CFP are frozen. Extensions are built against these guarantees; no future change to the base CFP may alter them without a major version increment.
 
-### 5.1 Single-Agent State Machine (Stable)
+### 6.1 Single-Agent State Machine (Stable)
 
 The base single-agent state machine is:
 
@@ -261,15 +295,15 @@ INTENT ─G1→ PLANNED ─G2→ APPROVED ─G3→ EXECUTING ─G4→ NARRATED �
 
 This sequence, including the state names and gate identifiers, is stable. Extensions may inject states between existing transitions (at declared injection points); they may not rename, remove, or reorder base states.
 
-### 5.2 Gate Predicate Signatures (Stable)
+### 6.2 Gate Predicate Signatures (Stable)
 
 Each base gate (G1–G6) has a stable signature: a named predicate that accepts the current IC and protocol context and returns `TRUE` or `FALSE`. Extensions may add predicates to a base gate (the gate returns `TRUE` only when both the base predicate and all extension-added predicates return `TRUE`); they may not replace the base predicate.
 
-### 5.3 Artifact Base Fields (Frozen)
+### 6.3 Artifact Base Fields (Frozen)
 
-The fields listed under the `Base Fields (Frozen)` column in §2.2 are immutable. No extension may rename, remove, retype, or reinterpret them. Extensions add fields; they never subtract them.
+The fields listed under the `Base Fields (Frozen)` column in §3.2 are immutable. No extension may rename, remove, retype, or reinterpret them. Extensions add fields; they never subtract them.
 
-### 5.4 Versioning Scheme
+### 6.4 Versioning Scheme
 
 The base CFP follows semantic versioning:
 
@@ -283,9 +317,9 @@ An extension declares a minimum `target_cfp_version`. The engine rejects extensi
 
 ---
 
-## 6. Activation Mechanism
+## 7. Activation Mechanism
 
-### 6.1 Declaring Extensions on an IC
+### 7.1 Declaring Extensions on an IC
 
 Extensions are activated per-change by declaring them in the `extensions` field of the IC. This field is evaluated at `G1`.
 
@@ -301,9 +335,9 @@ goal:
 # ... remainder of IC fields
 ```
 
-The `extensions` field is an ordered list. Load order follows the list order (see §4.3).
+The `extensions` field is an ordered list. Load order follows the list order (see §5.3).
 
-### 6.2 G1 Extension Resolution
+### 7.2 G1 Extension Resolution
 
 When `G1` evaluates an IC with a non-empty `extensions` field, it executes the following additional checks before the base `G1` predicate passes:
 
@@ -316,7 +350,7 @@ When `G1` evaluates an IC with a non-empty `extensions` field, it executes the f
 
 If all checks pass, `G1` appends the resolved `augmented_state_machine` to the IC as a read-only field. Subsequent gates operate against the augmented machine.
 
-### 6.3 Runtime Behavior
+### 7.3 Runtime Behavior
 
 Once the augmented state machine is resolved, the protocol engine routes state transitions through both base and extension gates. The engine:
 
@@ -329,9 +363,9 @@ An operator interacting with an augmented flow sees the extension states and gat
 
 ---
 
-## 7. Extension Lifecycle
+## 8. Extension Lifecycle
 
-### 7.1 Extension Status States
+### 8.1 Extension Status States
 
 | Status | Meaning |
 |---|---|
@@ -340,15 +374,15 @@ An operator interacting with an augmented flow sees the extension states and gat
 | `DEPRECATED` | Extension is scheduled for removal. New ICs may not declare a deprecated extension. Existing in-flight changes using the extension may complete. |
 | `RETIRED` | Extension is no longer loaded by the engine. Any IC declaring it fails `G1` with `EXTENSION_RETIRED`. |
 
-### 7.2 Versioning and Compatibility
+### 8.2 Versioning and Compatibility
 
-Extensions follow the same semantic versioning convention as the base CFP (§5.4):
+Extensions follow the same semantic versioning convention as the base CFP (§6.4):
 
 - **Patch** — bug fixes, clarifications. Backward-compatible. Existing ICs specifying `x.y.*` pick up patch releases automatically.
 - **Minor** — new optional fields or new optional extension points claimed. Backward-compatible with the same major version of the base CFP.
 - **Major** — breaking change. Existing ICs pinned to an older major version continue to resolve against that version. The engine may run multiple major versions of an extension concurrently during a migration window.
 
-### 7.3 Deprecation and Migration
+### 8.3 Deprecation and Migration
 
 When an extension is deprecated:
 
@@ -357,6 +391,6 @@ When an extension is deprecated:
 3. A migration guide must be published alongside the deprecation notice, describing how ICs and in-flight changes should transition to the replacement.
 4. On or after the `sunset_date`, the extension transitions to `RETIRED`.
 
-### 7.4 Breaking Changes to the Base CFP
+### 8.4 Breaking Changes to the Base CFP
 
-When a base CFP major version increment occurs (§5.4), all extensions targeting the previous major version must be reviewed for compatibility. Extensions that are not updated before the migration deadline are treated as `DEPRECATED` for the new major version and `RETIRED` one minor version cycle later.
+When a base CFP major version increment occurs (§6.4), all extensions targeting the previous major version must be reviewed for compatibility. Extensions that are not updated before the migration deadline are treated as `DEPRECATED` for the new major version and `RETIRED` one minor version cycle later.
