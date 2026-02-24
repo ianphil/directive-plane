@@ -10,11 +10,11 @@ The supervisor is designed to prevent that. It protects two invariants:
 
 Today, **Jordan** is the Agentic Engineer on duty. She still works on features like everyone else, but she also carries the control-loop responsibilities:
 
-- **Reads the gauges.** She monitors the four health metrics (Prediction Accuracy, Scope Breach Rate, Time-to-Explain, Invariant Staleness) and is accountable for knowing whether the system is still steerable.
+- **Reads the gauges.** She monitors the four health metrics (Prediction Accuracy, Scope Violation Rate, Explanation Latency, Invariant Verification Lag) and is accountable for knowing whether the system is still controllable.
 - **Has halt authority.** She can slow or stop agent-driven work when the control loops are degrading. This authority is real, not advisory — it's backed by organizational structure.
-- **Maintains signal integrity.** She ensures that Theory Challenges test for genuine understanding and that controls don't degrade into ritual.
+- **Maintains signal integrity.** She ensures that Prediction Probes test for genuine understanding and that controls don't degrade into ritual.
 
-The engineer who owns a change — like **Alex** on chg-1042 — is the one who must pass reconstruction. Alex answers the Theory Challenge questions and proves he understands what the agents built before the change can merge. Jordan's job isn't to hold the theory of every change; it's to make sure the system that *requires* Alex to hold it is actually working.
+The engineer who owns a change — like **Alex** on chg-1042 — is the one who must pass reconstruction. Alex answers the Prediction Probe questions and proves he understands what the agents built before the change can merge. Jordan's job isn't to hold the theory of every change; it's to make sure the system that *requires* Alex to hold it is actually working.
 
 The UI is structured as three phases (Plan / Do / Prove), plus Merge and Health.
 
@@ -103,12 +103,12 @@ If the agent touches out-of-scope files or produces unexplained modifications, t
 
 This is the heart of the supervisor.
 
-The paper’s warning is that you can accumulate months of technically-correct output while theory drains underneath. The failure mode isn’t a crash—it’s the slow loss of steerability.
+The paper's warning is that you can accumulate months of technically-correct output while theory drains underneath. The failure mode isn't a crash—it's the slow loss of controllability.
 
 So the supervisor makes reconstruction explicit and uncomfortable by design:
-1) **Change Narrative**: architectural why, not a diff summary
+1) **Design Rationale**: architectural why, not a diff summary
 2) **Dependency mapping**: what else is affected (to surface invisible coupling)
-3) **Theory challenges**: prediction questions (challenge-and-response, not acknowledgement)
+3) **Prediction Probes**: prediction questions (challenge-and-response, not acknowledgement)
 4) **Invariant verification**: confirm or update assumptions, with ownership and freshness
 
 If you can’t answer prediction questions, the merge is blocked.
@@ -123,7 +123,7 @@ You go back, read, and rebuild theory.
 
 ---
 
-## 5) Merge it: “Are we still steerable after this?”
+## 5) Merge it: "Are we still controllable after this?"
 
 Merge is treated like a controlled handoff, not a reward.
 
@@ -148,13 +148,13 @@ If complexity is too high, the supervisor doesn’t negotiate—it pauses and pu
 
 Finally, the supervisor zooms out.
 
-The paper is clear: without instrumentation, you don’t know you’ve become unsteerable until production teaches you.
+The paper is clear: without instrumentation, you don't know you've lost controllability until production teaches you.
 
-So **Health** shows the gauges that correspond to steerability:
+So **Health** shows the gauges that correspond to controllability:
 - **Prediction Accuracy**: when the supervisor asks “what happens next if X fails?”, how often do humans answer correctly? If this drops, the team is *shipping changes they can’t reliably reason about*.
-- **Scope Breach Rate**: how often does work escape the declared boundaries (extra files touched, surprise side-effects). A rising rate means the system is learning that “the rules are optional.”
-- **Time-to-Explain**: how long it takes a human operator/engineer to give a clear, causal explanation of the change (not a diff tour). If this climbs, the system is becoming harder to navigate—even if it still “works.”
-- **Invariant Staleness**: how many “must-always-be-true” assumptions haven’t been re-checked recently. Stale invariants are dangerous because people keep relying on them after they’ve quietly become false.
+- **Scope Violation Rate**: how often does work escape the declared boundaries (extra files touched, surprise side-effects). A rising rate means the system is learning that "the rules are optional."
+- **Explanation Latency**: how long it takes a human operator/engineer to give a clear, causal explanation of the change (not a diff tour). If this climbs, the system is becoming harder to navigate—even if it still "works."
+- **Invariant Verification Lag**: how many "must-always-be-true" assumptions haven't been re-checked recently. Stale invariants are dangerous because people keep relying on them after they've quietly become false.
 
 It translates trends into action thresholds:
 - **Yellow**: tighten controls and increase reconstruction effort

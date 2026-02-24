@@ -84,7 +84,7 @@ The state machine adapts based on whether the root Intent Contract declares `orc
 | `COMPOSED` | *(Orchestrated only)* Specialist outputs are available. Orchestrator produces Composition Narrative (CN). | Orchestrator |
 | `COMPOSITION_VERIFIED` | *(Orchestrated only)* Verifier produces Composition Proof (CP). | Verifier |
 | `NARRATED` | Agent/Orchestrator produces EE (POST) and Reconstruction Proof (RP). | Agent(s) |
-| `UNDERSTOOD` | Operator passes the Theory Challenge(s). | Operator |
+| `UNDERSTOOD` | Operator passes the Prediction Probe(s). | Operator |
 | `MERGED` | Terminal state. Change committed. Invariants updated. | System |
 
 ### 3.2 Transition Flow
@@ -207,7 +207,7 @@ The artifact that proves human theory was rebuilt.
 
 - **G5a** (`COMPOSITION_VERIFIED → NARRATED`): Orchestration RP includes specialist hashes, CN/CP referenced, minimum composition challenges met.
 
-- **G5** (`NARRATED → UNDERSTOOD`): Operator passed required number of Theory Challenges, `theory_reconstructed == true`.
+- **G5** (`NARRATED → UNDERSTOOD`): Operator passed required number of Prediction Probes, `theory_reconstructed == true`.
 
 - **G6** (`UNDERSTOOD → MERGED`): Invariant Register updated, artifacts committed, gauges recorded, no outstanding error states. *For adaptive model:* G6 queries repo designation and enforces merge gate predicates: (1) If PRODUCTION and change contains agent-generated implementation and operator is below JOURNEYMAN → `MERGE_BLOCKED`. (2) If PRODUCTION and risk_tier is EXPLORATORY → `MERGE_BLOCKED`. Operator-written code (from Socratic or RESTRICTED mode) is never blocked at appropriate tier.
 
@@ -225,7 +225,7 @@ Orchestration mechanics — intent propagation, scope partitioning, segregation 
 |---|---|---|
 | `SCOPE_VIOLATION` / `SCOPE_OVERLAP` | Work performed outside bounds, or undocumented cross-agent overlap. | Revise plan (G2), expand IC scope, or reject/rollback. If overlap: declare merge strategy or re-partition. |
 | `INTENT_MISMATCH` / `INTENT_DRIFT` | Sub-IC missing traceability, altered constraints, or failed acceptance criteria. | Regenerate Sub-IC (drift), rework execution, or amend root IC. |
-| `THEORY_FAILURE` | Operator fails Theory Challenge. | Operator engages code, requests detail, re-attempts new challenge. **Cannot be bypassed.** |
+| `THEORY_FAILURE` | Operator fails Prediction Probe. | Operator engages code, requests detail, re-attempts new challenge. **Cannot be bypassed.** |
 | `INVARIANT_CONFLICT` | Change violates invariant without declaring intent. | Revise to preserve, or operator amends IC to declare modification. |
 | `DECOMPOSITION_FAULT` | OE contains contradictions or violates tool capabilities. | Orchestrator re-decomposes, operator amends intent, or sandbox is reconfigured. |
 | `COMPOSITION_INCOHERENCE` | Emergent systemic failure, cross-agent assumption violation. | Targeted specialist re-execution, full re-decomposition, or intent amendment. |
@@ -248,7 +248,7 @@ When coupling density (>0.6), interactions, or sub-tasks mathematically exceed h
   - Dual independent adversarial verifiers
   - Consensus requirements
   - 100% deterministic global invariant verification
-  - Second-order theory challenges
+  - Second-order Prediction Probes
 
 ---
 
@@ -282,11 +282,11 @@ The protocol restricts what the operator must review at each gate to prevent cog
 | Max Scope (Files / Lines) | 5 / 200 | 10 / 500 | 20 / 1000 |
 | Max Specialists / Depth | 5 / 1 | 8 / 2 | 15 / 3 |
 | Max Coupling Density | 0.4 | 0.5 | 0.6 |
-| Min Theory Challenges | 3 (1 monitoring layer) | 2 | 1 |
+| Min Prediction Probes | 3 (1 monitoring layer) | 2 | 1 |
 | Deterministic Verif. Ratio | ≥80% | ≥50% | Tracked |
 | Composition Verifier | Structurally Adversarial | Independent (cond.) | Optional |
 | Specialist Plan Approval | All by Operator | Risk-weighted sampling | Delegatable |
-| Invariant Staleness | 30 days | 60 days | 90 days |
+| Invariant Verification Lag | 30 days | 60 days | 90 days |
 | Operator Currency | 14 days | 30 days | 60 days |
 
 ### 10.1 Execution Mode × Risk Tier
@@ -321,10 +321,10 @@ Multi-agent orchestration is **never allowed on CONSEQUENTIAL systems**. See [Th
 
 | Gauge | Measures |
 |---|---|
-| **Prediction Accuracy** | Operator Theory Challenge correctness. |
-| **Scope Breach Rate** | IC amendments that expand scope mid-flight. |
-| **Time-to-Explain** | Minutes required to complete Theory Reconstruction. |
-| **Invariant Staleness** | Time since active invariants were last verified. |
+| **Prediction Accuracy** | Operator Prediction Probe correctness. |
+| **Scope Violation Rate** | IC amendments that expand scope mid-flight. |
+| **Explanation Latency** | Minutes required to complete Theory Reconstruction. |
+| **Invariant Verification Lag** | Time since active invariants were last verified. |
 | **Intent Propagation Fidelity** | % of root clauses mechanically covered by Sub-ICs. |
 | **Decomposition Coherence** | Gaps/overlaps in the Orchestration Envelope. |
 | **Composition Verification Rate** | % of multi-agent outputs verified for emergent behavior. |

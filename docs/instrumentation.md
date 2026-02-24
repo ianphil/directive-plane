@@ -1,4 +1,4 @@
-# Instrumentation — Measuring Steerability
+# Instrumentation — Measuring Controllability
 
 The architecture defines what must be controlled; this section addresses how you know the controls are working.
 
@@ -6,31 +6,31 @@ The architecture defines what must be controlled; this section addresses how you
 
 ## The Core Problem: Evidence vs. Assertion
 
-The central risk in any human-verification system is that the verification becomes performative. A signed checklist asserts that a check was performed. It does not prove that understanding was achieved. A reviewed Change Narrative asserts that the human read it. It does not prove that theory was reconstructed.
+The central risk in any human-verification system is that the verification becomes performative. A signed checklist asserts that a check was performed. It does not prove that understanding was achieved. A reviewed Design Rationale asserts that the human read it. It does not prove that theory was reconstructed.
 
 Aviation discovered this distinction at the cost of lives. Early checklists were read-and-acknowledge: the pilot read the item and confirmed completion. This failed because pilots confirmed items out of habit without actually verifying the underlying state. Modern checklists are challenge-and-response: one pilot reads the challenge, the other verifies the instrument and states the actual value. The check is coupled to system state, not to human assertion.
 
 > **The Falsifiability Principle**
 >
-> A control artifact has integrity when it is falsifiable — when it makes a claim that can be checked against reality. An Intent Brief that declares scope is falsifiable: the actual change either stayed within scope or it did not. A Theory Challenge that asks for a prediction is falsifiable: the prediction is either correct or it is not. An artifact that asks only for acknowledgment is unfalsifiable and therefore worthless as a control.
+> A control artifact has integrity when it is falsifiable — when it makes a claim that can be checked against reality. An Intent Contract that declares scope is falsifiable: the actual change either stayed within scope or it did not. A Prediction Probe that asks for a prediction is falsifiable: the prediction is either correct or it is not. An artifact that asks only for acknowledgment is unfalsifiable and therefore worthless as a control.
 
 ## Combating Goodhart's Law
 
-Metrics in software engineering are notoriously vulnerable to Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. If a team is penalized or slowed down for failing Theory Challenges, the natural systemic response is not to study the system harder, but to ask easier challenges.
+Metrics in software engineering are notoriously vulnerable to Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. If a team is penalized or slowed down for failing Prediction Probes, the natural systemic response is not to study the system harder, but to ask easier challenges.
 
-A framework that relies on human-generated questions to verify human understanding contains an inherent conflict of interest. If Time-to-Explain is consistently dropping while system complexity is rising, the control system must assume the instrument is broken, not that the team has achieved enlightenment.
+A framework that relies on human-generated questions to verify human understanding contains an inherent conflict of interest. If Explanation Latency is consistently dropping while system complexity is rising, the control system must assume the instrument is broken, not that the team has achieved enlightenment.
 
-To prevent the four gauges from degrading into gamified vanity metrics, the framework relies on adversarial calibration. The instruments do not measure themselves; their rigor must be continuously adjusted. A Theory Challenge is only a valid instrument if it contains a genuine risk of failure. Ensuring that these artifacts remain falsifiable, sufficiently difficult, and immune to gamification is the primary operational duty of the Agentic Engineer. They do not just read the gauges — they are responsible for ensuring the gauges are actually connected to the engine.
+To prevent the four gauges from degrading into gamified vanity metrics, the framework relies on adversarial calibration. The instruments do not measure themselves; their rigor must be continuously adjusted. A Prediction Probe is only a valid instrument if it contains a genuine risk of failure. Ensuring that these artifacts remain falsifiable, sufficiently difficult, and immune to gamification is the primary operational duty of the Agentic Engineer. They do not just read the gauges — they are responsible for ensuring the gauges are actually connected to the engine.
 
 ## Signal Integrity for Each Leverage Point
 
 Each of the five leverage points produces artifacts. Each artifact is vulnerable to a specific mode of degradation. Signal integrity requires coupling each artifact to a verifiable state.
 
-### LP5 — Intent Briefs: Preventing Boilerplate
+### LP5 — Intent Contracts: Preventing Boilerplate
 
-An Intent Brief degrades into boilerplate when it is written after the fact, when it is copied from a previous brief with minor edits, or when its declarations are never checked against outcomes. The integrity mechanism is automatic scope validation: when the agent completes work, the actual files modified and behaviors changed are compared against the declared scope and constraints in the brief. Any discrepancy is surfaced as a signal, not buried in a diff.
+An Intent Contract degrades into boilerplate when it is written after the fact, when it is copied from a previous contract with minor edits, or when its declarations are never checked against outcomes. The integrity mechanism is automatic scope validation: when the agent completes work, the actual files modified and behaviors changed are compared against the declared scope and constraints in the contract. Any discrepancy is surfaced as a signal, not buried in a diff.
 
-A healthy Intent Brief makes falsifiable claims. "Scope: auth module" is falsifiable — either the change touched only auth or it did not. "Make the login better" is not falsifiable and should be rejected by process before execution begins.
+A healthy Intent Contract makes falsifiable claims. "Scope: auth module" is falsifiable — either the change touched only auth or it did not. "Make the login better" is not falsifiable and should be rejected by process before execution begins.
 
 ### LP1 — Invariant Register: Preventing Staleness
 
@@ -38,13 +38,13 @@ Invariants degrade through two mechanisms: they stop being checked, or the syste
 
 ### LP3 — Scope Gates: Preventing Normalization
 
-Scope gates degrade when exceptions become the norm. If 60% of changes exceed the declared threshold and are routinely approved, the gate has been normalized away. The integrity mechanism is tracking the breach rate over time. The absolute number of breaches matters less than the trend. A rising breach rate is a signal that the gate is losing its function as a control.
+Scope gates degrade when exceptions become the norm. If 60% of changes exceed the declared threshold and are routinely approved, the gate has been normalized away. The integrity mechanism is tracking the violation rate over time. The absolute number of violations matters less than the trend. A rising violation rate is a signal that the gate is losing its function as a control.
 
-### LP2 — Change Narratives and Theory Challenges: Preventing Ritual
+### LP2 — Design Rationales and Prediction Probes: Preventing Ritual
 
-This is where signal integrity matters most, because this is the leverage point most vulnerable to performance without substance. A Change Narrative can be fluently written and completely disconnected from reality. A Theory Challenge can be answered from surface-level pattern matching rather than genuine understanding.
+This is where signal integrity matters most, because this is the leverage point most vulnerable to performance without substance. A Design Rationale can be fluently written and completely disconnected from reality. A Prediction Probe can be answered from surface-level pattern matching rather than genuine understanding.
 
-The integrity mechanism is prediction. Theory Challenges should not ask "do you understand this change?" They should ask "what will happen if component X receives input Y after this change?" or "which other modules are affected if this component fails?" These are falsifiable questions. The human's prediction is recorded. Over time, predictions can be spot-checked against actual system behavior. A human who consistently predicts correctly holds theory. A human who consistently predicts incorrectly does not, regardless of what they signed off on.
+The integrity mechanism is prediction. Prediction Probes should not ask "do you understand this change?" They should ask "what will happen if component X receives input Y after this change?" or "which other modules are affected if this component fails?" These are falsifiable questions. The human's prediction is recorded. Over time, predictions can be spot-checked against actual system behavior. A human who consistently predicts correctly holds theory. A human who consistently predicts incorrectly does not, regardless of what they signed off on.
 
 ### LP4 — Cognitive Maintenance: Preventing Atrophy
 
@@ -58,12 +58,12 @@ From the signal integrity mechanisms above, measurable quantities emerge that to
 
 | Gauge | What It Measures | How It's Collected | Degradation Signal |
 |-------|------------------|--------------------|--------------------|
-| Prediction Accuracy | Fidelity of human theory | Track correctness of Theory Challenge responses over time | Declining accuracy rate |
-| Scope Breach Rate | Integrity of magnitude limits | Percentage of changes exceeding declared scope, tracked weekly | Rising breach rate or rising average breach size |
-| Time-to-Explain | Depth of system understanding | Periodic random sampling: ask an engineer to explain a subsystem, measure time and completeness | Increasing time or decreasing completeness |
-| Invariant Staleness | Currency of stated system properties | Age of each invariant since last verification or update | Growing number of invariants past verification deadline |
+| Prediction Accuracy | Fidelity of human theory | Track correctness of Prediction Probe responses over time | Declining accuracy rate |
+| Scope Violation Rate | Integrity of magnitude limits | Percentage of changes exceeding declared scope, tracked weekly | Rising violation rate or rising average violation size |
+| Explanation Latency | Depth of system understanding | Periodic random sampling: ask an engineer to explain a subsystem, measure time and completeness | Increasing time or decreasing completeness |
+| Invariant Verification Lag | Currency of stated system properties | Age of each invariant since last verification or update | Growing number of invariants past verification deadline |
 
-These four gauges are not vanity metrics. They are instruments that read the four stocks defined in Part I. Prediction Accuracy reads Human Theory. Scope Breach Rate reads the effectiveness of the Complexity control. Time-to-Explain reads Navigability directly. Invariant Staleness reads the gap between stated and actual system properties.
+These four gauges are not vanity metrics. They are instruments that read the four stocks defined in Part I. Prediction Accuracy reads Human Theory. Scope Violation Rate reads the effectiveness of the Complexity control. Explanation Latency reads Navigability directly. Invariant Verification Lag reads the gap between stated and actual system properties.
 
 ### Orchestration Gauges
 
@@ -83,7 +83,7 @@ These four gauges are not vanity metrics. They are instruments that read the fou
 | **Socratic Iteration Count** | Number of agent challenge-response cycles before operator's implementation passes | APPRENTICE_1, APPRENTICE_2 | Rising count (not learning) or flat at 1 (challenges too easy) |
 | **Theory Confidence Distribution** | Per-module two-axis confidence: construction depth (built vs. reconstructed, by whom) × craft-weighted reasoning (craft maturity of theory holders) | Team-level / Agentic Engineer | Single-axis coverage — modules with high construction depth but low craft reasoning, or high craft reasoning but low construction depth. High-complexity modules with no overlap between axes. |
 
-These supplement the existing four gauges (Prediction Accuracy, Scope Breach Rate, Time-to-Explain, Invariant Staleness) and the orchestration gauges.
+These supplement the existing four gauges (Prediction Accuracy, Scope Violation Rate, Explanation Latency, Invariant Verification Lag) and the orchestration gauges.
 
 ## Failure Thresholds
 
@@ -99,9 +99,9 @@ Thresholds operate at three levels:
 
 > **🟠 Orange — Degraded**
 >
-> Prediction accuracy below team-defined threshold or Time-to-Explain exceeding team-defined limit for critical subsystems. Response: halt new agent-driven feature work. Dedicate capacity to theory reconstruction. Resume only when gauges return to acceptable range.
+> Prediction accuracy below team-defined threshold or Explanation Latency exceeding team-defined limit for critical subsystems. Response: halt new agent-driven feature work. Dedicate capacity to theory reconstruction. Resume only when gauges return to acceptable range.
 
-> **🔴 Red — Unsteerable**
+> **🔴 Red — Loss of Controllability**
 >
 > No team member can accurately predict behavior of a critical subsystem, or invariant violations are being discovered in production rather than in the control loop. Response: full stop on agent-driven changes. Conduct system-wide theory reconstruction. This is the engineering equivalent of a reactor SCRAM — a controlled shutdown to prevent uncontrolled failure.
 
@@ -127,12 +127,12 @@ The Agentic Engineer is not a new invention. It is the recognition that agentic 
 
 The defining characteristics of the Agentic Engineer:
 
-- **Owns the control loop, not the code.** Their primary responsibility is the integrity of the human-machine interface — the steerability of the system — not the features it produces.
+- **Owns the control loop, not the code.** Their primary responsibility is the integrity of the human-machine interface — the controllability of the system — not the features it produces.
 
-- **Reads the gauges.** They monitor Prediction Accuracy, Scope Breach Rate, Time-to-Explain, and Invariant Staleness. They are accountable for knowing the current state of the control system.
+- **Reads the gauges.** They monitor Prediction Accuracy, Scope Violation Rate, Explanation Latency, and Invariant Verification Lag. They are accountable for knowing the current state of the control system.
 
 - **Has halt authority.** They can slow or stop agent-driven work when the control loops are degrading. This authority must be real — backed by organizational structure — not advisory. Advisory authority gets overridden by velocity pressure every time.
 
-- **Maintains signal integrity.** They are responsible for ensuring that artifacts remain falsifiable and coupled to system state, that Theory Challenges test for genuine understanding, and that controls do not degrade into ritual.
+- **Maintains signal integrity.** They are responsible for ensuring that artifacts remain falsifiable and coupled to system state, that Prediction Probes test for genuine understanding, and that controls do not degrade into ritual.
 
 Not every team needs a dedicated Agentic Engineer. In smaller teams, this may be a hat worn by a senior engineer. In larger or higher-risk organizations, it may be a full-time role. The scale is flexible. The accountability is not. Someone must own the loop, and that ownership must include the authority to protect it.

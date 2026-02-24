@@ -41,7 +41,7 @@ In Socratic mode, the agent's role inverts. It does not implement. It *teaches* 
 - Instead, the agent generates **failing tests** derived from the IC's acceptance criteria, constraints, and invariants
 - The operator writes the implementation to make the tests pass
 - The agent reviews the operator's code — not to fix it, but to challenge: "What happens when this input is null?" or "You handled the happy path, but the IC constraint says retry logic must be preserved — where is your test for retry failure?"
-- Theory Challenges at G5 are explanatory — the operator has genuine theory because they *built* the implementation
+- Prediction Probes at G5 are explanatory — the operator has genuine theory because they *built* the implementation
 
 **Binding rules:**
 - Operators below a craft maturity threshold are **bound** to Socratic mode. It is not optional.
@@ -53,7 +53,7 @@ In RESTRICTED mode, the agent writes the tests but the operator writes the imple
 
 ### STANDARD Mode (Current CFP)
 
-The existing protocol behavior. Agent executes, produces Change Narrative, operator passes Theory Challenges. No changes to current gates or artifacts.
+The existing protocol behavior. Agent executes, produces Design Rationale, operator passes Prediction Probes. No changes to current gates or artifacts.
 
 ---
 
@@ -133,11 +133,11 @@ The agent stops writing tests. The operator must develop their own sense of what
 | **Agent coaching** | Inactive — operator must reconstruct without guidance |
 | **Theory source** | Operator reconstructs from agent output (with +1 challenge above ENGINEER count per risk tier) |
 
-The operator transitions to the *review* side. The agent implements. But Theory Challenges are more numerous than they would be for an ENGINEER-level operator — JOURNEYMAN gets +1 challenge above the ENGINEER count for the risk tier (CONSEQUENTIAL: 4 vs. 3, PROFESSIONAL: 3 vs. 2). Challenge difficulty stays calibrated to the subsystem, not the operator level. The additional volume forces more reconstruction practice — this is the training ground for the skill of reconstructing theory from agent output, the core competency of the senior workflow.
+The operator transitions to the *review* side. The agent implements. But Prediction Probes are more numerous than they would be for an ENGINEER-level operator — JOURNEYMAN gets +1 challenge above the ENGINEER count for the risk tier (CONSEQUENTIAL: 4 vs. 3, PROFESSIONAL: 3 vs. 2). Challenge difficulty stays calibrated to the subsystem, not the operator level. The additional volume forces more reconstruction practice — this is the training ground for the skill of reconstructing theory from agent output, the core competency of the senior workflow.
 
 ### Stage 4 — Standard (ENGINEER)
 
-Standard CFP. Full agent execution, normal theory challenge requirements, Socratic mode available on-demand.
+Standard CFP. Full agent execution, normal Prediction Probe requirements, Socratic mode available on-demand.
 
 ---
 
@@ -147,8 +147,8 @@ Stage transitions are **evidence-based, not time-based.** The gauges provide the
 
 | Signal | What It Indicates |
 |--------|-------------------|
-| **Prediction Accuracy** | Rolling pass rate on Theory Challenges trending above threshold across N consecutive changes |
-| **Theory Challenge depth** | Operator answers are explanatory, not just correct — they demonstrate reasoning, not recall |
+| **Prediction Accuracy** | Rolling pass rate on Prediction Probes trending above threshold across N consecutive changes |
+| **Prediction Probe depth** | Operator answers are explanatory, not just correct — they demonstrate reasoning, not recall |
 | **Test quality gap** (Stage 2) | Operator-written tests converge toward agent-generated baseline in coverage and edge-case detection |
 | **Subsystem breadth** (JOURNEYMAN, ENGINEER) | Demonstrated currency across a minimum number of the system's subsystems — prevents permanent specialization at senior levels |
 | **Preceptor attestation** | Human mentor reviews the Socratic trail and signs off on readiness for next stage |
@@ -159,11 +159,11 @@ No algorithm promotes an operator. The protocol provides evidence. A human (the 
 
 ## The Circuit Breaker: Theory-Gated Agent Access
 
-Theory Challenge performance is not just a gauge — it is a **circuit breaker**. When an operator's Prediction Accuracy drops below a threshold, agent execution privileges are automatically restricted. This applies to *all* operators at *every* level, not just juniors. The restriction applies on CONSEQUENTIAL and PROFESSIONAL systems only — EXPLORATORY systems retain full agent access (see the Execution Mode × Risk Tier Matrix above).
+Prediction Probe performance is not just a gauge — it is a **circuit breaker**. When an operator's Prediction Accuracy drops below a threshold, agent execution privileges are automatically restricted. This applies to *all* operators at *every* level, not just juniors. The restriction applies on CONSEQUENTIAL and PROFESSIONAL systems only — EXPLORATORY systems retain full agent access (see the Execution Mode × Risk Tier Matrix above).
 
-### Theory Challenge Scoring and the Rolling Window
+### Prediction Probe Scoring and the Rolling Window
 
-Each change produces a **Prediction Accuracy score** that feeds the rolling window. The score is determined by the Theory Challenge outcome at G5:
+Each change produces a **Prediction Accuracy score** that feeds the rolling window. The score is determined by the Prediction Probe outcome at G5:
 
 | Outcome | Score | What Happens |
 |---------|-------|--------------|
@@ -188,7 +188,7 @@ When Prediction Accuracy drops below the threshold for *any* subsystem:
 2. In RESTRICTED, the agent cannot execute implementation on *any* subsystem — but it **still writes the tests**. The agent generates failing tests from the IC's acceptance criteria and invariants, and the operator writes the implementation to make them pass.
 3. The operator codes by hand. This forces the deep engagement with the codebase that rebuilds theory.
 4. The operator can work on any subsystem under RESTRICTED mode, but **recovery credit only accrues from the triggering subsystem(s)**. Work on unrelated subsystems is productive (the team still gets value) but does not count toward restoring agent access.
-5. Theory Challenges continue on the operator's manual changes. When Prediction Accuracy on the triggering subsystem(s) recovers above the recovery threshold across the hybrid window (N changes over minimum time floor) AND the preceptor approves, currency restores to CURRENT globally.
+5. Prediction Probes continue on the operator's manual changes. When Prediction Accuracy on the triggering subsystem(s) recovers above the recovery threshold across the hybrid window (N changes over minimum time floor) AND the preceptor approves, currency restores to CURRENT globally.
 
 **Why global restriction with scoped recovery.** Per-subsystem restriction would be more precise but creates a parallel state machine — each subsystem carrying its own CURRENT/RESTRICTED/SUSPENDED track, with split-mode handling for changes that span subsystems. Global restriction keeps the state machine simple and conservative: if your theory is degraded somewhere, the amplifier is removed everywhere. But the protocol knows *where* to send you to rebuild — recovery requires demonstrated improvement on the specific subsystem(s) that triggered the breaker, not just any subsystem work.
 
@@ -288,7 +288,7 @@ An escalation authority (engineering director or above) can temporarily restore 
 
 - **Time-boxed.** The override has a defined expiration (e.g., 5 business days). When it expires, the operator's actual Prediction Accuracy determines their state — if still below threshold, they return to RESTRICTED.
 - **Written justification required.** The escalation authority must document why the override is necessary and what risk they are accepting. This becomes part of the auditable record.
-- **Scores continue accruing.** Theory Challenges still happen during the override period. Failures still record 0.0 (or the appropriate decay score) in the rolling window. The override grants agent access, not a gauge holiday.
+- **Scores continue accruing.** Prediction Probes still happen during the override period. Failures still record 0.0 (or the appropriate decay score) in the rolling window. The override grants agent access, not a gauge holiday.
 - **Logged and auditable.** The override, its justification, its duration, and the operator's Prediction Accuracy during the override period are all recorded. Frequent overrides for the same operator or team are a signal that the organization is understaffed or the thresholds need recalibration — not that the circuit breaker should be routinely bypassed.
 - **Does not reset recovery.** When the override expires, recovery progress resumes from where it was. The override period's scores feed the rolling window normally.
 
@@ -307,9 +307,9 @@ Senior onboarding uses the same RESTRICTED mode as the circuit breaker — agent
 | **Execution mode** | RESTRICTED — agent writes tests, operator implements |
 | **Scope gates** | Tighter than normal — smaller blast radius for cheaper theory reconstruction on an unfamiliar codebase |
 | **Agent pre-execution** | Surfaces invariants and coupling for the target subsystem before execution: "This module has 3 invariants. INV-007 is the one people trip on." |
-| **Theory Challenges** | System-specific, not craft-specific: "Why does this service validate tokens in the sidecar instead of the gateway?" not "What is mTLS?" |
+| **Prediction Probes** | System-specific, not craft-specific: "Why does this service validate tokens in the sidecar instead of the gateway?" not "What is mTLS?" |
 | **Guided archaeology** | Agent narrates the history of the subsystem being modified: prior refactors, the problems they solved, the invariants they introduced |
-| **Graduation** | System familiarity gauges (Prediction Accuracy, Time-to-Explain, Invariant Awareness) hit threshold for the relevant subsystems |
+| **Graduation** | System familiarity gauges (Prediction Accuracy, Explanation Latency, Invariant Awareness) hit threshold for the relevant subsystems |
 
 This makes RESTRICTED a shared mode with two entry paths: circuit breaker (theory degradation) and senior onboarding (system unfamiliarity). The experience is the same — agent tests, operator implements — but the reason you're there differs. (APPRENTICE_1 in Socratic mode is mechanically similar — agent writes tests, operator implements — but includes active coaching, making it a distinct mode.)
 
@@ -361,8 +361,8 @@ The preceptor is the **engineering manager** responsible for the professional de
 
 | | Agentic Engineer | Preceptor (Engineering Manager) |
 |---|---|---|
-| **Owns** | The control loop — system steerability | The learning loop — operator development |
-| **Monitors** | Gauges (Prediction Accuracy, Scope Breach, etc.) | Socratic trails, progression readiness |
+| **Owns** | The control loop — system controllability | The learning loop — operator development |
+| **Monitors** | Gauges (Prediction Accuracy, Scope Violation, etc.) | Socratic trails, progression readiness |
 | **Authority** | Halt authority — can stop agent-driven work when controls degrade | Progression authority — signs off on stage transitions |
 | **Per-change role** | Approves Intent Contracts, maintains signal integrity | None — not involved in per-change artifacts |
 | **Scope** | The system | The people |
@@ -385,7 +385,7 @@ The preceptor is the **engineering manager** responsible for the professional de
 - Provide feedback on reasoning quality beyond what the agent evaluates
 - Detect patterns the agent might miss (e.g., operator consistently struggles with concurrency but passes challenges on other topics)
 
-**Spot-checking challenge quality.** The preceptor periodically reviews Theory Challenges generated by the agent to verify they are appropriately difficult and well-calibrated to subsystem complexity. This is part of the Goodhart's Law mitigation — the preceptor is the human check on the agent's challenge generation quality.
+**Spot-checking challenge quality.** The preceptor periodically reviews Prediction Probes generated by the agent to verify they are appropriately difficult and well-calibrated to subsystem complexity. This is part of the Goodhart's Law mitigation — the preceptor is the human check on the agent's challenge generation quality.
 
 ### What the Preceptor Does NOT Do
 
@@ -400,20 +400,20 @@ The preceptor and Agentic Engineer must coordinate at specific points:
 
 - **Circuit breaker fires:** The Agentic Engineer detects the gauge degradation and triggers RESTRICTED. The preceptor is notified and takes over the recovery mentorship.
 - **SUSPENDED state:** The Agentic Engineer escalates prolonged RESTRICTED failure. The preceptor intervenes with direct mentorship and designs the recovery path.
-- **Challenge quality concerns:** The preceptor flags Theory Challenges that seem too easy or poorly calibrated. The Agentic Engineer adjusts the adversarial calibration.
+- **Challenge quality concerns:** The preceptor flags Prediction Probes that seem too easy or poorly calibrated. The Agentic Engineer adjusts the adversarial calibration.
 - **Progression decisions:** The preceptor makes the call. The Agentic Engineer provides gauge data. Neither can override the other — the preceptor cannot promote an operator whose gauges are below threshold, and the Agentic Engineer cannot block promotion when gauges and preceptor attestation both support it.
 
 ---
 
 ## Goodhart's Law Mitigations
 
-Tying Theory Challenge performance to agent access (via the circuit breaker) raises Goodhart's Law risk: when a measure becomes a target, it ceases to be a good measure. The existing Directive Plane framework already warns about this and prescribes adversarial calibration. This section analyzes the specific gaming vectors in the adaptive operator model and the structural mitigations.
+Tying Prediction Probe performance to agent access (via the circuit breaker) raises Goodhart's Law risk: when a measure becomes a target, it ceases to be a good measure. The existing Directive Plane framework already warns about this and prescribes adversarial calibration. This section analyzes the specific gaming vectors in the adaptive operator model and the structural mitigations.
 
 ### Why the Risk Is Lower Than It Appears
 
 **Challenges are agent-generated.** The operator does not control challenge difficulty. They cannot write easier questions for themselves. The agent generates challenges based on the change, the subsystem, and the IC constraints.
 
-**Answers are agent-evaluated against system behavior.** Theory Challenges ask for falsifiable predictions: "What happens if Provider X times out during capture?" The agent evaluates the answer by checking it against actual system behavior — tracing code paths, running scenarios, verifying against tests. The operator cannot bluff a correct answer. This is fundamentally different from a self-attestation ("do you understand this change?"), which is unfalsifiable and worthless as a control.
+**Answers are agent-evaluated against system behavior.** Prediction Probes ask for falsifiable predictions: "What happens if Provider X times out during capture?" The agent evaluates the answer by checking it against actual system behavior — tracing code paths, running scenarios, verifying against tests. The operator cannot bluff a correct answer. This is fundamentally different from a self-attestation ("do you understand this change?"), which is unfalsifiable and worthless as a control.
 
 **Per-subsystem currency tracks specialization honestly.** If an operator only works in payments/*, they are only CURRENT on payments/*. The model doesn't grant system-wide credit for narrow expertise. An operator who avoids unfamiliar subsystems isn't gaming the system — they're accurately reflected as UNFAMILIAR in the areas they avoid.
 
@@ -431,7 +431,7 @@ Tying Theory Challenge performance to agent access (via the circuit breaker) rai
 
 **Many small changes to avoid hard challenges.** An operator could decompose work into trivially small changes to stay below the difficulty threshold.
 
-**Mitigation:** The Scope Breach Rate gauge already tracks change patterns. An operator consistently making changes well *below* the scope gate threshold — when the work logically warrants larger changes — is exhibiting a pattern that the Agentic Engineer should investigate. Abnormally low change magnitude is as suspicious as abnormally high.
+**Mitigation:** The Scope Violation Rate gauge already tracks change patterns. An operator consistently making changes well *below* the scope gate threshold — when the work logically warrants larger changes — is exhibiting a pattern that the Agentic Engineer should investigate. Abnormally low change magnitude is as suspicious as abnormally high.
 
 ---
 

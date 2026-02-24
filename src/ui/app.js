@@ -86,9 +86,9 @@ const store = {
   ],
   health: [
     { label: 'Prediction accuracy', value: '82%',     status: 'warn',   trend: 'slipping', threshold: 'Orange < 80%' },
-    { label: 'Scope breach rate',   value: '11%',     status: 'warn',   trend: 'rising',   threshold: 'Yellow > 10%' },
-    { label: 'Time-to-explain',     value: '14m',     status: 'ok',     trend: 'steady',   threshold: 'Orange > 18m' },
-    { label: 'Invariant staleness', value: '6 stale', status: 'danger', trend: 'rising',   threshold: 'Orange > 5 stale' }
+    { label: 'Scope violation rate', value: '11%',     status: 'warn',   trend: 'rising',   threshold: 'Yellow > 10%' },
+    { label: 'Explanation latency',   value: '14m',     status: 'ok',     trend: 'steady',   threshold: 'Orange > 18m' },
+    { label: 'Invariant verif. lag',  value: '6 stale', status: 'danger', trend: 'rising',   threshold: 'Orange > 5 stale' }
   ]
 };
 
@@ -429,14 +429,14 @@ function renderProveContent(container) {
     <h2 class="section-title">Reconstruction Plane — Prove It</h2>
     <p class="section-desc">Read the narrative, map dependencies, answer prediction checks, and verify invariants before merge is allowed.</p>
     <div class="state-line">
-      <span class="state-badge done">1. Read Change Narrative</span>
+      <span class="state-badge done">1. Read Design Rationale</span>
       <span class="state-badge done">2. Review Dependencies</span>
-      <span class="state-badge current">3. Pass Theory Challenge</span>
+      <span class="state-badge current">3. Pass Prediction Probe</span>
       <span class="state-badge">4. Verify/Update Invariants</span>
     </div>
     <div class="grid-2">
       <div>
-        <h3>1) Change Narrative</h3>
+        <h3>1) Design Rationale</h3>
         <pre>${JSON.stringify(store.proveStatus.narrative, null, 2)}</pre>
         <h3>2) Dependency Mapping</h3>
         <ul class="list">
@@ -444,7 +444,7 @@ function renderProveContent(container) {
         </ul>
       </div>
       <div>
-        <h3>3) Theory Challenge</h3>
+        <h3>3) Prediction Probe</h3>
         ${store.proveStatus.questions.map((q, i) => `
           <div class="inner-card">
             <strong>Q${i + 1}.</strong> ${q}
@@ -472,7 +472,7 @@ function renderProveContent(container) {
       <h3>Evidence Signals</h3>
       <ul class="list">
         <li>Prediction accuracy trend: <span class="badge warn">82% (slipping)</span></li>
-        <li>Time-to-explain for payments module: <span class="badge ok">14m</span></li>
+        <li>Explanation latency for payments module: <span class="badge ok">14m</span></li>
       </ul>
     </div>
     <div class="actions">

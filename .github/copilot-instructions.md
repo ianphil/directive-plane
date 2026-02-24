@@ -54,8 +54,8 @@ When working with docs or UI code, these terms have specific meanings in this fr
 | EE (Execution Envelope) | PRE (plan) + POST (results mapped back to IC) |
 | CN (Composition Narrative) | How multiple agents' outputs combine |
 | CP (Composition Proof) | Independent verification of composition correctness |
-| RP (Reconstruction Proof) | Narrative + theory challenges the operator must pass |
-| Theory Challenge | Prediction-based questions testing genuine understanding (not acknowledgment) |
+| RP (Reconstruction Proof) | Design Rationale + Prediction Probes the operator must pass |
+| Prediction Probe | Prediction-based questions testing genuine understanding (not acknowledgment) |
 | Invariant | Falsifiable system property tracked in a register (e.g., `INV-012`) |
 | Navigability | Human Theory ÷ System Complexity — the derived ratio the framework protects |
 | LP1–LP7 | The seven leverage points (all required, removing any one causes cascading failure). LP6: gate agent access to demonstrated comprehension. LP7: separate production authority from exploration access. |

@@ -8,13 +8,13 @@ Multi-agent orchestration — systems where agents delegate to other agents, dec
 
 ## The Intent Transformation Chain
 
-In the dyadic model, intent traverses a single hop: human to agent. The Intent Brief (LP5) governs that hop. The human specifies goal, scope, constraints, and acceptance criteria. The agent executes within those bounds. The channel is lossy but manageable because there is only one translation step.
+In the dyadic model, intent traverses a single hop: human to agent. The Intent Contract (LP5) governs that hop. The human specifies goal, scope, constraints, and acceptance criteria. The agent executes within those bounds. The channel is lossy but manageable because there is only one translation step.
 
 In orchestrated systems, intent passes through a chain: human to orchestrator agent, orchestrator to specialist agents, specialists to sub-task agents. At each hop, the receiving agent interprets, decomposes, and recontextualizes the intent it received. By the time a leaf agent is writing code, the connection to the original human intent may have passed through three or more layers of LLM interpretation. Each hop is a lossy channel. The losses compound.
 
-This creates a specific problem for LP5: where does the Intent Brief live? In the dyadic model, the answer is simple — the human writes it, the agent executes against it. In an orchestrated system, the orchestrator must generate sub-briefs for each specialist. These sub-briefs are themselves LLM-generated artifacts. They may faithfully decompose the original intent, or they may introduce architectural opinions, scope interpretations, or implicit constraints that the human never specified.
+This creates a specific problem for LP5: where does the Intent Contract live? In the dyadic model, the answer is simple — the human writes it, the agent executes against it. In an orchestrated system, the orchestrator must generate Sub-Contracts for each specialist. These Sub-Contracts are themselves LLM-generated artifacts. They may faithfully decompose the original intent, or they may introduce architectural opinions, scope interpretations, or implicit constraints that the human never specified.
 
-The human cannot validate every sub-brief — that defeats the purpose of orchestration. But if no one validates them, then unstructured intent exists at every layer below the top. The framework's foundational control is absent precisely where the work is being done.
+The human cannot validate every Sub-Contract — that defeats the purpose of orchestration. But if no one validates them, then unstructured intent exists at every layer below the top. The framework's foundational control is absent precisely where the work is being done.
 
 > **The Intent Fidelity Problem**
 >
@@ -22,11 +22,11 @@ The human cannot validate every sub-brief — that defeats the purpose of orches
 
 ### Toward Intent Contracts
 
-The Intent Brief must evolve into an **Intent Contract** — a structured artifact that travels with the work across agent boundaries. The contract carries not just the current task specification but the original human intent, the declared constraints, and the scope boundaries from the root of the chain. At each hop, the receiving agent can check its sub-task against the root contract, not just against the immediate parent's instructions.
+The Intent Contract must be a propagating artifact — a structured contract that travels with the work across agent boundaries. The contract carries not just the current task specification but the original human intent, the declared constraints, and the scope boundaries from the root of the chain. At each hop, the receiving agent can check its sub-task against the root contract, not just against the immediate parent's instructions.
 
 This is analogous to how financial transactions carry compliance metadata through chains of intermediaries. The originating bank's regulatory constraints do not disappear because a correspondent bank is executing the settlement. The constraints propagate.
 
-Protocol-level support for intent propagation — carrying the original brief's constraints as immutable context through A2A handoffs — is not an optimization. It is a structural requirement for multi-agent steerability.
+Protocol-level support for intent propagation — carrying the original contract's constraints as immutable context through A2A handoffs — is not an optimization. It is a structural requirement for multi-agent controllability.
 
 ---
 
@@ -34,7 +34,7 @@ Protocol-level support for intent propagation — carrying the original brief's 
 
 The second fundamental problem is that individually correct agent outputs can compose into systemically incoherent results.
 
-In the dyadic model, the human reconstructs theory for one agent's output. The Change Narrative explains what one agent did and why. Theory Challenges verify the human understands that one change. This is tractable because the unit of understanding is a single bounded change.
+In the dyadic model, the human reconstructs theory for one agent's output. The Design Rationale explains what one agent did and why. Prediction Probes verify the human understands that one change. This is tractable because the unit of understanding is a single bounded change.
 
 In orchestrated systems, the unit that matters is the *composition*. Agent A modifies the authentication module. Agent B modifies the API gateway. Both operate within their declared scopes. Both produce correct, well-tested code. But Agent A assumed tokens would be validated at the gateway, and Agent B assumed tokens would be validated at the service level. Neither agent is wrong in isolation. The system is wrong in composition.
 
@@ -42,7 +42,7 @@ This is the 2008 financial crisis analogy from Part IV applied recursively. Indi
 
 ### The Composition Narrative
 
-The Change Narrative practice (LP2) must extend to include a **Composition Narrative** — an explanation of how multiple agents' outputs interact and what emergent properties arise from their combination. The orchestrator agent is the natural entity to produce this, since it holds the decomposition logic and can see all sub-task results.
+The Design Rationale practice (LP2) must extend to include a **Composition Narrative** — an explanation of how multiple agents' outputs interact and what emergent properties arise from their combination. The orchestrator agent is the natural entity to produce this, since it holds the decomposition logic and can see all sub-task results.
 
 But this introduces a new trust relationship. In the dyadic model, the human trusts an agent to explain its own work — a relatively constrained task. In the orchestrated model, the human trusts an agent to explain the *behavior of a system of agents*. The orchestrator is reasoning about emergent properties of compositions it designed. It is simultaneously the architect and the auditor. This is the segregation-of-duties violation that Part IV's financial analogy warns against.
 
@@ -68,9 +68,9 @@ These problems require scope gates that operate at the orchestration level — g
 
 ## Observability Across Agent Boundaries
 
-The four gauges defined in Part VI — Prediction Accuracy, Scope Breach Rate, Time-to-Explain, and Invariant Staleness — are designed to instrument a single control loop. Multi-agent orchestration requires instrumenting the *inter-agent channels* as well.
+The four gauges defined in Part VI — Prediction Accuracy, Scope Violation Rate, Explanation Latency, and Invariant Verification Lag — are designed to instrument a single control loop. Multi-agent orchestration requires instrumenting the *inter-agent channels* as well.
 
-**Intent fidelity between agents.** What is the semantic distance between the human's original intent and the sub-task specification received by a leaf agent? This is measurable: compare the root Intent Contract against each sub-brief and quantify the drift. A growing distance over successive orchestration layers is a signal that the intent propagation channel is degrading.
+**Intent fidelity between agents.** What is the semantic distance between the human's original intent and the sub-task specification received by a leaf agent? This is measurable: compare the root Intent Contract against each Sub-Contract and quantify the drift. A growing distance over successive orchestration layers is a signal that the intent propagation channel is degrading.
 
 **Context consistency across agents.** Are specialist agents receiving context that is consistent with each other? If Agent A is told the system uses architecture X and Agent B is told it uses architecture Y, their individually correct outputs will be compositionally incoherent. Context divergence between sibling agents is a leading indicator of compositional failure.
 
@@ -82,7 +82,7 @@ This maps most closely to the nuclear analogy from Part IV. A nuclear plant is n
 
 | Gauge | What It Measures | Degradation Signal |
 |-------|------------------|--------------------|
-| Intent Propagation Fidelity | Semantic distance between root intent and leaf-agent sub-briefs | Growing distance at deeper orchestration layers |
+| Intent Propagation Fidelity | Semantic distance between root intent and leaf-agent Sub-Contracts | Growing distance at deeper orchestration layers |
 | Cross-Agent Context Consistency | Agreement between context provided to sibling agents | Contradictory assumptions across concurrent agents |
 | Decomposition Coherence | Whether the orchestrator's task decomposition covers the original intent without gaps or overlaps | Missing coverage or redundant sub-tasks |
 | Composition Verification Rate | Percentage of multi-agent outputs verified for emergent behavior, not just individual correctness | Declining rate or increasing undetected composition failures |
@@ -95,7 +95,7 @@ The orchestrator agent occupies a unique and dangerous position in the control a
 
 This is mode confusion at the automation layer rather than the human layer. In the aviation analogy: the pilot's autopilot is itself delegating to subsystems the pilot cannot see. The pilot believes the autopilot is executing a certain flight plan. The autopilot has decomposed that plan into sub-tasks for the flight management computer, the autothrottle, and the flight control computers. If the decomposition is flawed — if the autopilot has misinterpreted the flight plan — every subsystem will execute correctly against incorrect instructions, and the pilot will not detect the error until the aircraft is in the wrong place.
 
-The orchestrator is, in control theory terms, a *hidden supervisory layer*. It makes decisions that shape all downstream behavior, but those decisions are not currently subject to the same controls as the agents it supervises. The Intent Brief governs the human-to-orchestrator boundary. Nothing in the current framework governs the orchestrator-to-specialist boundary with equivalent rigor.
+The orchestrator is, in control theory terms, a *hidden supervisory layer*. It makes decisions that shape all downstream behavior, but those decisions are not currently subject to the same controls as the agents it supervises. The Intent Contract governs the human-to-orchestrator boundary. Nothing in the current framework governs the orchestrator-to-specialist boundary with equivalent rigor.
 
 This is the gap that must be closed. The orchestrator's decomposition decisions — how it partitions scope, what constraints it propagates, what context it provides to each specialist — must be inspectable, challengeable, and subject to the same falsifiability principle that governs all other control artifacts.
 

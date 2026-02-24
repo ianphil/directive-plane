@@ -1,8 +1,8 @@
 # The Directive Plane
 
-## A Control Architecture for Steerable Agentic Engineering
+## A Control Architecture for Controllable Agentic Software Engineering
 
-*Optimizing for steerability and coherence over time. Not productivity.*
+*Optimizing for controllability and coherence over time. Not productivity.*
 
 *February 2026*
 
@@ -94,12 +94,12 @@ The Directive Plane defines two invariants that the architecture exists to prote
 
 **Operator Capability Integrity** — the humans directing agents possess and continuously develop the judgment required to specify intent and reconstruct theory.
 
-This is the *meta-invariant* — it is what makes the other two possible. Without it, the other two fail silently. Intent Briefs get filled out but are vague because the operator lacks the depth to be precise. Theory Challenges get answered but are surface-level because the operator lacks the foundation to reason deeply. The artifacts exist. The controls are performative.
+This is the *meta-invariant* — it is what makes the other two possible. Without it, the other two fail silently. Intent Contracts get filled out but are vague because the operator lacks the depth to be precise. Prediction Probes get answered but are surface-level because the operator lacks the foundation to reason deeply. The artifacts exist. The controls are performative.
 
 Operator Capability Integrity is not a fourth plane. It is a cross-cutting concern that lives across all three existing planes:
 
 - **Socratic mode** lives in the Execution Plane (changes *how* execution happens)
-- **The circuit breaker** lives in the Reconstruction Plane (triggered by theory challenge gauges)
+- **The circuit breaker** lives in the Reconstruction Plane (triggered by Prediction Probe gauges)
 - **Merge gates** live in the Directive Plane (governance mechanism on what gets shipped)
 - **The progression ladder** spans all three (determines which mode each plane operates in for a given operator)
 
@@ -109,7 +109,7 @@ The existing framework hints at this with LP4 (Reasoning Capability Preservation
 
 # Part II: The Minimal Stabilizing Set
 
-The dynamics described above will destabilize any agentic development system unless specific balancing loops are introduced. Analysis suggests seven leverage points that together form a minimal stabilizing set. Removing any one eventually makes the system unknowable and unsteerable, regardless of technical correctness.
+The dynamics described above will destabilize any agentic development system unless specific balancing loops are introduced. Analysis suggests seven leverage points that together form a minimal stabilizing set. Removing any one eventually makes the system unknowable and uncontrollable, regardless of technical correctness.
 
 ## 2.1 The Seven Leverage Points
 
@@ -145,11 +145,11 @@ The seven leverage points form a dependency structure. LP5 missing → LP1 impos
 
 The five leverage points are invariant. Their implementation intensity is not.
 
-The dynamics described in Part I operate regardless of whether the system is a banking platform or a personal side project. But the cost of losing steerability varies enormously. The framework must scale investment in control to match the cost of losing it.
+The dynamics described in Part I operate regardless of whether the system is a banking platform or a personal side project. But the cost of losing controllability varies enormously. The framework must scale investment in control to match the cost of losing it.
 
-**Consequential systems** — financial infrastructure, medical devices, defense, anything where failure has legal, safety, or large-scale economic impact. Full implementation. Dedicated Agentic Engineer role. All four gauges tracked quantitatively. Formal thresholds with halt authority. Theory Challenges recorded and audited. This is the nuclear-grade application of the framework.
+**Consequential systems** — financial infrastructure, medical devices, defense, anything where failure has legal, safety, or large-scale economic impact. Full implementation. Dedicated Agentic Engineer role. All four gauges tracked quantitatively. Formal thresholds with halt authority. Prediction Probes recorded and audited. This is the nuclear-grade application of the framework.
 
-**Professional systems** — production SaaS, internal enterprise tools, anything a team ships and maintains for paying users. The leverage points are all present but lighter-weight. Intent Briefs might be less formal. Scope Gates exist but the threshold is higher. Theory Challenges happen in PR review rather than as standalone exercises. Cognitive Maintenance is built into existing practices like architecture reviews rather than scheduled separately. One person owns the loop but it's a hat, not a full-time role.
+**Professional systems** — production SaaS, internal enterprise tools, anything a team ships and maintains for paying users. The leverage points are all present but lighter-weight. Intent Contracts might be less formal. Scope Gates exist but the threshold is higher. Prediction Probes happen in PR review rather than as standalone exercises. Cognitive Maintenance is built into existing practices like architecture reviews rather than scheduled separately. One person owns the loop but it's a hat, not a full-time role.
 
 **Exploratory systems** — prototypes, personal projects, hackathon work, anything where the cost of rebuilding from scratch is low. Here the leverage points collapse into habits rather than process. The developer keeps a scratchpad of intent before prompting an agent. They read the output rather than blindly committing. They notice when they don't understand something and pause. The formal apparatus isn't justified, but the cognitive posture still applies. The question "do I understand what just happened to my system?" is always worth asking, even when the stakes are low.
 
@@ -163,13 +163,13 @@ The stabilizing set implies a specific architecture. Before describing its struc
 
 > **Outbound Intent Fidelity** — human will reaches the machine without loss of meaning, scope, or constraint.
 >
-> **Inbound Theory Preservation** — human understanding is reconstructed from machine-driven outcomes with sufficient fidelity to maintain steerability.
+> **Inbound Theory Preservation** — human understanding is reconstructed from machine-driven outcomes with sufficient fidelity to maintain controllability.
 >
 > **Operator Capability Integrity** — the humans directing agents possess and continuously develop the judgment required to specify intent and reconstruct theory.
 
-These are the invariants. Everything else is mechanism. If outbound intent fidelity fails, the machine does work the human did not ask for. If inbound theory preservation fails, the human loses the ability to steer. If operator capability integrity fails, the other two become performative — artifacts exist but controls are hollow. Any single failure produces an unsteerable system. All three must be designed for, maintained, and defended.
+These are the invariants. Everything else is mechanism. If outbound intent fidelity fails, the machine does work the human did not ask for. If inbound theory preservation fails, the human loses the ability to steer. If operator capability integrity fails, the other two become performative — artifacts exist but controls are hollow. Any single failure produces an uncontrollable system. All three must be designed for, maintained, and defended.
 
-The architecture borrows its structure from modern networks. In networking, the control plane decides where traffic goes; the data plane moves it. They are architecturally separate, they have different failure modes, and critically — when the control plane fails, the data plane keeps forwarding based on stale state. The system keeps working. It just stops being steerable.
+The architecture borrows its structure from modern networks. In networking, the control plane decides where traffic goes; the data plane moves it. They are architecturally separate, they have different failure modes, and critically — when the control plane fails, the data plane keeps forwarding based on stale state. The system keeps working. It just stops being controllable.
 
 That is precisely the failure mode this framework addresses. The architecture separates agentic development into three planes:
 
@@ -177,7 +177,7 @@ That is precisely the failure mode this framework addresses. The architecture se
 
 **The Execution Plane** — where agents write code, run tests, and produce changes. This is the data plane. It does the work.
 
-**The Reconstruction Plane** — where theory flows back to humans. Change Narratives, Theory Challenges, Invariant verification. This is the telemetry and observability layer — the monitoring infrastructure that lets the Directive Plane know whether execution matched intent. It serves **inbound theory preservation**.
+**The Reconstruction Plane** — where theory flows back to humans. Design Rationales, Prediction Probes, Invariant verification. This is the telemetry and observability layer — the monitoring infrastructure that lets the Directive Plane know whether execution matched intent. It serves **inbound theory preservation**.
 
 The Agentic Engineer's job is maintaining the integrity of the Directive and Reconstruction Planes. They do not touch the Execution Plane directly — they ensure that what goes into it is well-specified and what comes out of it is well-understood.
 
@@ -217,7 +217,7 @@ The Reconstruction Plane is the subsystem through which humans rebuild accurate 
 
 1. **Change Narration.** Every agent-driven change produces a narrative explanation written for human consumption. Not a diff. Not a commit message. A narrative: "The authentication module was restructured because the previous approach violated the constraint that session tokens must not traverse the network boundary. Specifically, the TokenValidator was moved from the API gateway to the service mesh sidecar."
 
-2. **Theory Challenge.** The human is presented with questions that can only be answered by someone who understands the change. "What would happen if the sidecar is unavailable? Where does the token now get validated for internal service-to-service calls?" These are not tests of memory. They are tests of theory.
+2. **Prediction Probe.** The human is presented with questions that can only be answered by someone who understands the change. "What would happen if the sidecar is unavailable? Where does the token now get validated for internal service-to-service calls?" These are not tests of memory. They are tests of theory.
 
 3. **Dependency Mapping.** Changes are presented not in isolation but in the context of what they affect. A change to module A that silently alters the behavior of modules B and C must surface B and C in the reconstruction artifact. Invisible coupling is the primary vector of theory loss.
 
@@ -225,8 +225,8 @@ The Reconstruction Plane is the subsystem through which humans rebuild accurate 
 
 ### Key Artifacts
 
-- **Change Narrative:** Human-readable explanation of what changed, why, and what it affects. Written at the level of architectural reasoning, not line-by-line code review.
-- **Theory Challenges:** Comprehension questions that verify the human has internalized the change, not merely acknowledged it.
+- **Design Rationale:** Human-readable explanation of what changed, why, and what it affects. Written at the level of architectural reasoning, not line-by-line code review.
+- **Prediction Probes:** Comprehension questions that verify the human has internalized the change, not merely acknowledged it.
 - **Invariant Register:** Living document of system invariants, updated after every change that affects them. Each invariant has a last-verified date and a responsible human.
 
 ### Failure Modes Prevented
@@ -287,7 +287,7 @@ The 2008 financial crisis demonstrated what happens when leveraged systems becom
 
 ### Mapping to Agentic Engineering
 
-Software systems under agentic development are leveraged systems. A small human input (a prompt, a task description) produces a large systemic effect (hundreds of lines of code, architectural changes). The 2008 lesson applies: if the interconnections become unknowable, the system will eventually behave in ways no one predicted. Position limits are scope bounds. Mark-to-market is continuous theory validation. Stress testing is theory challenges.
+Software systems under agentic development are leveraged systems. A small human input (a prompt, a task description) produces a large systemic effect (hundreds of lines of code, architectural changes). The 2008 lesson applies: if the interconnections become unknowable, the system will eventually behave in ways no one predicted. Position limits are scope bounds. Mark-to-market is continuous theory validation. Stress testing is Prediction Probes.
 
 ## 4.3 Nuclear Power Operations
 
@@ -320,7 +320,7 @@ Across these domains, the same principles emerge independently:
 | Principle | Aviation | Finance | Nuclear | Agentic Engineering |
 |-----------|----------|---------|---------|---------------------|
 | Make state visible | Mode annunciation | Mark-to-market | Control room displays | Intent violation detection |
-| Force human understanding | Type ratings, recurrent training | Stress testing | Procedure + physics training | Theory challenges |
+| Force human understanding | Type ratings, recurrent training | Stress testing | Procedure + physics training | Prediction Probes |
 | Bound action magnitude | Envelope protection | Position limits | Conservative decision making | Scope constraints |
 | Prevent skill atrophy | Manual flying requirements | Segregation of duties | Simulator training | Cognitive maintenance |
 | Declare intent before action | Flight briefs, clearances | Trade documentation | Shift turnover briefs | Intent documents |
@@ -331,7 +331,7 @@ These are not coincidences. They are convergent solutions to the same structural
 
 # Part V: Failure Modes
 
-Each leverage point addresses a specific failure mode. Removing any single one does not merely reduce effectiveness — it creates a qualitatively different failure trajectory that eventually renders the system unsteerable.
+Each leverage point addresses a specific failure mode. Removing any single one does not merely reduce effectiveness — it creates a qualitatively different failure trajectory that eventually renders the system uncontrollable.
 
 ## 5.1 Without LP1: Intent Violations Invisible
 
@@ -363,7 +363,7 @@ Unbounded change magnitude makes all other controls ineffective. Intent verifica
 >
 > Humans gradually lose the ability to reason about their systems at the level of depth required for effective supervision. Their capacity to specify intent, detect violations, and reconstruct theory all degrade simultaneously. The controlling intelligence of the system quietly transfers from human to machine without any deliberate decision.
 
-This is the meta-failure. LP4 is the leverage point that maintains the human's ability to exercise the other four. Without it, the other controls may exist as process artifacts but lose their teeth. Humans fill out intent documents without the skill to write precise ones. They sign off on theory challenges without the depth to answer them honestly. The controls become rituals. The rituals become theater. The theater provides false confidence while the system becomes unsteerable.
+This is the meta-failure. LP4 is the leverage point that maintains the human's ability to exercise the other four. Without it, the other controls may exist as process artifacts but lose their teeth. Humans fill out intent documents without the skill to write precise ones. They sign off on Prediction Probes without the depth to answer them honestly. The controls become rituals. The rituals become theater. The theater provides false confidence while the system loses controllability.
 
 ## 5.5 Without LP5: Intent Not Structured
 
@@ -383,7 +383,7 @@ Without structured intent, there is no basis for any of the other controls. You 
 
 > **Failure Pattern: Binary Access Trap**
 >
-> Without separating production authority from exploration access, LP6 creates a dilemma. Restrict agent access to protect production → juniors cannot learn to use agents → talent pipeline stalls. Allow agent access to enable learning → unverified agent code reaches production → system becomes unsteerable. The binary choice forces organizations to either accept production risk or abandon agent-assisted learning. Both paths are degenerative.
+> Without separating production authority from exploration access, LP6 creates a dilemma. Restrict agent access to protect production → juniors cannot learn to use agents → talent pipeline stalls. Allow agent access to enable learning → unverified agent code reaches production → system loses controllability. The binary choice forces organizations to either accept production risk or abandon agent-assisted learning. Both paths are degenerative.
 
 ## 5.8 Compound Failure
 
@@ -391,7 +391,7 @@ In practice, these failures compound. Removing LP5 makes LP1 impossible. Removin
 
 ---
 
-# Part VI: Instrumentation — Measuring Steerability
+# Part VI: Instrumentation — Measuring Controllability
 
 The architecture described in Parts II through V defines what must be controlled. How to know the controls are working — gauges, failure thresholds, signal integrity, and the Agentic Engineer role — is covered in the [Instrumentation](instrumentation.md) reference.
 
@@ -401,11 +401,11 @@ The architecture described in Parts II through V defines what must be controlled
 
 The following practices are designed to install the stabilizing loops in a real engineering team. They are ordered by adoption difficulty (lowest friction first) and designed to compose. A team can adopt them incrementally, though the full stabilizing effect requires all five to be active.
 
-## 7.1 Practice 1: The Intent Brief (LP5)
+## 7.1 Practice 1: The Intent Contract (LP5)
 
 **Adoption difficulty: Low.** Before any agent task, the human writes a brief structured document:
 
-> **Intent Brief Template**
+> **Intent Contract Template**
 >
 > **Goal:** What should be true when this is done?
 > **Scope:** Which components/files/modules may be modified?
@@ -421,13 +421,13 @@ This takes 2–5 minutes. It forces the human to think before acting and creates
 
 This can be implemented as a simple pre-commit hook, a CI check, or even a social contract. The mechanism matters less than the principle: unbounded change must require conscious authorization, not passive acceptance.
 
-## 7.3 Practice 3: The Change Narrative (LP2)
+## 7.3 Practice 3: The Design Rationale (LP2)
 
-**Adoption difficulty: Medium.** After every agent-driven change, the agent produces a Change Narrative: a structured explanation written for the human who will maintain this code.
+**Adoption difficulty: Medium.** After every agent-driven change, the agent produces a Design Rationale: a structured explanation written for the human who will maintain this code.
 
-The narrative is not a diff summary. It explains the reasoning behind the change, the alternatives considered, the side effects anticipated, and the assumptions made. Critically, it should be written at the architectural level, not the line level. A human reading a good Change Narrative should be able to explain to a colleague what changed and why without looking at the code.
+The narrative is not a diff summary. It explains the reasoning behind the change, the alternatives considered, the side effects anticipated, and the assumptions made. Critically, it should be written at the architectural level, not the line level. A human reading a good Design Rationale should be able to explain to a colleague what changed and why without looking at the code.
 
-The human then reviews the narrative and confirms understanding by answering at least one theory challenge: a question that can only be answered by someone who understood the change. If they cannot answer, they must engage with the code until they can.
+The human then reviews the narrative and confirms understanding by answering at least one Prediction Probe: a question that can only be answered by someone who understood the change. If they cannot answer, they must engage with the code until they can.
 
 ## 7.4 Practice 4: Invariant Tracking (LP1)
 
@@ -464,7 +464,7 @@ To illustrate how the five leverage points and the instrumentation interact in p
 
 A team maintains a payment processing service. They are adding support for a new payment provider. The engineer leading the work uses an agent to implement the integration.
 
-**LP5 — Intent Brief.** Before starting, the engineer writes a brief. Goal: add Provider X as a payment option. Scope: the payments module and its tests. Constraints: existing provider integrations must not be modified; the retry logic must remain unchanged. Non-goal: refactoring the payment abstraction layer (that is a separate task). Acceptance: Provider X processes a test transaction end-to-end in staging.
+**LP5 — Intent Contract.** Before starting, the engineer writes an Intent Contract. Goal: add Provider X as a payment option. Scope: the payments module and its tests. Constraints: existing provider integrations must not be modified; the retry logic must remain unchanged. Non-goal: refactoring the payment abstraction layer (that is a separate task). Acceptance: Provider X processes a test transaction end-to-end in staging.
 
 **LP3 — Scope Gate.** The agent proposes a plan that includes modifying the payment abstraction layer to "better accommodate" the new provider. This exceeds declared scope. The scope gate flags it. The engineer reviews the proposal and decides the abstraction layer change is unnecessary for this task — the new provider can work within the existing abstraction. The agent is redirected to work within the original scope.
 
@@ -472,11 +472,11 @@ A team maintains a payment processing service. They are adding support for a new
 
 **LP1 — Invariant Check.** The team has an invariant registered: "All payment providers must implement the idempotency interface." The automated check confirms the new adapter implements this interface. A second invariant — "No payment operation may execute without an audit log entry" — is also verified. Both pass.
 
-**LP2 — Change Narrative and Theory Challenge.** The agent produces a narrative explaining the integration approach: adapter pattern, configuration-driven provider selection, error mapping from Provider X's error codes to the internal error taxonomy. The Theory Challenge asks the engineer: "If Provider X returns a timeout during the capture phase, what happens to the transaction state?" The engineer answers correctly — it enters a pending-resolution state and the reconciliation job picks it up within 15 minutes. Theory confirmed for this change.
+**LP2 — Design Rationale and Prediction Probe.** The agent produces a narrative explaining the integration approach: adapter pattern, configuration-driven provider selection, error mapping from Provider X's error codes to the internal error taxonomy. The Prediction Probe asks the engineer: "If Provider X returns a timeout during the capture phase, what happens to the transaction state?" The engineer answers correctly — it enters a pending-resolution state and the reconciliation job picks it up within 15 minutes. Theory confirmed for this change.
 
-**LP5 → LP1 loop closure.** The completion report maps actions to the intent brief. All changes are within declared scope. The retry logic was not modified. Existing provider tests still pass. The brief and narrative are committed alongside the code.
+**LP5 → LP1 loop closure.** The completion report maps actions to the Intent Contract. All changes are within declared scope. The retry logic was not modified. Existing provider tests still pass. The brief and narrative are committed alongside the code.
 
-**Instrumentation.** This change is logged in the team's tracking. The Theory Challenge was answered correctly (Prediction Accuracy: maintained). The scope gate was triggered and honored (Scope Breach: caught and redirected, not normalized). No invariants were stale. Time-to-Explain for the payments module is tested next week during the regular rotation.
+**Instrumentation.** This change is logged in the team's tracking. The Prediction Probe was answered correctly (Prediction Accuracy: maintained). The scope gate was triggered and honored (Scope Violation: caught and redirected, not normalized). No invariants were stale. Explanation Latency for the payments module is tested next week during the regular rotation.
 
 The overhead is real but bounded — roughly 20 minutes of additional human engagement for a change that took the agent 10 minutes to implement and would have taken the engineer 3 hours by hand. The engineer ends the task understanding what changed and why. The invariants are verified. The intent is documented. And next month, when someone needs to modify the payments module, the narrative and brief are there as theory artifacts, not just code.
 
@@ -484,9 +484,9 @@ The overhead is real but bounded — roughly 20 minutes of additional human enga
 
 For a team adopting these practices, the recommended sequence is:
 
-1. **Week 1–2:** Intent Briefs for all agent-driven work. This is low-friction and immediately clarifying.
+1. **Week 1–2:** Intent Contracts for all agent-driven work. This is low-friction and immediately clarifying.
 2. **Week 3–4:** Scope Gates. Add the threshold. Observe how often it is exceeded. Calibrate.
-3. **Month 2:** Change Narratives. Begin requiring structured post-change explanations and theory challenges.
+3. **Month 2:** Design Rationales. Begin requiring structured post-change explanations and Prediction Probes.
 4. **Month 3:** Invariant Tracking. Start with 10–15 invariants for the most critical components. Grow organically.
 5. **Month 4+:** Cognitive Maintenance Rotation. Schedule it. Protect the time. Measure cognitive debt over time.
 
@@ -504,21 +504,21 @@ The framework presented here is not a productivity system. It is a control syste
 
 The central claim is that five specific capabilities — intent violation visibility, forced theory reconstruction, change magnitude limits, reasoning capability preservation, and explicit intent structure — form the minimal set of controls required for stable operation. These are not optional enhancements. They are structural requirements. Without them, the system will function correctly while becoming progressively unknowable.
 
-But controls without instrumentation are faith. The four gauges — Prediction Accuracy, Scope Breach Rate, Time-to-Explain, and Invariant Staleness — provide the means to know whether the controls are working. The failure thresholds provide the means to act before degradation becomes crisis. And the Agentic Engineer — the person accountable for reading the gauges and maintaining the integrity of the loop — provides the organizational anchor without which these structures become advisory and eventually ceremonial.
+But controls without instrumentation are faith. The four gauges — Prediction Accuracy, Scope Violation Rate, Explanation Latency, and Invariant Verification Lag — provide the means to know whether the controls are working. The failure thresholds provide the means to act before degradation becomes crisis. And the Agentic Engineer — the person accountable for reading the gauges and maintaining the integrity of the loop — provides the organizational anchor without which these structures become advisory and eventually ceremonial.
 
-The architecture serves three invariants: **outbound intent fidelity**, **inbound theory preservation**, and **operator capability integrity**. The Directive Plane ensures human will reaches the machine without loss of meaning, scope, or constraint. The Reconstruction Plane ensures human understanding is rebuilt from machine-driven outcomes with sufficient fidelity to maintain steerability. The adaptive operator model ensures the humans directing agents possess and develop the judgment to use both planes effectively. The Execution Plane operates between them. All three planes must be designed, maintained, and defended. Without the Directive Plane, intent is lost in transmission. Without the Reconstruction Plane, theory is lost in translation. Without operator capability integrity, both become performative ritual. Any single failure produces an unsteerable system.
+The architecture serves three invariants: **outbound intent fidelity**, **inbound theory preservation**, and **operator capability integrity**. The Directive Plane ensures human will reaches the machine without loss of meaning, scope, or constraint. The Reconstruction Plane ensures human understanding is rebuilt from machine-driven outcomes with sufficient fidelity to maintain controllability. The adaptive operator model ensures the humans directing agents possess and develop the judgment to use both planes effectively. The Execution Plane operates between them. All three planes must be designed, maintained, and defended. Without the Directive Plane, intent is lost in transmission. Without the Reconstruction Plane, theory is lost in translation. Without operator capability integrity, both become performative ritual. Any single failure produces an uncontrollable system.
 
 As multi-agent orchestration matures, the control problem compounds. Intent degrades across agent boundaries. Individually correct outputs compose into incoherent systems. Scope partitioning creates conflict surfaces invisible to any single agent. The five leverage points remain necessary but extend into new forms — Intent Contracts that propagate constraints across chains, Composition Narratives that surface emergent behavior, orchestration-level scope gates that detect what no individual agent can see. At the complexity ceiling — and it is a mathematical certainty that this ceiling will be reached — the human-in-the-loop must become human-over-the-loop, supervising structurally adversarial verification architectures rather than execution directly. That transition must be deliberate, not a drift into abdication. The danger of common-mode failure — monitoring agents that share the same blind spots as the agents they monitor — must be designed against from the start.
 
 The analogous domains — aviation, finance, nuclear power — arrived at the same principles independently because the underlying problem is the same: maintaining human control when machines amplify human action beyond the speed and scale of direct perception. Their solutions were purchased with catastrophe. Ours do not have to be.
 
-Agentic engineering is not a subspecialty of software engineering. It is the discipline that emerges when software engineering operates under power amplification. It has its own failure modes, its own instruments, its own required competencies, and its own professional obligation: to ensure that speed never outpaces steerability.
+Agentic engineering is not a subspecialty of software engineering. It is the discipline that emerges when software engineering operates under power amplification. It has its own failure modes, its own instruments, its own required competencies, and its own professional obligation: to ensure that speed never outpaces controllability.
 
 The framework now recognizes a third invariant: **Operator Capability Integrity** — the meta-invariant that makes the other two possible. Without capable operators, intent fidelity is performative and theory preservation is superficial. The adaptive operator model — Socratic execution modes, evidence-based progression, theory-gated agent access — ensures that the humans directing agents possess and continuously develop the judgment required to do so. Two additional leverage points, LP6 (gate agent access to demonstrated comprehension) and LP7 (separate production authority from exploration access), complete the minimal stabilizing set. The progression ladder, circuit breaker, and merge gates that implement these leverage points are detailed in the [Operator Model](operator-model.md).
 
 > **The goal is not to slow down.**
 >
-> The goal is to move fast while knowing where you are going, knowing where you have been, and retaining the ability to change direction. Speed without steerability is not velocity. It is ballistic trajectory.
+> The goal is to move fast while knowing where you are going, knowing where you have been, and retaining the ability to change direction. Speed without controllability is not velocity. It is ballistic trajectory.
 
 ---
 
@@ -530,4 +530,4 @@ The adaptive operator model integrates ideas from Russinovich and Hanselman's "R
 
 ---
 
-*The Directive Plane — A Control Architecture for Steerable Agentic Engineering*
+*The Directive Plane — A Control Architecture for Controllable Agentic Software Engineering*
