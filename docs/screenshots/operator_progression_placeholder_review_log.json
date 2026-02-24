@@ -1,0 +1,26 @@
+{
+  "user_prompt": "Operator Progression State Machine for Adaptive Agentic Engineering. A state machine diagram showing operator progression through four stages plus two recovery states. MAIN PROGRESSION PATH (left to right): APPRENTICE_1 (Full Scaffold: agent generates tests + active coaching, operator implements) arrow to APPRENTICE_2 (Tutor Only: operator writes own tests + implementation, agent coaches) arrow to JOURNEYMAN (Elevated Review: agent implements, operator reconstructs with +1 additional Prediction Probes above ENGINEER count) arrow to ENGINEER (Standard: full agent access, normal protocol). CIRCUIT BREAKER PATH: From ANY level, when Prediction Accuracy drops below 0.6 threshold, arrow down to RESTRICTED state (Agent writes tests, operator implements - rebuilds theory through hands-on coding). From RESTRICTED, recovery arrow back up to 'restore previous level' when Prediction Accuracy exceeds 0.8 recovery threshold across hybrid window + preceptor approval. ESCALATION PATH: From RESTRICTED, after prolonged failure (2x window with no sustained improvement), arrow down to SUSPENDED state (same as RESTRICTED but with tighter scope gates and direct preceptor mentorship on every change). From SUSPENDED, two-step recovery: first back to RESTRICTED, then normal RESTRICTED recovery to restore. KEY LABELS: Show hysteresis (restrict at 0.6, recover at 0.8). Show that EXPLORATORY systems are exempt from circuit breaker. Show preceptor approval required at every stage transition. Use clean professional technology style with distinct colors for normal progression vs circuit breaker vs suspended paths.",
+  "infographic_type": "process",
+  "style": "technology",
+  "palette": "wong",
+  "doc_type": "report",
+  "quality_threshold": 8.0,
+  "research_enabled": false,
+  "research_data": null,
+  "iterations": [
+    {
+      "iteration": 1,
+      "image_path": "docs/screenshots/operator_progression_placeholder_v1.png",
+      "prompt_length": 3865,
+      "critique": "SCORE: 8.5\n\nSTRENGTHS:\n- **Excellent Color Logic:** Uses a clear blue-to-orange-to-red palette to distinguish between normal progression, circuit breaker intervention, and escalation states.\n- **Complex Information Architecture:** Successfully maps a multi-directional state machine with high information density while maintaining a professional \"tech dashboard\" aesthetic.\n\nISSUES:\n- **Minor Typographical Artifacts:** There are a few small AI-generated typos\u2014\"NORMAL PROTOCUL\" (instead of Protocol), \"WITU\" (instead of WITH), and \"SIISPENDED\" in the description under the Suspended header.\n- **Recovery Logic Ambiguity:** The recovery arrow from Restricted points vaguely toward the final stage (Engineer) rather than specifically illustrating \"restore previous level\" as requested in the prompt.\n\nSPECIFIC_IMPROVEMENTS:\n- **Fix Path Logic:** Divert the recovery arrow (blue) from the RESTRICTED state so it branches back to the specific level the operator fell from, or label it more clearly as \"Return to Previous Level\" to satisfy the state machine logic.\n- **Data Callouts:** Increase the font size of the \"0.6\" and \"0.8\" thresholds; while present, they are secondary to the descriptive text and should be the most prominent feature of those specific arrows to emphasize hysteresis.\n- **Proofread Labels:** Manually correct \"SIISPENDED\" to \"SUSPENDED\" and \"PROTOCUL\" to \"PROTOCOL\" to ensure professional quality.\n\nVERDICT: ACCEPTABLE",
+      "score": 8.5,
+      "needs_improvement": false,
+      "success": true
+    }
+  ],
+  "final_image": "docs/screenshots/operator_progression_placeholder_v1.png",
+  "final_score": 8.5,
+  "success": true,
+  "early_stop": true,
+  "early_stop_reason": "Quality score 8.5 meets threshold 8.0"
+}
