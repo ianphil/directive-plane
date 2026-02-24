@@ -72,7 +72,7 @@ The most dangerous property of these dynamics is that the damage is delayed. A s
 
 Theory loss compounds in a specific and pernicious way. Consider a system that undergoes 50 agent-driven changes over a quarter. If the human maintains theory for the first 10 and then falls behind, the subsequent 40 changes are built on foundations the human does not fully understand. Each successive change is not merely one unit of lost theory — it is one unit built on top of prior lost units. The reconstruction cost grows superlinearly.
 
-This is the cognitive analog of technical debt, but worse. Technical debt can be measured, catalogued, and retired through engineering effort. Theory debt is invisible until the moment you need the theory and discover it is not there. It lives entirely inside human minds, and its absence is detectable only through its consequences: bad decisions, incoherent changes, and the creeping inability to answer the question "why is it this way?"
+This is the cognitive analog of technical debt, but worse. Technical debt can be measured, catalogued, and retired through engineering effort. Cognitive debt is invisible until the moment you need the theory and discover it is not there. It lives entirely inside human minds, and its absence is detectable only through its consequences: bad decisions, incoherent changes, and the creeping inability to answer the question "why is it this way?"
 
 ## 1.4 What Agents Actually Provide
 
@@ -454,7 +454,7 @@ Concrete forms this can take:
 
 - **Invariant Audits:** Review the invariant register. Are there invariants missing? Are any stale? Can you still explain why each one matters?
 
-- **Theory Reconstruction from Scratch:** Pick a component at random. Without reading the code, write down what you believe it does and how. Then read the code and compare. The gap is your theory debt.
+- **Theory Reconstruction from Scratch:** Pick a component at random. Without reading the code, write down what you believe it does and how. Then read the code and compare. The gap is your cognitive debt.
 
 This practice meets the highest resistance because it appears to reduce velocity. It does reduce velocity. That is the point. It preserves the human capability without which velocity is meaningless.
 
@@ -488,7 +488,7 @@ For a team adopting these practices, the recommended sequence is:
 2. **Week 3–4:** Scope Gates. Add the threshold. Observe how often it is exceeded. Calibrate.
 3. **Month 2:** Change Narratives. Begin requiring structured post-change explanations and theory challenges.
 4. **Month 3:** Invariant Tracking. Start with 10–15 invariants for the most critical components. Grow organically.
-5. **Month 4+:** Cognitive Maintenance Rotation. Schedule it. Protect the time. Measure theory debt over time.
+5. **Month 4+:** Cognitive Maintenance Rotation. Schedule it. Protect the time. Measure cognitive debt over time.
 
 ---
 

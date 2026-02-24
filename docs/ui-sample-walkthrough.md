@@ -95,7 +95,7 @@ If the agent touches out-of-scope files or produces unexplained modifications, t
 
 **Why these elements matter:**
 - This is how intent violations become *visible*, automatically, instead of relying on heroic review.
-- It prevents silent expansion of complexity that you’ll pay for later in theory debt.
+- It prevents silent expansion of complexity that you’ll pay for later in cognitive debt.
 
 ---
 
