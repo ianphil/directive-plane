@@ -163,9 +163,9 @@ The protocol defines six stage-gates that work must pass through. Each stage-gat
 
 G1 (Intent Contract Approval) requires that the Intent Contract be reviewed and approved by an authorized operator before execution begins. This ensures that unstructured intent does not enter the Execution Plane.
 
-G2 (Scope Verification) requires that the execution plan produced by the agent falls within the scope declared in the Intent Contract. This catches scope violations before execution rather than after.
+G2 (Scope and Invariant Verification) requires that the execution plan produced by the agent falls within the scope declared in the Intent Contract and does not violate any registered invariants for the components being modified. This catches scope violations and invariant conflicts before execution rather than after.
 
-G3 (Invariant Verification) requires that the execution plan does not violate any registered invariants for the components being modified. This ensures that critical system properties are preserved.
+G3 (Execution Authorization) requires that the execution sandbox is bounded strictly to planned modifications and resolves the execution mode by checking the operator's progression stage against the repository designation. This determines whether the operator receives Socratic, Restricted, or Standard mode and gates multi-agent orchestration access.
 
 G4 (Execution Completion) requires that execution completes without error and produces all required assurance artifacts—the modified code and the Design Rationale.
 
@@ -183,11 +183,11 @@ The protocol specifies six primary assurance artifacts that embody the control d
 
 **The Execution Envelope (EE)** captures both the plan (PRE) and the results (POST) of execution: what the agent intended to do and what it actually did, mapped back to the Intent Contract clauses.
 
-**The Change Narrative / Design Rationale (CN)** captures the explanatory account of the change: reasoning, alternatives considered, assumptions made, and dependencies introduced.
+**The Composition Narrative (CN)**, required in multi-agent contexts, captures the orchestrator's explanatory account of how multiple agents' outputs fit together: interaction maps, assumption verdicts, and risk assessments.
 
 **The Composition Proof (CP)**, required in multi-agent contexts, captures independent verification that multiple agents' outputs compose correctly without emergent misbehavior.
 
-**The Reconstruction Proof (RP)** captures the operator's responses to Prediction Probes, providing an auditable record of demonstrated comprehension.
+**The Reconstruction Proof (RP)** captures the Design Rationale (the agent's explanatory account of the change: reasoning, alternatives considered, assumptions made, and dependencies introduced), the Prediction Probes the operator must answer, and the operator's responses—providing an auditable record of demonstrated comprehension.
 
 ### Risk Tiers
 
