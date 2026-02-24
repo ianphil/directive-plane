@@ -1,8 +1,8 @@
-# The Directive Plane: A Control Architecture for Steerable Agentic Software Engineering
+# The Directive Plane: A Control Architecture for Controllable Agentic Software Engineering
 
 ## Abstract
 
-Large language model (LLM) agents can autonomously generate, refactor, and test code, increasing implementation velocity while widening the gap between human intent, human understanding, and shipped behavior. When changes are produced faster than operators can reconstruct theory, systems may remain functional yet become operationally unsteerable: engineers cannot reliably predict behavior, verify scope, or maintain critical invariants. We present the Directive Plane, a control architecture for steerable agentic software engineering grounded in a system dynamics model of three stocks—Human Theory, System Complexity, and their ratio, Navigability—and the feedback loops that drive cognitive debt under high-velocity execution. From this model we derive seven leverage points and operationalize them through a three-plane architecture (Directive, Execution, Reconstruction) and a Control Fidelity Protocol (CFP) with explicit gates, artifacts, and gauges. We extend the framework to multi-agent orchestration, where intent transformation chains and compositional incoherence require composition-aware verification, and to an adaptive operator model that gates execution privileges on demonstrated comprehension while preserving learning pathways. Drawing on control practices from aviation, nuclear operations, and financial risk management, we propose falsifiable mechanisms—scope verification, invariant checks, and prediction-based Theory Challenges—for maintaining meaningful human control as machine execution speed increases.
+Large language model (LLM) agents can autonomously generate, refactor, and test code, increasing implementation velocity while widening the gap between human intent, human understanding, and shipped behavior. When changes are produced faster than operators can reconstruct theory, systems may remain functional yet become operationally uncontrollable (loss of controllability): engineers cannot reliably predict behavior, verify scope, or maintain critical invariants. We present the Directive Plane, a control architecture for controllable agentic software engineering grounded in a system dynamics model of three stocks—Human Theory (operator mental-model fidelity), System Complexity (behavioral complexity), and their ratio, Navigability (model–system adequacy ratio)—and the feedback loops that drive cognitive debt under high-velocity execution. From this model we derive seven leverage points and operationalize them through a three-plane architecture (Directive, Execution, Reconstruction) and a Control Fidelity Protocol (CFP) with explicit stage-gates, assurance artifacts, and gauges. We extend the framework to multi-agent orchestration, where intent transformation chains and integration inconsistency (compositional incoherence) require composition-aware verification, and to an adaptive operator model that gates execution privileges on demonstrated comprehension while preserving learning pathways. Drawing on control practices from aviation, nuclear operations, and financial risk management, we propose falsifiable mechanisms—scope verification, invariant checks, and prediction-based comprehension assessments (Prediction Probes)—for maintaining meaningful human control as machine execution speed increases.
 
 
 ## Introduction
@@ -11,11 +11,11 @@ Software engineering stands at an inflection point comparable to the introductio
 
 The agentic coding paradigm—in which large language model agents autonomously write, test, and refactor code based on natural language instructions—represents precisely this kind of amplification. A single human prompt can trigger modifications across hundreds of files in minutes. The changes may be syntactically correct, pass all tests, and satisfy the surface-level requirements specified in the prompt. Yet the human who issued the prompt may be unable to explain what the agent did, why it chose the approach it chose, or how the changes interact with the broader system. The tests pass. The code ships. The human's mental model of the system has not updated.
 
-This gap between system state and human understanding is not merely an inconvenience. It is a structural vulnerability. The human remains nominally responsible for the system—for its security, its reliability, its fitness for purpose—but has lost the capacity to discharge that responsibility. They cannot reason about failure modes they do not understand. They cannot direct evolution they cannot predict. They cannot maintain invariants they cannot articulate. The system has become what engineers in other high-amplification domains call "unsteerable"—a condition that may persist undetected until an incident forces confrontation with the accumulated cognitive debt.
+This gap between system state and human understanding is not merely an inconvenience. It is a structural vulnerability. The human remains nominally responsible for the system—for its security, its reliability, its fitness for purpose—but has lost the capacity to discharge that responsibility. They cannot reason about failure modes they do not understand. They cannot direct evolution they cannot predict. They cannot maintain invariants they cannot articulate. The system has become what engineers in other high-amplification domains describe as a loss of controllability—a condition that may persist undetected until an incident forces confrontation with the accumulated cognitive debt.
 
-The challenge is not to slow down agent-driven development. The productivity gains are real and, in competitive contexts, unavoidable. The challenge is to architect the human-agent interface such that speed does not outpace steerability. This requires understanding the system dynamics that govern the accumulation and erosion of human understanding, identifying the minimal set of interventions that prevent runaway degradation, and operationalizing those interventions in protocols and practices that can be adopted by working engineering teams.
+The challenge is not to slow down agent-driven development. The productivity gains are real and, in competitive contexts, unavoidable. The challenge is to architect the human-agent interface such that speed does not outpace controllability. This requires understanding the system dynamics that govern the accumulation and erosion of human understanding, identifying the minimal set of interventions that prevent runaway degradation, and operationalizing those interventions in protocols and practices that can be adopted by working engineering teams.
 
-This paper presents such an architecture. We begin by establishing the system dynamics model that underlies the control problem, identifying the stocks, flows, and feedback loops that determine whether a human-agent system remains steerable over time. From this model, we derive seven leverage points—structural interventions that, in combination, prevent the runaway loops that lead to unsteerable systems. We then describe the three-plane architecture (Directive, Execution, and Reconstruction) that organizes these interventions, and the Control Fidelity Protocol that specifies the gates, artifacts, and state machines required to maintain control. We extend the framework to multi-agent orchestration, where intent passes through chains of agents and individually correct outputs can compose into systemically incoherent results. We introduce an adaptive operator model that differentiates agent access based on demonstrated comprehension, creating protected pathways for skill development while preventing unverified operators from directing agents through systems they do not understand. Throughout, we draw on analogies from aviation, nuclear power, and financial risk management—domains where the control problem has been studied for decades and where hard-won principles have emerged from catastrophic failures.
+This paper presents such an architecture. We begin by establishing the system dynamics model that underlies the control problem, identifying the stocks, flows, and feedback loops that determine whether a human-agent system remains controllable over time. From this model, we derive seven leverage points—structural interventions that, in combination, prevent the runaway loops that lead to loss of controllability. We then describe the three-plane architecture (Directive, Execution, and Reconstruction) that organizes these interventions, and the Control Fidelity Protocol that specifies the stage-gates, assurance artifacts, and state machines required to maintain control. We extend the framework to multi-agent orchestration, where intent passes through chains of agents and individually correct outputs can compose into systemically incoherent results. We introduce an adaptive operator model that differentiates agent access based on demonstrated comprehension, creating protected pathways for skill development while preventing unverified operators from directing agents through systems they do not understand. Throughout, we draw on analogies from aviation, nuclear power, and financial risk management—domains where the control problem has been studied for decades and where hard-won principles have emerged from catastrophic failures.
 
 ## System Dynamics Model
 
@@ -23,7 +23,7 @@ The relationship between human understanding and system complexity can be modele
 
 ### Stocks and Flows
 
-The system contains three primary stocks. Human Theory represents the depth and fidelity of the mental models held by the humans responsible for the system. This stock is built through direct engagement with code—reading it, writing it, debugging it—and erodes through disuse, turnover, and system evolution that outpaces comprehension. System Complexity represents the behavioral surface area of the software—the number of states, transitions, invariants, and coupling relationships that must be understood to predict system behavior. This stock grows through feature addition, architectural expansion, and the accumulation of implicit dependencies, and shrinks only through deliberate simplification or removal. Navigability is the derived ratio of Human Theory to System Complexity—the degree to which the humans responsible for a system can predict its behavior under novel conditions.
+The system contains three primary stocks. Human Theory (operator mental-model fidelity) represents the depth and fidelity of the mental models held by the humans responsible for the system. This stock is built through direct engagement with code—reading it, writing it, debugging it—and erodes through disuse, turnover, and system evolution that outpaces comprehension. System Complexity (behavioral complexity) represents the behavioral surface area of the software—the number of states, transitions, invariants, and coupling relationships that must be understood to predict system behavior. This stock grows through feature addition, architectural expansion, and the accumulation of implicit dependencies, and shrinks only through deliberate simplification or removal. Navigability (model–system adequacy ratio) is the derived ratio of Human Theory to System Complexity—the degree to which the humans responsible for a system can predict its behavior under novel conditions.
 
 These stocks are connected by flows. The Comprehension Flow adds to Human Theory as humans engage with the system. The Velocity Flow adds to System Complexity as changes are made. Under traditional development, these flows are roughly coupled—humans comprehend approximately as fast as they add complexity because they are doing the implementation work themselves. Under agent-driven development, this coupling breaks. Velocity Flow accelerates dramatically while Comprehension Flow remains bounded by human cognitive limits.
 
@@ -41,9 +41,9 @@ The runaway dynamics can be arrested through balancing feedback loops—structur
 
 The Intent Verification Loop makes invisible intent violations visible. When the gap between declared intent and actual implementation is surfaced automatically, the human receives feedback that their specification was inadequate. This creates pressure to improve specification precision, which in turn requires understanding—activating the Comprehension Flow.
 
-The Theory Reconstruction Loop forces humans to rebuild understanding after agent-driven changes. Rather than allowing changes to accumulate without comprehension, this loop requires humans to demonstrate understanding before changes are finalized. The demonstration must be falsifiable—not a signature asserting understanding, but a prediction about system behavior that can be checked.
+The Theory Reconstruction (mental-model updating) Loop forces humans to rebuild understanding after agent-driven changes. Rather than allowing changes to accumulate without comprehension, this loop requires humans to demonstrate understanding before changes are finalized. The demonstration must be falsifiable—not a signature asserting understanding, but a prediction about system behavior that can be checked.
 
-The Magnitude Limiting Loop constrains the rate at which complexity can be added. By requiring explicit authorization for changes that exceed a threshold, this loop prevents the Velocity Flow from outpacing the Comprehension Flow by arbitrary amounts. The human must consciously decide to accept a large change, which creates a decision point for additional comprehension effort.
+The Magnitude Limiting (change-budget) Loop constrains the rate at which complexity can be added. By requiring explicit authorization for changes that exceed a threshold, this loop prevents the Velocity Flow from outpacing the Comprehension Flow by arbitrary amounts. The human must consciously decide to accept a large change, which creates a decision point for additional comprehension effort.
 
 The Capability Preservation Loop maintains the human's underlying capacity to engage with the system. Skills atrophy without use. If humans never write code, debug problems, or reason through architecture, their capacity to do so degrades. This loop ensures that humans periodically engage directly with the system, preserving the cognitive machinery required for the other controls to function.
 
@@ -65,9 +65,9 @@ Without LP1, the other leverage points operate blind. Theory reconstruction cann
 
 The second leverage point addresses the accumulation of cognitive debt. After every agent-driven change, the human must demonstrate understanding through a falsifiable mechanism. The mechanism is not acknowledgment ("I have reviewed this change") but prediction ("Given this input, the system will behave as follows").
 
-The Change Narrative produced by the agent explains what changed and why. The Theory Challenge asks the human to predict consequences of the change under specified conditions. If the prediction is correct, the human holds theory. If incorrect, theory must be rebuilt through direct engagement with the code before the change proceeds.
+The Design Rationale produced by the agent explains what changed and why. The Prediction Probe (prediction-based comprehension assessment) asks the human to predict consequences of the change under specified conditions. If the prediction is correct, the human holds theory. If incorrect, theory must be rebuilt through direct engagement with the code before the change proceeds.
 
-This is expensive. It consumes human time. That is the point. The alternative is accumulating changes without comprehension until the system becomes unsteerable. The cost of reconstruction on every change is bounded and predictable. The cost of reconstruction after months of accumulated debt is unbounded and often prohibitive.
+This is expensive. It consumes human time. That is the point. The alternative is accumulating changes without comprehension until the system loses controllability. The cost of reconstruction on every change is bounded and predictable. The cost of reconstruction after months of accumulated cognitive debt is unbounded and often prohibitive.
 
 ### LP3: Magnitude Limits on Agent-Driven Changes
 
@@ -89,13 +89,13 @@ LP4 requires periodic direct engagement with system complexity without agent ass
 
 The fifth leverage point addresses the foundation of the control loop: the human's declaration of what they want. Unstructured natural language is ambiguous, incomplete, and unverifiable. A prompt saying "make the login better" cannot be verified because "better" is undefined. A structured Intent Contract declaring specific goals, permitted scope, preserved constraints, and acceptance criteria can be verified.
 
-The Intent Contract is not a bureaucratic artifact. It is the contract against which all subsequent verification occurs. LP1 compares actual changes against the contract's declared scope. LP2 generates Theory Challenges from the contract's acceptance criteria. LP3 measures magnitude against the contract's implied boundaries. Without LP5, the other leverage points have no reference point.
+The Intent Contract is not a bureaucratic artifact. It is the contract against which all subsequent verification occurs. LP1 compares actual changes against the contract's declared scope. LP2 generates Prediction Probes from the contract's acceptance criteria. LP3 measures magnitude against the contract's implied boundaries. Without LP5, the other leverage points have no reference point.
 
 ### LP6: Agent Access Gated by Demonstrated Comprehension
 
 The sixth leverage point addresses the moral hazard in unrestricted agent access. If anyone can direct agents through any system regardless of their understanding of that system, then LP4 becomes voluntary and will be skipped under velocity pressure. There must be a mechanism that automatically restricts agent access when theory gauges degrade below threshold.
 
-This is the circuit breaker. When an operator's prediction accuracy on Theory Challenges drops below threshold, agent execution privileges are automatically suspended. The operator must rebuild theory through direct engagement—writing code by hand—until gauges recover. The restriction is automatic, not discretionary. It cannot be overridden by the operator themselves or waived for deadline pressure.
+This is the circuit breaker. When an operator's prediction accuracy on Prediction Probes drops below threshold, agent execution privileges are automatically suspended. The operator must rebuild theory through direct engagement—writing code by hand—until gauges recover. The restriction is automatic, not discretionary. It cannot be overridden by the operator themselves or waived for deadline pressure.
 
 Without LP6, the cognitive maintenance requirement of LP4 has no enforcement mechanism. Teams will skip maintenance under pressure because there is no structural consequence for doing so. LP6 creates that consequence: lose your theory, lose your amplifier.
 
@@ -109,35 +109,35 @@ Without LP7, organizations face an impossible choice between production risk and
 
 ## Three-Plane Architecture
 
-The seven leverage points are organized into a three-plane architecture that structures the flow of intent, execution, and understanding.
+The seven leverage points are organized into a three-plane architecture (intent specification, actuation, and model-update layers) that structures the flow of intent, execution, and understanding.
 
-### The Directive Plane
+### The Directive Plane (Intent Specification Layer)
 
-The Directive Plane is responsible for transforming human will into structured machine-executable intent. This plane receives natural language goals and constraints from the human operator and produces structured intent artifacts that can be verified against outcomes. The plane ensures that what the human wants is captured with sufficient precision that deviation from it is measurable.
+The Directive Plane (intent specification layer) is responsible for transforming human will into structured machine-executable intent. This plane receives natural language goals and constraints from the human operator and produces structured intent artifacts that can be verified against outcomes. The plane ensures that what the human wants is captured with sufficient precision that deviation from it is measurable.
 
-The primary artifact of the Directive Plane is the Intent Contract—a structured document specifying goal, scope, constraints, non-goals, and acceptance criteria. The Intent Contract travels with the work through subsequent stages, providing the reference against which verification occurs. In multi-agent contexts, the Intent Contract propagates through orchestration layers, carrying root constraints as immutable context even as sub-tasks are decomposed.
+The primary artifact of the Directive Plane is the Intent Contract (IC), a formal intent specification that defines goal, scope, constraints, non-goals, and acceptance criteria. The Intent Contract travels with the work through subsequent stages, providing the reference against which verification occurs. In multi-agent contexts, the Intent Contract propagates through orchestration layers, carrying root constraints as immutable context even as sub-tasks are decomposed.
 
 The Directive Plane implements LP5 (structured intent) and the upstream portion of LP1 (intent declaration against which violations can be detected).
 
-### The Execution Plane
+### The Execution Plane (Actuation Layer)
 
-The Execution Plane is responsible for transforming structured intent into system changes. This plane receives the Intent Contract from the Directive Plane and produces code changes along with explanatory artifacts that enable theory reconstruction. The plane operates under the constraints declared in the Intent Contract and is bounded by the magnitude limits of LP3.
+The Execution Plane (actuation layer) is responsible for transforming structured intent into system changes. This plane receives the Intent Contract from the Directive Plane and produces code changes along with explanatory assurance artifacts that enable theory reconstruction. The plane operates under the constraints declared in the Intent Contract and is bounded by the magnitude limits (change budgets) of LP3.
 
-The Execution Plane adapts its behavior based on operator capability. For operators in Socratic mode, the plane generates failing tests from the Intent Contract and challenges the operator to write the implementation. For operators in Standard mode, the plane executes the implementation and generates the Change Narrative explaining what was done and why. The mode selection is determined by the operator's position in the progression ladder and their current theory gauge state.
+The Execution Plane adapts its behavior based on operator capability. For operators in Socratic (Pedagogical) mode, the plane generates failing tests from the Intent Contract and challenges the operator to write the implementation. For operators in Standard (Agent-Implemented) mode, the plane executes the implementation and generates the Design Rationale explaining what was done and why. The mode selection is determined by the operator's position in the progression ladder and their current theory gauge state.
 
 The Execution Plane implements LP3 (magnitude limits) and the adaptive execution modes described in the operator model.
 
-### The Reconstruction Plane
+### The Reconstruction Plane (Model-Update Layer)
 
-The Reconstruction Plane is responsible for rebuilding human theory from machine-produced changes. This plane receives the execution output and produces structured materials—Change Narratives and Theory Challenges—that force the human to demonstrate understanding. The plane verifies that the Comprehension Flow keeps pace with the Velocity Flow.
+The Reconstruction Plane (model-update layer) is responsible for rebuilding human theory from machine-produced changes. This plane receives the execution output and produces structured materials—Design Rationales and Prediction Probes—that force the human to demonstrate understanding. The plane verifies that the Comprehension Flow keeps pace with the Velocity Flow.
 
-The Change Narrative is not a diff summary. It is an architectural explanation of what changed, why that approach was chosen, what alternatives were considered, and what assumptions underlie the implementation. The Theory Challenge is not an acknowledgment prompt. It is a falsifiable prediction question whose answer can be checked against actual system behavior.
+The Design Rationale is not a diff summary. It is an architectural explanation of what changed, why that approach was chosen, what alternatives were considered, and what assumptions underlie the implementation. The Prediction Probe is not an acknowledgment prompt. It is a falsifiable prediction question whose answer can be checked against actual system behavior.
 
 The Reconstruction Plane implements LP2 (forced theory reconstruction) and the downstream portion of LP1 (verification that execution aligned with intent).
 
 ### Three Invariants
 
-The architecture serves three invariants that must be maintained for the system to remain steerable.
+The architecture serves three invariants that must be maintained for the system to remain controllable.
 
 Outbound Intent Fidelity ensures that human will reaches the machine without loss of meaning, scope, or constraint. When the human says "modify only the auth module," the modification must be limited to the auth module. When the human says "preserve retry behavior," the retry behavior must be preserved. The Directive Plane exists to ensure intent survives transmission.
 
@@ -147,11 +147,11 @@ Operator Capability Integrity ensures that the humans directing agents possess a
 
 ## Control Fidelity Protocol
 
-The architecture is operationalized through the Control Fidelity Protocol (CFP), which specifies the gates, artifacts, and state machines required to maintain control. The protocol defines the precise conditions under which work can proceed from one stage to the next, ensuring that the leverage points are enforced rather than merely recommended.
+The architecture is operationalized through the Control Fidelity Protocol (CFP), which specifies the stage-gates, assurance artifacts, and state machines required to maintain control. The protocol defines the precise conditions under which work can proceed from one stage to the next, ensuring that the leverage points are enforced rather than merely recommended.
 
-### Gates
+### Stage-Gates
 
-The protocol defines six gates that work must pass through. Each gate is a Boolean predicate—the condition is either satisfied or it is not. Failure at any gate transitions the system to an error state that must be resolved before work proceeds.
+The protocol defines six stage-gates that work must pass through. Each stage-gate is a Boolean predicate—the condition is either satisfied or it is not. Failure at any stage-gate transitions the system to an error state that must be resolved before work proceeds.
 
 G1 (Intent Contract Approval) requires that the Intent Contract be reviewed and approved by an authorized operator before execution begins. This ensures that unstructured intent does not enter the Execution Plane.
 
@@ -159,15 +159,15 @@ G2 (Scope Verification) requires that the execution plan produced by the agent f
 
 G3 (Invariant Verification) requires that the execution plan does not violate any registered invariants for the components being modified. This ensures that critical system properties are preserved.
 
-G4 (Execution Completion) requires that execution completes without error and produces all required artifacts—the modified code and the Change Narrative.
+G4 (Execution Completion) requires that execution completes without error and produces all required assurance artifacts—the modified code and the Design Rationale.
 
-G5 (Theory Verification) requires that the operator pass the Theory Challenges with prediction accuracy above threshold. This ensures that changes are not finalized without comprehension.
+G5 (Theory Verification) requires that the operator pass the Prediction Probes with prediction accuracy above threshold. This ensures that changes are not finalized without comprehension.
 
 G6 (Merge Authorization) requires that the operator has the authority to merge code of this type (agent-generated or operator-written) to this repository type (production or non-production). This enforces the separation of production authority from exploration access.
 
-### Artifacts
+### Assurance Artifacts
 
-The protocol specifies six primary artifacts that embody the control data.
+The protocol specifies six primary assurance artifacts that embody the control data.
 
 The Intent Contract (IC) captures structured human intent: goal, scope, constraints, non-goals, and acceptance criteria. It is produced by the human (possibly with agent assistance in structuring) and approved at G1.
 
@@ -175,21 +175,21 @@ The Orchestration Envelope (OE) captures the decomposition plan when multiple ag
 
 The Execution Envelope (EE) captures both the plan (PRE) and the results (POST) of execution: what the agent intended to do and what it actually did, mapped back to the Intent Contract clauses.
 
-The Change Narrative (CN) captures the explanatory account of the change: reasoning, alternatives considered, assumptions made, and dependencies introduced.
+The Change Narrative / Design Rationale (CN) captures the explanatory account of the change: reasoning, alternatives considered, assumptions made, and dependencies introduced.
 
 The Composition Proof (CP), required in multi-agent contexts, captures independent verification that multiple agents' outputs compose correctly without emergent misbehavior.
 
-The Reconstruction Proof (RP) captures the operator's responses to Theory Challenges, providing an auditable record of demonstrated comprehension.
+The Reconstruction Proof (RP) captures the operator's responses to Prediction Probes, providing an auditable record of demonstrated comprehension.
 
 ### Risk Tiers
 
 The protocol recognizes that different systems warrant different levels of control. Three risk tiers determine the rigor of enforcement.
 
-Consequential tier applies to systems where failures have significant business, security, or safety implications. At this tier, the protocol enforces maximum rigor: multiple Theory Challenges, structurally adversarial verification agents in multi-agent contexts, and prohibition on multi-agent orchestration entirely.
+Consequential tier applies to systems where failures have significant business, security, or safety implications. At this tier, the protocol enforces maximum rigor: multiple Prediction Probes, heterogeneously redundant independent verification agents in multi-agent contexts, and prohibition on multi-agent orchestration entirely.
 
-Professional tier applies to production systems with standard business risk. At this tier, the protocol enforces moderate rigor: standard Theory Challenges, verification agents that may share model families with execution agents, and multi-agent orchestration permitted only for operators at the highest progression level.
+Professional tier applies to production systems with standard business risk. At this tier, the protocol enforces moderate rigor: standard Prediction Probes, verification agents that may share model families with execution agents, and multi-agent orchestration permitted only for operators at the highest progression level.
 
-Exploratory tier applies to prototypes, sandboxes, and learning environments where the cost of failure is low. At this tier, the protocol enforces minimal rigor: reduced Theory Challenges, optional verification, and full agent access for operators at all levels.
+Exploratory tier applies to prototypes, sandboxes, and learning environments where the cost of failure is low. At this tier, the protocol enforces minimal rigor: reduced Prediction Probes, optional verification, and full agent access for operators at all levels.
 
 The tier is a property of the repository, not the change. Organizations may encode this in repository designation (e.g., production vs. non-production) and associated policy, and the protocol selects the corresponding tier and enforcement profile at runtime.
 
@@ -203,13 +203,13 @@ In the dyadic model, intent traverses a single hop from human to agent. In orche
 
 The Intent Contract must evolve from a single-hop artifact to a propagating contract. At each orchestration hop, the root intent and its immutable constraints must travel with the sub-task. The receiving agent can see not just its immediate instructions but the original human intent against which its work will ultimately be verified. This prevents the semantic drift that occurs when each layer interprets only its immediate parent's instructions.
 
-### Compositional Incoherence
+### Integration Inconsistency
 
 The second fundamental problem is that individually correct agent outputs can compose into systemically incorrect results. Agent A modifies authentication assuming tokens are validated at the gateway. Agent B modifies the gateway assuming tokens are validated at the service. Both outputs are correct in isolation. The system is incorrect in composition.
 
 This requires a new class of verification. Individual agents are verified for correctness against their sub-tasks. The composition must be verified for coherence against the root intent. The orchestrator is the natural entity to produce this verification, but the orchestrator is simultaneously the architect of the composition and its auditor—a segregation-of-duties violation that becomes dangerous at higher risk tiers.
 
-At Consequential tier, the protocol requires structurally adversarial verification: a verifier agent built on a different model family, prompted with different context, and explicitly tasked with finding compositional failures. This defense-in-depth prevents common-mode failure where the orchestrator and verifier share the same blind spots.
+At Consequential tier, the protocol requires independent verification with heterogeneous redundancy: a verifier agent built on a different model family, prompted with different context, and explicitly tasked with finding compositional failures. This defense-in-depth prevents common-mode failure where the orchestrator and verifier share the same blind spots.
 
 ### The Complexity Ceiling
 
@@ -217,7 +217,7 @@ Multi-agent orchestration forces confrontation with a hard limit: human cognitiv
 
 There is a complexity ceiling beyond which human-in-the-loop control is structurally inadequate. At that ceiling, the human must transition from supervising execution directly to supervising the monitoring apparatus that watches execution. This is not abdication but a phase shift in the nature of control.
 
-The danger is common-mode failure in the monitoring layer. If the monitoring agents share the same underlying model biases as the execution agents, redundancy provides no protection. The Directive Plane requires that monitoring architectures above the complexity ceiling be designed for structural adversariality from the start—diverse models, diverse prompting, explicit adversarial objectives.
+The danger is common-mode failure in the monitoring layer. If the monitoring agents share the same underlying model biases as the execution agents, redundancy provides no protection. The Directive Plane requires that monitoring architectures above the complexity ceiling be designed for independent verification with heterogeneous redundancy from the start—diverse models, diverse prompting, explicit adversarial objectives.
 
 ## Adaptive Operator Model
 
@@ -227,29 +227,29 @@ The Execution Plane adapts its behavior based on who is operating it, not just w
 
 The protocol defines three execution modes that differ in how work is distributed between agent and operator.
 
-Socratic Mode inverts the standard agent role. The agent does not implement; it teaches. The agent generates failing tests derived from the Intent Contract, and the operator writes the implementation to make the tests pass. The agent reviews the operator's code not to fix it but to challenge it—probing edge cases, questioning assumptions, surfacing gaps in reasoning. Theory is held by construction because the operator built the implementation themselves.
+Socratic (Pedagogical) Mode inverts the standard agent role. The agent does not implement; it teaches. The agent generates failing tests derived from the Intent Contract, and the operator writes the implementation to make the tests pass. The agent reviews the operator's code not to fix it but to challenge it—probing edge cases, questioning assumptions, surfacing gaps in reasoning. Theory is held by construction because the operator built the implementation themselves.
 
-Restricted Mode places the agent in a testing role. The agent writes the tests; the operator writes the implementation. This mode is shared across two entry paths: the circuit breaker (for operators whose theory has degraded) and senior onboarding (for experienced engineers new to a codebase). In both cases, the operator already has test design skill; what they lack is direct familiarity with the code. Implementing against agent-generated tests forces that engagement.
+Restricted (Operator-Implemented) Mode places the agent in a testing role. The agent writes the tests; the operator writes the implementation. This mode is shared across two entry paths: the circuit breaker (for operators whose theory has degraded) and senior onboarding (for experienced engineers new to a codebase). In both cases, the operator already has test design skill; what they lack is direct familiarity with the code. Implementing against agent-generated tests forces that engagement.
 
-Standard Mode is the baseline protocol behavior. The agent executes, produces the Change Narrative, and the operator passes Theory Challenges to demonstrate reconstruction.
+Standard (Agent-Implemented) Mode is the baseline protocol behavior. The agent executes, produces the Design Rationale, and the operator passes Prediction Probes to demonstrate reconstruction.
 
 ### Progression Ladder
 
-Operators progress through stages as they demonstrate competence. The progression is evidence-based, not time-based. The protocol provides the evidence through gauges; a human mentor (the preceptor) makes the judgment call.
+Operators progress through stages as they demonstrate competence. The progression is evidence-based, not time-based. The protocol provides the evidence through gauges; a human mentor (the Engineering Manager) makes the judgment call.
 
 At the first stage, the operator receives full scaffolding: agent-generated tests, active coaching, explicit guidance through the implementation process. At the second stage, the coaching continues but the operator must write their own tests—developing the instinct for what to test that distinguishes craft maturity. At the third stage, the operator transitions to the review side: the agent implements, and the operator reconstructs theory through challenges. The challenge count is elevated above the final stage to force more reconstruction practice. At the final stage, the operator operates under standard protocol with full agent access.
 
-Each stage transition requires preceptor attestation based on gauge evidence: prediction accuracy trending above threshold, test quality gap closing, breadth of subsystem coverage expanding. No algorithm promotes an operator. The gauges provide evidence; a human decides.
+Each stage transition requires Engineering Manager attestation based on gauge evidence: prediction accuracy trending above threshold, test quality gap closing, breadth of subsystem coverage expanding. No algorithm promotes an operator. The gauges provide evidence; a human decides.
 
 ### Circuit Breaker
 
-Theory Challenge performance is not merely a gauge but a circuit breaker. When an operator's prediction accuracy drops below threshold, agent execution privileges are automatically suspended. The operator must rebuild theory through direct coding—implementing against agent-generated tests—until gauges recover above the recovery threshold.
+Prediction Probe performance is not merely a gauge but a circuit breaker. When an operator's prediction accuracy drops below threshold, agent execution privileges are automatically suspended. The operator must rebuild theory through direct coding—implementing against agent-generated tests—until gauges recover above the recovery threshold.
 
-The mechanism includes hysteresis to prevent flapping: the recovery threshold is higher than the restriction threshold, requiring demonstrated sustained improvement. The mechanism includes a hybrid window requiring both a minimum number of changes and a minimum time span, preventing both rushed gaming and thin-sample artifacts. The mechanism includes preceptor approval as a final gate, adding human judgment to the quantitative signal.
+The mechanism includes hysteresis to prevent flapping: the recovery threshold is higher than the restriction threshold, requiring demonstrated sustained improvement. The mechanism includes a hybrid window requiring both a minimum number of changes and a minimum time span, preventing both rushed gaming and thin-sample artifacts. The mechanism includes Engineering Manager approval as a final gate, adding human judgment to the quantitative signal.
 
-If self-directed recovery fails—if an operator remains restricted for an extended period without improvement—the state escalates to suspended, triggering closer mentorship with tighter constraints and a preceptor-designed recovery path. The operator does not lose their position; they receive more support. But agent access remains suspended until theory demonstrably rebuilds.
+If self-directed recovery fails—if an operator remains restricted for an extended period without improvement—the state escalates to suspended, triggering closer mentorship with tighter constraints and an Engineering Manager-designed recovery path. The operator does not lose their position; they receive more support. But agent access remains suspended until theory demonstrably rebuilds.
 
-### Merge Gates
+### Merge Stage-Gates
 
 The repository designation determines who can merge what where. Only operators who have reached the elevated review stage or beyond can merge agent-generated code to production repositories. Operators at earlier stages, or operators whose theory has degraded into restriction, can use agents freely in non-production environments but cannot ship agent code to production.
 
@@ -261,29 +261,29 @@ Controls without instrumentation are faith. The architecture defines what must b
 
 ### The Falsifiability Principle
 
-The central risk in any human-verification system is that verification becomes performative. A signed checklist asserts that a check was performed. It does not prove that understanding was achieved. A reviewed Change Narrative asserts that the human read it. It does not prove that theory was reconstructed.
+The central risk in any human-verification system is that verification becomes performative. A signed checklist asserts that a check was performed. It does not prove that understanding was achieved. A reviewed Design Rationale asserts that the human read it. It does not prove that theory was reconstructed.
 
 Aviation discovered this distinction at the cost of lives. Early checklists were read-and-acknowledge: the pilot read the item and confirmed completion. This failed because pilots confirmed items out of habit without verifying the underlying state. Modern checklists are challenge-and-response: one pilot reads the challenge, the other verifies the instrument and states the actual value. The check is coupled to system state, not to human assertion.
 
-A control artifact has integrity when it is falsifiable—when it makes a claim that can be checked against reality. An Intent Contract that declares scope is falsifiable: the actual change either stayed within scope or it did not. A Theory Challenge that asks for a prediction is falsifiable: the prediction is either correct or it is not. An artifact that asks only for acknowledgment is unfalsifiable and worthless as a control.
+A control artifact has integrity when it is falsifiable—when it makes a claim that can be checked against reality. An Intent Contract that declares scope is falsifiable: the actual change either stayed within scope or it did not. A Prediction Probe that asks for a prediction is falsifiable: the prediction is either correct or it is not. An artifact that asks only for acknowledgment is unfalsifiable and worthless as a control.
 
 ### Core Gauges
 
 Four gauges instrument the health of the control system. These gauges are not vanity metrics. They are instruments that read the stocks defined in the system dynamics model.
 
-Prediction Accuracy proxies Human Theory. It tracks the correctness rate of Theory Challenge responses over time. A declining accuracy rate indicates that human understanding is falling behind system evolution.
+Prediction Accuracy (predictive validity) proxies Human Theory. It tracks the correctness rate of Prediction Probe responses over time. A declining accuracy rate indicates that human understanding is falling behind system evolution.
 
-Scope Breach Rate reads the effectiveness of magnitude limits. It tracks the percentage of changes exceeding declared scope. A rising breach rate or rising average breach size indicates that LP3 is losing its function as a control.
+Scope Violation Rate reads the effectiveness of magnitude limits (change budgets). It tracks the percentage of changes exceeding declared scope. A rising violation rate or rising average violation size indicates that LP3 is losing its function as a control.
 
-Time-to-Explain proxies Navigability. It is measured through periodic sampling: ask an engineer to explain a subsystem, measure the time required and the completeness achieved. Increasing time or decreasing completeness indicates growing cognitive debt.
+Explanation Latency (Time-to-Explain) proxies Navigability. It is measured through periodic sampling: ask an engineer to explain a subsystem, measure the time required and the completeness achieved. Increasing time or decreasing completeness indicates growing cognitive debt.
 
-Invariant Staleness reads the gap between stated and actual system properties. It tracks the age of each invariant since last verification or update. A growing number of invariants past their verification deadline indicates that the invariant register is becoming disconnected from the system it describes.
+Invariant Verification Lag reads the gap between stated and actual system properties. It tracks the age of each invariant since last verification or update. A growing number of invariants past their verification deadline indicates that the assurance property registry is becoming disconnected from the system it describes.
 
 ### Failure Thresholds
 
 Gauges without alarm thresholds are decorations. The specific threshold values vary by team and risk tolerance, but the existence of thresholds must not vary. A team practicing agentic engineering must define, in advance, the conditions under which they will slow or stop agent-driven work to reconstruct theory.
 
-Three threshold levels correspond to increasing severity. The caution level indicates adverse trends requiring increased attention and tighter controls. The degraded level indicates gauge values outside acceptable range, requiring a halt to new agent-driven feature work while theory is reconstructed. The unsteerable level indicates that no team member can accurately predict behavior of critical subsystems, requiring full stop and system-wide reconstruction.
+Three threshold levels correspond to increasing severity. The caution level indicates adverse trends requiring increased attention and tighter controls. The degraded level indicates gauge values outside acceptable range, requiring a halt to new agent-driven feature work while theory is reconstructed. The loss-of-controllability level indicates that no team member can accurately predict behavior of critical subsystems, requiring full stop and system-wide reconstruction.
 
 The nuclear principle applies: when the situation exceeds your understanding, reduce power. Do not seek more information at current power.
 
@@ -293,7 +293,7 @@ The existence of instruments and thresholds implies the existence of someone acc
 
 In agentic development, this role is the Agentic Engineer. They own the control loop, not the code. They read the gauges. They have halt authority that is real—backed by organizational structure—not advisory. They maintain signal integrity, ensuring that artifacts remain falsifiable and coupled to system state.
 
-The Agentic Engineer is distinct from the preceptor, who owns the learning loop rather than the control loop. The Agentic Engineer monitors system gauges and can halt agent-driven work when controls degrade. The preceptor monitors operator progression and signs off on stage transitions. The two roles collaborate at specific points—circuit breaker triggers, challenge quality concerns, progression decisions—but maintain separate authority and accountability.
+The Agentic Engineer is distinct from the Engineering Manager, who owns the learning loop rather than the control loop. The Agentic Engineer monitors system gauges and can halt agent-driven work when controls degrade. The Engineering Manager monitors operator progression and signs off on stage transitions. The two roles collaborate at specific points—circuit breaker triggers, challenge quality concerns, progression decisions—but maintain separate authority and accountability.
 
 ## Cross-Domain Analogies
 
@@ -313,7 +313,7 @@ The 2008 financial crisis revealed what happens when interconnected systems beco
 
 The regulatory response included position limits constraining the magnitude of risk any single actor can take, mark-to-market requirements forcing continuous acknowledgment of current system state rather than historical assumptions, stress testing subjecting portfolios to hypothetical scenarios to verify whether the humans managing them understand behavior under stress, and segregation of duties ensuring that those who construct trades and those who verify them are different people.
 
-These interventions have direct analogs: position limits are LP3, mark-to-market is LP1 and LP2 combined, stress testing is LP2, segregation of duties is the structural adversariality required at high risk tiers.
+These interventions have direct analogs: position limits are LP3, mark-to-market is LP1 and LP2 combined, stress testing is LP2, segregation of duties is the independent verification required at high risk tiers.
 
 ### Nuclear Power Operations
 
@@ -331,11 +331,11 @@ The central claim is that seven specific capabilities—intent violation visibil
 
 The framework recognizes that different operators require different treatment. A senior engineer new to a codebase needs different scaffolding than a junior building craft maturity or a seasoned operator whose theory has temporarily degraded. The adaptive operator model provides this differentiation while maintaining the invariant that production systems require demonstrated comprehension.
 
-The framework extends to multi-agent orchestration, where intent transformation chains and compositional incoherence introduce qualitatively different failure modes. At the complexity ceiling—and it is a mathematical certainty that this ceiling will be reached—the human-in-the-loop must become human-over-the-loop, supervising structurally adversarial verification architectures rather than execution directly.
+The framework extends to multi-agent orchestration, where intent transformation chains and integration inconsistency (compositional incoherence) introduce qualitatively different failure modes. At the complexity ceiling—and it is a mathematical certainty that this ceiling will be reached—the human-in-the-loop must transition to supervisory control, supervising independently redundant verification architectures rather than execution directly.
 
 The analogous domains—aviation, finance, nuclear power—arrived at the same principles independently because the underlying problem is the same. Their solutions were purchased with catastrophe. The software engineering profession has the opportunity to learn from that history rather than repeat it.
 
-The goal is not to slow down. The goal is to move fast while knowing where you are going, knowing where you have been, and retaining the ability to change direction. Speed without steerability is not velocity. It is ballistic trajectory.
+The goal is not to slow down. The goal is to move fast while knowing where you are going, knowing where you have been, and retaining the ability to change direction. Speed without controllability is not velocity. It is ballistic trajectory.
 
 ## References
 
