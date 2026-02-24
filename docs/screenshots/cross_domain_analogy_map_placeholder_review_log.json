@@ -1,0 +1,35 @@
+{
+  "user_prompt": "Cross-Domain Analogy Map: A comparison grid mapping control practices from Aviation, Financial Risk Management, and Nuclear Power Operations to the Directive Plane's seven leverage points. Four columns: Leverage Point | Aviation | Finance | Nuclear. Rows: LP1 Intent Violation Visibility: Mode Annunciation (clear display of automation state) | Mark-to-Market (continuous acknowledgment of current state) | Defense in Depth monitoring. LP2 Forced Theory Reconstruction: Challenge-and-Response checklists (prediction-based, not acknowledgment) | Stress Testing (predict portfolio behavior) | Procedural Compliance with Understanding. LP3 Magnitude Limits: Sterile Cockpit rules (manage cognitive load) | Position Limits (constrain risk magnitude) | Conservative Decision Making (reduce power when uncertain). LP4 Capability Preservation: Manual Flying requirements (mandated hand-flying time) | (no direct analog) | Shift Turnover Briefs (theory transfer at boundaries). LP5 Structured Intent: Flight Plans with waypoints and constraints | Trade specifications with defined parameters | Reactor operating procedures. LP6 Comprehension-Gated Access: Type Ratings (demonstrate aircraft understanding) | Licensing requirements for traders | Operator certification and recertification. LP7 Production vs Exploration: Simulator training (full access, no real consequences) | Paper trading (practice without real money) | Training reactors (learn without production risk). Use domain-specific icons: airplane for aviation, chart/dollar for finance, atom/reactor for nuclear. Professional navy and steel blue theme with accent colors per domain.",
+  "infographic_type": "comparison",
+  "style": "corporate",
+  "palette": null,
+  "doc_type": "report",
+  "quality_threshold": 8.0,
+  "research_enabled": false,
+  "research_data": null,
+  "iterations": [
+    {
+      "iteration": 1,
+      "image_path": "docs/screenshots/cross_domain_analogy_map_placeholder_v1.png",
+      "prompt_length": 3763,
+      "critique": "SCORE: 6.5/10\n\nSTRENGTHS:\n- **Strong Visual Consistency**: The navy and steel blue theme is professionally executed, providing a cohesive high-stakes, corporate feel.\n- **Excellent Icon Integration**: Large, domain-specific icons help the viewer immediately identify the sectors (aviation, finance, nuclear) and the specific practices within them.\n\nISSUES:\n- **Text Corruption and Hallucination**: Significant spelling/logic errors in the Leverage Point (LP) column. LP4 is titled \"Manual Flying Requirements\" (which is actually the aviation example for LP4: Capability Preservation). LP6 is titled \"Pilot Conscension & Consilance\" (hallucinated text). LP7 has sub-text \"Clear display of ellecation\" (spelling error).\n- **Inconsistent Alignment**: Within the \"Transport & Finance\" and \"Nuclear Power Operations\" columns, the text and icons shift alignment, creating a jagged reading flow compared to the clean Aviation column.\n- **Heading Errors**: The Finance column is titled \"Transport & Finance,\" adding \"Transport\" which was not in the original request and creates confusion with the Aviation column.\n\nSPECIFIC_IMPROVEMENTS:\n- **Fix LP Column Titles**: Revert LP Titles to the original request: LP4 should be \"Capability Preservation,\" LP5 \"Structured Intent,\" LP6 \"Comprehension-Gated Access,\" and LP7 \"Production vs Exploration.\"\n- **Standardize Layout Grid**: Align all icons to a consistent vertical axis within their respective columns and ensure horizontal alignment across rows is pixel-perfect to facilitate the \"Comparison Grid\" effect.\n- **Remove Hallucinated Text**: Delete the sub-text under LP7 (\"Clear display of ellecation\") and correct the Nuclear header to match the prompt exactly (\"Nuclear Power Operations\" without \"Transport\" in the finance header).\n\nVERDICT: NEEDS_IMPROVEMENT",
+      "score": 6.5,
+      "needs_improvement": true,
+      "success": true
+    },
+    {
+      "iteration": 2,
+      "image_path": "docs/screenshots/cross_domain_analogy_map_placeholder_v2.png",
+      "prompt_length": 5806,
+      "critique": "SCORE: 8.5\n\nSTRENGTHS:\n- **Strong Visual Consistency:** The navy and steel blue theme is professionally executed, and the iconography is remarkably consistent in style across all 21 cells.\n- **Excellent Information Density:** The grid manages to convey a complex cross-domain mapping without feeling overwhelming or cluttered.\n- **Effective Iconography:** The domain-specific icons (aviation, finance, nuclear) are not just decorative but highly relevant to the specific control practices described in each cell.\n\nISSUES:\n- **Icon Accuracy/Artifacts:** Some icons contain minor AI-generated artifacts; for example, the LP7 aviation icon (flight simulator) has nonsensical structural details, and some text within icons (like \"BLOW\" in the LP3 Nuclear cell) is slightly garbled or contextually odd.\n- **LP4 Empty Space:** While \"no direct analog\" is accurate to the prompt, the lack of an icon in that specific cell creates a visual \"hole\" that disrupts the otherwise perfect grid rhythm.\n- **Text Alignment:** Some of the parenthetical descriptions have slightly uneven leading (line spacing) compared to others.\n\nSPECIFIC_IMPROVEMENTS:\n- **Fill the LP4 Void:** Add a \"null\" or \"placeholder\" icon (such as a dimmed shield or a grayed-out version of the finance icon) for the LP4 Finance cell to maintain the visual weight of the column.\n- **Refine Typography:** Increase the contrast of the gold \"LP1-LP7\" labels slightly, as the gold on blue can be a bit soft for users with low-vision accessibility needs.\n- **Cleanup Icon Labels:** Manually fix the text within icons (e.g., the word \"PAFCR\" in the LP7 paper trading icon) to ensure it is legible or replace it with a generic graphical symbol.\n\nVERDICT: ACCEPTABLE",
+      "score": 8.5,
+      "needs_improvement": false,
+      "success": true
+    }
+  ],
+  "final_image": "docs/screenshots/cross_domain_analogy_map_placeholder_v2.png",
+  "final_score": 8.5,
+  "success": true,
+  "early_stop": true,
+  "early_stop_reason": "Quality score 8.5 meets threshold 8.0"
+}

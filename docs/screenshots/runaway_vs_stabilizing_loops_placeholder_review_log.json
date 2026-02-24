@@ -1,0 +1,26 @@
+{
+  "user_prompt": "Runaway Loops vs Stabilizing Loops - Side-by-Side Comparison: LEFT SIDE labeled 'Without Controls (Runaway)' shows four reinforcing loops as red circular arrows: R1 Velocity Trap (Velocity exceeds Comprehension, Theory drops, Intent degrades, more complexity added), R2 Trust Erosion (Theory drops, verification ability drops, undetected errors accumulate, more fixes needed), R3 Intent Drift (Theory drops, Intent Clarity drops, agents execute against wrong mental models, Complexity grows), R4 Velocity Pressure Cascade (one operator restricted, teammates compensate with more agent work, their theory drops too). Show stocks Human Theory and System Complexity with Theory shrinking and Complexity growing. Use red and orange colors, downward trajectory arrow. RIGHT SIDE labeled 'With Controls (Stabilized)' shows five balancing loops as blue circular arrows mapped to leverage points: B1 Intent Verification (LP1 - makes violations visible), B2 Theory Reconstruction (LP2 - forced comprehension via Prediction Probes), B3 Magnitude Limiting (LP3 - change budgets constrain velocity), B4 Capability Preservation (LP4 - periodic direct engagement), B5 Structured Intent (LP5 - precise contracts enable verification). Show stocks Human Theory and System Complexity in balance. Use blue and green colors, stable trajectory. Center divider with 'vs' label. Navy and steel blue professional theme.",
+  "infographic_type": "comparison",
+  "style": "corporate",
+  "palette": null,
+  "doc_type": "report",
+  "quality_threshold": 8.0,
+  "research_enabled": false,
+  "research_data": null,
+  "iterations": [
+    {
+      "iteration": 1,
+      "image_path": "docs/screenshots/runaway_vs_stabilizing_loops_placeholder_v1.png",
+      "prompt_length": 3521,
+      "critique": "SCORE: 8.5\n\nSTRENGTHS:\n- **Outstanding Information Density & Clarity:** The graphic successfully maps complex causal chains (R1-R4 and B1-B5) without feeling cluttered. The flow from loop label to process to icon is highly intuitive.\n- **Strong Visual Metaphor:** The bottom section effectively visualizes \"Theory\" and \"Complexity\" as physical stocks (containers), clearly showing the drain/overflow in the runaway scenario versus the balanced equilibrium in the controlled scenario.\n\nISSUES:\n- **Misalignment of Downward Trajectory:** The \"Downward Trajectory\" label on the left points to a large red arrow that actually curves upward and then down. While it indicates a crash, the visual momentum of the \"Complexity\" stock is rising, which might create a split second of cognitive dissonance regarding the word \"Downward.\"\n- **Minor Text Legibility:** Some of the smaller causal text (e.g., \"Agents execute against wrong mental models\") is reaching the limit of readability for mobile viewers.\n\nSPECIFIC_IMPROVEMENTS:\n- **Adjust Trajectory Path:** On the left side, ensure the big red arrow emphasizes the *collapse* of the system more clearly or align the \"Downward Trajectory\" text closer to the \"Human Theory\" stock which is actually the element trending downward.\n- **Contrast Check on Labels:** Increase the font weight of the \"LP1-LP5\" gold circles on the right; the white text on gold/yellow can have low contrast in bright lighting conditions.\n- **Refine Stock Visuals:** Explicitly show a \"leak\" or \"drain\" icon on the Human Theory stock in the runaway scenario to reinforce the \"Theory drops\" text in the loops above.\n\nVERDICT: ACCEPTABLE",
+      "score": 8.5,
+      "needs_improvement": false,
+      "success": true
+    }
+  ],
+  "final_image": "docs/screenshots/runaway_vs_stabilizing_loops_placeholder_v1.png",
+  "final_score": 8.5,
+  "success": true,
+  "early_stop": true,
+  "early_stop_reason": "Quality score 8.5 meets threshold 8.0"
+}

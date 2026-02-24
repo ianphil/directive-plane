@@ -36,6 +36,9 @@ These stocks are connected by flows. The Comprehension Flow adds to Human Theory
 
 ### The Runaway Loop
 
+![Runaway Loops vs Stabilizing Loops: A side-by-side comparison. The left side, labeled 'Without Controls (Runaway)', shows four reinforcing loops in red: R1 Velocity Trap, R2 Trust Erosion, R3 Intent Drift, and R4 Velocity Pressure Cascade, with Human Theory shrinking and System Complexity growing. The right side, labeled 'With Controls (Stabilized)', shows five balancing loops in blue mapped to leverage points: B1 Intent Verification (LP1), B2 Theory Reconstruction (LP2), B3 Magnitude Limiting (LP3), B4 Capability Preservation (LP4), and B5 Structured Intent (LP5), with stocks in balance.](screenshots/runaway_vs_stabilizing_loops_placeholder.png)
+*Figure 9: Runaway Loops vs. Stabilizing Loops—the four reinforcing loops that drive cognitive debt (left) and the five balancing loops that arrest them (right).*
+
 When Velocity Flow persistently exceeds Comprehension Flow, a reinforcing feedback loop emerges. As Human Theory falls behind System Complexity, the humans' ability to specify precise intent degrades—they can no longer articulate exactly what they want because they no longer fully understand what they have. Imprecise intent leads to changes that drift from actual need, adding complexity without corresponding value. This additional complexity further degrades the ability to specify intent, creating a self-reinforcing cycle.
 
 Simultaneously, a second reinforcing loop emerges around verification. As Human Theory degrades, the humans' ability to verify agent output also degrades. They cannot tell whether the agent's solution is correct, merely whether it passes tests—and the tests themselves may reflect stale understanding. Undetected errors accumulate. When errors are eventually discovered, the humans lack the theory to diagnose them efficiently, leading to more agent-assisted fixes that add more complexity. The system drifts further from comprehensibility.
@@ -67,6 +70,9 @@ Addressing the fourth leverage point (LP4), the Capability Preservation Loop mai
 Addressing the fifth leverage point (LP5), the Structured Intent Loop ensures that intent is captured in a form that can be verified. Unstructured natural language intent is ambiguous by nature. Structured intent—with explicit goals, scope boundaries, constraints, and acceptance criteria—provides the reference against which verification can occur.
 
 ## Seven Leverage Points
+
+![Seven Leverage Points Overview: A vertical numbered stack showing LP1 through LP7 with icons, one-line descriptions, and colored side bars indicating which architectural plane each belongs to. LP1 (Automatic Visibility of Intent Violations) and LP5 (Structured Intent Artifacts) belong to the Directive Plane (blue). LP3 (Magnitude Limits) and LP4 (Capability Preservation) belong to the Execution Plane (orange). LP2 (Forced Theory Reconstruction) belongs to the Reconstruction Plane (green). LP6 (Comprehension-Gated Access) and LP7 (Production vs Exploration Separation) belong to the Operator Model (purple). A legend at the bottom maps bar colors to planes.](screenshots/seven_leverage_points_placeholder.png)
+*Figure 5: The Seven Leverage Points showing each intervention, its one-line rationale, and the architectural plane it belongs to.*
 
 From the system dynamics model, we identify seven points where intervention has the greatest effect on system trajectory. These leverage points are not independent preferences but a structurally complete set—removing any one creates failure modes that cascade through the others.
 
@@ -167,6 +173,9 @@ Operator Capability Integrity ensures that the humans directing agents possess a
 
 ## Control Fidelity Protocol
 
+![CFP Stage-Gate Pipeline: A horizontal left-to-right flow diagram showing six gates (G1 through G6) as diamond checkpoints connected by arrows. Between the gates, assurance artifacts are produced and consumed: the Intent Contract (IC) emerges from G1, the Orchestration Envelope (OE) from G2, execution mode resolution at G3, the Execution Envelope (EE) with PRE and POST at G4, the Reconstruction Proof (RP) with Design Rationale and Prediction Probes at G5, and merge authorization at G6. Three planes are labeled above: Directive Plane spans G1–G2, Execution Plane spans G3–G4, Reconstruction Plane spans G5–G6. Optional multi-agent artifacts CN (Composition Narrative) and CP (Composition Proof) appear near G4–G5.](screenshots/cfp_stage_gate_pipeline_placeholder.png)
+*Figure 6: The Control Fidelity Protocol Stage-Gate Pipeline showing gates G1–G6, assurance artifacts, and the three-plane mapping.*
+
 The architecture is operationalized through the Control Fidelity Protocol (CFP), which specifies the stage-gates, assurance artifacts, and state machines required to maintain control. The protocol defines the precise conditions under which work can proceed from one stage to the next, ensuring that the leverage points are enforced rather than merely recommended.
 
 ### Stage-Gates
@@ -213,7 +222,13 @@ Exploratory tier applies to prototypes, sandboxes, and learning environments whe
 
 The tier is a property of the repository, not the change. Organizations may encode this in repository designation (e.g., production vs. non-production) and associated policy, and the protocol selects the corresponding tier and enforcement profile at runtime.
 
+![Risk Tier × Execution Mode Matrix: A 3×3 grid showing the intersection of three risk tiers (Consequential, Professional, Exploratory) with three execution modes (Socratic, Restricted, Standard). Cells are color-coded by restrictiveness from dark red (Consequential + Standard: maximum rigor, heterogeneous verification, multi-agent prohibited) through yellow to green (Exploratory + Socratic: light coaching, reduced probes). Each cell summarizes the key protocol behaviors for that combination.](screenshots/risk_tier_execution_mode_matrix_placeholder.png)
+*Figure 7: Risk Tier × Execution Mode Matrix showing how protocol rigor varies across the nine combinations of risk tier and execution mode.*
+
 ## Multi-Agent Orchestration
+
+![Intent Transformation Chain: A tree/DAG diagram showing how a single Intent Contract decomposes through an orchestrator into sub-tasks. At the top, a Human Operator issues an Intent Contract (IC) with goal, scope, constraints, and acceptance criteria. The Orchestrator Agent receives the IC and produces an Orchestration Envelope (OE) that decomposes into three sub-tasks (Auth Agent, Gateway Agent, Config Agent), each with root constraints propagating as immutable context. Outputs flow back up through a Composition Narrative (CN) and Composition Proof (CP). A potential compositional incoherence is highlighted where two agents make conflicting assumptions. A callout notes that multi-agent orchestration is permitted only at Professional tier for ENGINEER-level operators and is prohibited at Consequential tier.](screenshots/intent_transformation_chain_placeholder.png)
+*Figure 8: Intent Transformation Chain showing how intent decomposes through orchestration, with root constraint propagation and compositional verification. Multi-agent orchestration is restricted to Professional tier, ENGINEER progression stage only.*
 
 The base protocol assumes a dyadic control loop: one human, one agent, one channel of intent, one channel of reconstruction. This assumption is already being exceeded in practice, as agents delegate to other agents, orchestrate specialist sub-agents, and coordinate through inter-agent protocols. Multi-agent orchestration introduces failure modes that are qualitatively different from the dyadic case.
 
@@ -319,6 +334,9 @@ In agentic development, this role is the Agentic Engineer. They own the control 
 The Agentic Engineer is distinct from the Engineering Manager, who owns the learning loop rather than the control loop. The Agentic Engineer monitors system gauges and can halt agent-driven work when controls degrade. The Engineering Manager monitors operator progression and signs off on stage transitions. The two roles collaborate at specific points—circuit breaker triggers, challenge quality concerns, progression decisions—but maintain separate authority and accountability.
 
 ## Cross-Domain Analogies
+
+![Cross-Domain Analogy Map: A comparison grid mapping control practices from Aviation, Financial Risk Management, and Nuclear Power Operations to the Directive Plane's seven leverage points (LP1–LP7). Each row shows how a leverage point manifests in each domain: LP1 maps to Mode Annunciation, Mark-to-Market, and Defense in Depth; LP2 maps to Challenge-and-Response checklists, Stress Testing, and Procedural Compliance with Understanding; LP3 maps to Sterile Cockpit, Position Limits, and Conservative Decision Making; LP4 maps to Manual Flying requirements and Shift Turnover Briefs; LP5 maps to Flight Plans, Trade Specifications, and Reactor Operating Procedures; LP6 maps to Type Ratings, Licensing, and Operator Certification; LP7 maps to Simulator Training, Paper Trading, and Training Reactors.](screenshots/cross_domain_analogy_map_placeholder.png)
+*Figure 10: Cross-Domain Analogy Map showing how each leverage point corresponds to established control practices in aviation, finance, and nuclear operations.*
 
 The control problem addressed by the Directive Plane is not unique to software engineering. Other domains have encountered the same structural challenge—maintaining human control when machines amplify human action beyond the speed or scale of direct perception—and have evolved solutions over decades, often at the cost of catastrophic failures.
 

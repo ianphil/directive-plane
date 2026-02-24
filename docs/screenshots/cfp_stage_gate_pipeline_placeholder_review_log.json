@@ -1,0 +1,26 @@
+{
+  "user_prompt": "Control Fidelity Protocol Stage-Gate Pipeline: A horizontal left-to-right flow diagram showing 6 gates (G1 through G6) as diamond checkpoints connected by arrows. Between the gates, show the assurance artifacts produced/consumed: Before G1: Human Intent (natural language). G1 (Intent Contract Approval) produces IC (Intent Contract). G2 (Scope & Invariant Verification) consumes IC, produces OE (Orchestration Envelope). G3 (Execution Authorization) resolves execution mode (Socratic/Restricted/Standard). G4 (Execution Completion) produces EE (Execution Envelope) with PRE+POST. G5 (Theory Verification) produces RP (Reconstruction Proof) with Design Rationale + Prediction Probes. G6 (Merge Authorization) gates production merge. Color code gates: green if passed, red if failed (error state). Show artifacts as document icons between gates. Label the three planes above: Directive Plane spans G1-G2, Execution Plane spans G3-G4, Reconstruction Plane spans G5-G6. Add CN (Composition Narrative) and CP (Composition Proof) as optional multi-agent artifacts near G4-G5. Clean professional style, navy and steel blue color scheme.",
+  "infographic_type": "process",
+  "style": "corporate",
+  "palette": null,
+  "doc_type": "report",
+  "quality_threshold": 8.0,
+  "research_enabled": false,
+  "research_data": null,
+  "iterations": [
+    {
+      "iteration": 1,
+      "image_path": "docs/screenshots/cfp_stage_gate_pipeline_placeholder_v1.png",
+      "prompt_length": 3248,
+      "critique": "SCORE: 8.5\n\nSTRENGTHS:\n- Excellent visual hierarchy and clear horizontal flow that strictly follows the requested stage-gate logic.\n- Professional navy and steel blue color palette that conveys high-tech assurance and engineering rigor.\n- Strong symbolic representation of the three Planes (Directive, Execution, Reconstruction) using overhead brackets that clearly delineate the phases.\n- High readability with crisp typography and intuitive icon usage for the artifacts and status indicators.\n\nISSUES:\n- Text Duplication: In several places, labels are redundant (e.g., \"INTENT CONTRACT CONTRACT APPROVAL\" under G1 and duplicate \"EE\" and \"RP\" labels).\n- Alignment/Cramping: The G3 execution mode branch (Socratic/Restricted/Standard) is a bit tight, causing the \"G4\" diamond to feel crowded by the converging arrows.\n- Minor Visual Artifact: There is a small stray line/circle near the EE artifact (intended to link to the multi-agent artifacts) that looks slightly unpolished.\n\nSPECIFIC_IMPROVEMENTS:\n- Remove the redundant word \"CONTRACT\" from the G1 label and consolidate the artifact labels so the acronym and full name only appear once to reduce visual clutter.\n- Adjust the vertical spacing of the Execution Plane (G3-G4) to give the three execution mode paths more breathing room.\n- Ensure the \"Passed/Failed\" indicators are perfectly aligned horizontally across the entire footer of the diagram for better symmetry.\n\nVERDICT: ACCEPTABLE",
+      "score": 8.5,
+      "needs_improvement": false,
+      "success": true
+    }
+  ],
+  "final_image": "docs/screenshots/cfp_stage_gate_pipeline_placeholder_v1.png",
+  "final_score": 8.5,
+  "success": true,
+  "early_stop": true,
+  "early_stop_reason": "Quality score 8.5 meets threshold 8.0"
+}
