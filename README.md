@@ -11,7 +11,10 @@ If you are giving feedback, begin with the UI story first:
 1. **UI Walkthrough (lead):** [`docs/ui-sample-walkthrough.md`](docs/ui-sample-walkthrough.md)  
    The easiest way to understand the concept and react to it quickly.
 
-2. **Full documents (deep dive):**
+2. **Paper:** [`docs/directive-plane-paper.md`](docs/directive-plane-paper.md)  
+   Self-contained narrative covering the system dynamics model, seven leverage points, three-plane architecture, Control Fidelity Protocol, multi-agent orchestration, and adaptive operator model.
+
+3. **Full documents (deep dive):**
    - [`docs/directive-plane.md`](docs/directive-plane.md) — framework thesis, dynamics, leverage points, architecture
    - [`docs/control-fidelity-protocol.md`](docs/control-fidelity-protocol.md) — formal protocol spec, state machines, gates, artifacts
    - [`docs/operator-model.md`](docs/operator-model.md) — operator capability, execution modes, progression, circuit breaker

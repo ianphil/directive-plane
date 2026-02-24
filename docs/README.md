@@ -7,7 +7,10 @@ Start with the UI walkthrough, then read the framework and protocol. The operato
 ### 1. See it in action
 - **[UI Sample Walkthrough](ui-sample-walkthrough.md)** — Narrative walkthrough of the cockpit-style UI with screenshots. Fastest way to understand the concept.
 
-### 2. Core framework
+### 2. Paper
+- **[The Directive Plane (Paper)](directive-plane-paper.md)** — Self-contained narrative covering the system dynamics model, seven leverage points, three-plane architecture, Control Fidelity Protocol, multi-agent orchestration, and adaptive operator model. Includes all infographics.
+
+### 3. Core framework
 
 - **[The Directive Plane](directive-plane.md)** — Framework thesis: system dynamics, three invariants, seven leverage points, three-plane architecture, cross-domain analogies, failure modes, implementation practices.
 
@@ -17,7 +20,7 @@ Start with the UI walkthrough, then read the framework and protocol. The operato
 
   The mechanical enforcement layer. Defines a unified state machine for both single-agent and orchestrated flows, with boolean gate predicates (G1–G6) that must evaluate TRUE for each transition. Specifies append-only artifact schemas (IC, OE, EE, CN, CP, RP) and their required fields. Includes operator progression state machine (APPRENTICE → ENGINEER, RESTRICTED, SUSPENDED), IC operator block with per-subsystem currency and circuit breaker parameters, and execution mode × risk tier matrices. Error states (SCOPE_VIOLATION, INTENT_DRIFT, THEORY_FAILURE, MERGE_BLOCKED, etc.) define recovery paths. Risk tiering (CONSEQUENTIAL / PROFESSIONAL / EXPLORATORY) scales every parameter.
 
-### 3. Extensions
+### 4. Extensions
 
 - **[The Operator Model](operator-model.md)** — Who operates the system: two-axis capability model, Socratic/Restricted/Standard execution modes, progression ladder, circuit breaker, preceptor role, repository designation and merge gates.
 
