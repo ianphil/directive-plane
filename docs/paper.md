@@ -4,7 +4,7 @@
 
 Large language model (LLM) agents can autonomously generate, refactor, and test code, increasing implementation velocity while widening the gap between human intent, human understanding, and shipped behavior. When changes are produced faster than operators can reconstruct theory, systems may remain functional yet become operationally uncontrollable (loss of controllability): engineers cannot reliably predict behavior, verify scope, or maintain critical invariants. We present the Directive Plane, a control architecture for controllable agentic software engineering. It is grounded in a system dynamics model of three stocks: Human Theory, System Complexity, and their derived ratio, Navigability. Together, these model the feedback loops that drive cognitive debt under high-velocity execution. From this model we derive seven leverage points and operationalize them through a three-plane architecture (Directive, Execution, Reconstruction) and a Control Fidelity Protocol (CFP) with explicit stage-gates, assurance artifacts, and gauges. We extend the framework to multi-agent orchestration, where intent transformation chains and compositional incoherence require composition-aware verification, and to an adaptive operator model that gates execution privileges on demonstrated comprehension while preserving learning pathways. Drawing on control practices from aviation, nuclear operations, and financial risk management, we propose falsifiable mechanisms—scope verification, invariant checks, and prediction-based comprehension assessments (Prediction Probes)—for maintaining meaningful human control as machine execution speed increases.
 
-![Graphical Abstract: The Directive Plane Architecture](screenshots/graphical_abstract_placeholder.png)
+![Graphical Abstract: A process infographic showing a left-to-right flow from Human Intent through three color-coded planes — Directive (plan), Execution (do), and Reconstruction (check) — connected by directional arrows. A large feedback loop labeled 'Adjust Tactics' arcs from the Reconstruction plane back to the Directive plane. A bottom legend maps the three planes to a Plan-Do-Check cycle. The output is labeled 'Maintained Navigability.'](screenshots/graphical_abstract_placeholder.png)
 *Figure 1: Graphical Abstract illustrating the flow from human intent through the Directive, Execution, and Reconstruction planes, highlighting the feedback loops that maintain Navigability.*
 
 ## Introduction
@@ -21,7 +21,7 @@ This paper presents such an architecture. We begin by establishing the system dy
 
 ## System Dynamics Model
 
-![System Dynamics Model](screenshots/system_dynamics_placeholder.png)
+![System Dynamics Model: A causal loop diagram with three labeled stock containers — Human Theory, System Complexity, and Navigability — connected by arrows annotated with 'S' (same direction) and 'O' (opposite direction) polarity markers. Two reinforcing loops (R) show the runaway dynamics where velocity outpaces comprehension. Four balancing loops (B) represent the stabilizing interventions: Intent Verification, Theory Reconstruction, Magnitude Limiting, and Capability Preservation. Comprehension Flow and Velocity Flow are shown as opposing forces. A legend in the lower-right explains the CLD notation.](screenshots/system_dynamics_placeholder.png)
 *Figure 2: System Dynamics Model showing the stocks of Human Theory and System Complexity, and the reinforcing/balancing feedback loops that govern Navigability.*
 
 The relationship between human understanding and system complexity can be modeled as a system of interacting stocks and flows, with feedback loops that determine the long-term trajectory. This model is not a metaphor but a falsifiable description of dynamics that can be measured and influenced.
@@ -114,7 +114,7 @@ Without LP7, organizations face an impossible choice between production risk and
 
 ## Three-Plane Architecture
 
-![Three-Plane Architecture](screenshots/three_plane_architecture_placeholder.png)
+![Three-Plane Architecture: A pyramid-structured diagram with three horizontal tiers. The top tier, Directive Plane (intent specification), shows a brain/plan icon and an arrow labeled 'Guiding Actions (IC)' flowing downward. The middle tier, Execution Plane (actuation), shows a robotic arm icon representing agent-driven implementation. The bottom tier, Reconstruction Plane (model-update), shows a database icon and an arrow labeled 'Action Recording (CN)' flowing upward. Directional arrows between tiers indicate how the Intent Contract (IC) flows down from Directive to Execution, and the Design Rationale (CN) flows up from Execution through Reconstruction back to the human operator.](screenshots/three_plane_architecture_placeholder.png)
 *Figure 3: The Three-Plane Architecture illustrating the flow of intent through the Directive, Execution, and Reconstruction planes.*
 
 The seven leverage points are organized into a three-plane architecture (intent specification, actuation, and model-update layers) that structures the flow of intent, execution, and understanding.
