@@ -2,6 +2,8 @@
 
 **Executive Summary for Senior Leadership**
 
+![Three-Plane Architecture: A pyramid-structured diagram with three horizontal tiers — Directive Plane (intent specification), Execution Plane (agent-driven implementation), and Reconstruction Plane (model-update) — connected by directional arrows showing how the Intent Contract flows down and the Reconstruction Proof flows back up to the human operator.](screenshots/three_plane_architecture_placeholder.png)
+
 ---
 
 ## The Problem in One Sentence
